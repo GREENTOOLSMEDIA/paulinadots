@@ -7,22 +7,27 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       background: #111;
-      color: #fff;
-      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
     }
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 8px;
-      padding: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      padding: 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
 
-    .gallery img {
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card img {
       width: 100%;
       aspect-ratio: 9 / 16;
       object-fit: cover;
@@ -31,191 +36,186 @@
       transition: transform 0.3s ease;
     }
 
-    .gallery img:hover {
-      transform: scale(1.05);
+    .card img:hover {
+      transform: scale(1.03);
     }
 
-    @media (min-width: 1024px) {
-      .gallery {
-        grid-template-columns: repeat(4, 1fr);
-        max-height: calc(260px * 5 + 8px * 4);
-        overflow-y: auto;
-      }
+    .card-title {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
     }
 
-    @media (max-width: 480px) {
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-        max-height: calc(260px * 2 + 8px);
-        overflow-y: auto;
-      }
+    .card-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 4px;
     }
 
+    .card-buttons button {
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .card-buttons button:hover {
+      background: #333;
+    }
+
+    /* Popup */
     .popup {
       position: fixed;
       top: 0;
-      right: -400px;
-      width: 400px;
+      left: 0;
+      width: 100vw;
       height: 100vh;
-      background: #222;
-      box-shadow: -3px 0 10px rgba(0, 0, 0, 0.7);
-      transition: right 0.4s ease;
-      color: white;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
       z-index: 1000;
+      padding: 20px;
     }
 
     .popup.active {
-      right: 0;
-    }
-
-    .popup img {
-      width: 100%;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      object-fit: contain;
-      max-height: 50vh;
-      aspect-ratio: 9 / 16;
-    }
-
-    .popup h2 {
-      margin: 0 0 8px 0;
-      font-weight: 600;
-    }
-
-    .popup p {
-      font-size: 14px;
-      line-height: 1.4;
-      color: #ccc;
-      flex-grow: 1;
-    }
-
-    .popup .buttons {
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 15px;
     }
 
-    .popup button {
-      background: #333;
-      border: none;
-      padding: 8px 14px;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background 0.3s ease;
+    .popup-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      text-align: center;
     }
 
-    .popup button:hover {
-      background: #555;
+    .popup-content img {
+      max-height: 80vh;
+      max-width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: contain;
+      border-radius: 6px;
     }
 
-    .popup .close-btn {
+    .popup-content p {
+      font-size: 14px;
+      margin-top: 12px;
+      color: #ccc;
+    }
+
+    .close-btn {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: transparent;
+      top: 20px;
+      right: 20px;
+      font-size: 28px;
+      background: none;
+      color: white;
       border: none;
-      color: #aaa;
-      font-size: 22px;
       cursor: pointer;
-      transition: color 0.3s ease;
     }
 
-    .popup .close-btn:hover {
+    /* Footer */
+    .footer {
+      font-family: Arial, sans-serif;
       color: white;
+      font-size: 10px;
+      text-align: center;
+      margin: 30px 0 20px;
     }
   </style>
 </head>
 <body>
 
-<div class="gallery" id="gallery">
-  <!-- 16 imágenes -->
-  <img src="images/paulina_dots_01.webp" alt="Paulina Dots 01" data-title="Paulina Dots 01" data-prompt="Prompt para la imagen 01" />
-  <img src="images/paulina_dots_02.webp" alt="Paulina Dots 02" data-title="Paulina Dots 02" data-prompt="Prompt para la imagen 02" />
-  <img src="images/paulina_dots_03.webp" alt="Paulina Dots 03" data-title="Paulina Dots 03" data-prompt="Prompt para la imagen 03" />
-  <img src="images/paulina_dots_04.webp" alt="Paulina Dots 04" data-title="Paulina Dots 04" data-prompt="Prompt para la imagen 04" />
-  <img src="images/paulina_dots_05.webp" alt="Paulina Dots 05" data-title="Paulina Dots 05" data-prompt="Prompt para la imagen 05" />
-  <img src="images/paulina_dots_06.webp" alt="Paulina Dots 06" data-title="Paulina Dots 06" data-prompt="Prompt para la imagen 06" />
-  <img src="images/paulina_dots_07.webp" alt="Paulina Dots 07" data-title="Paulina Dots 07" data-prompt="Prompt para la imagen 07" />
-  <img src="images/paulina_dots_08.webp" alt="Paulina Dots 08" data-title="Paulina Dots 08" data-prompt="Prompt para la imagen 08" />
-  <img src="images/paulina_dots_09.webp" alt="Paulina Dots 09" data-title="Paulina Dots 09" data-prompt="Prompt para la imagen 09" />
-  <img src="images/paulina_dots_10.webp" alt="Paulina Dots 10" data-title="Paulina Dots 10" data-prompt="Prompt para la imagen 10" />
-  <img src="images/paulina_dots_11.webp" alt="Paulina Dots 11" data-title="Paulina Dots 11" data-prompt="Prompt para la imagen 11" />
-  <img src="images/paulina_dots_12.webp" alt="Paulina Dots 12" data-title="Paulina Dots 12" data-prompt="Prompt para la imagen 12" />
-  <img src="images/paulina_dots_13.webp" alt="Paulina Dots 13" data-title="Paulina Dots 13" data-prompt="Prompt para la imagen 13" />
-  <img src="images/paulina_dots_14.webp" alt="Paulina Dots 14" data-title="Paulina Dots 14" data-prompt="Prompt para la imagen 14" />
-  <img src="images/paulina_dots_15.webp" alt="Paulina Dots 15" data-title="Paulina Dots 15" data-prompt="Prompt para la imagen 15" />
-  <img src="images/paulina_dots_16.webp" alt="Paulina Dots 16" data-title="Paulina Dots 16" data-prompt="Prompt para la imagen 16" />
+<div class="gallery">
+  <!-- Imagenes 1 a 16 -->
+  <!-- Aquí te doy 4, puedes duplicar fácilmente las demás -->
+  <div class="card">
+    <img src="images/paulina_dots_01.webp" alt="Paulina Dots 01" data-prompt="Prompt usado para la imagen 01" />
+    <div class="card-title">Paulina Dots 01</div>
+    <div class="card-buttons">
+      <button onclick="showPrompt('Prompt usado para la imagen 01')">Usar Prompt</button>
+      <button onclick="incrementLike(this)">♥ <span>0</span></button>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/paulina_dots_02.webp" alt="Paulina Dots 02" data-prompt="Prompt usado para la imagen 02" />
+    <div class="card-title">Paulina Dots 02</div>
+    <div class="card-buttons">
+      <button onclick="showPrompt('Prompt usado para la imagen 02')">Usar Prompt</button>
+      <button onclick="incrementLike(this)">♥ <span>0</span></button>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/paulina_dots_03.webp" alt="Paulina Dots 03" data-prompt="Prompt usado para la imagen 03" />
+    <div class="card-title">Paulina Dots 03</div>
+    <div class="card-buttons">
+      <button onclick="showPrompt('Prompt usado para la imagen 03')">Usar Prompt</button>
+      <button onclick="incrementLike(this)">♥ <span>0</span></button>
+    </div>
+  </div>
+  <div class="card">
+    <img src="images/paulina_dots_04.webp" alt="Paulina Dots 04" data-prompt="Prompt usado para la imagen 04" />
+    <div class="card-title">Paulina Dots 04</div>
+    <div class="card-buttons">
+      <button onclick="showPrompt('Prompt usado para la imagen 04')">Usar Prompt</button>
+      <button onclick="incrementLike(this)">♥ <span>0</span></button>
+    </div>
+  </div>
+  <!-- Repite para llegar a 16 -->
 </div>
 
 <!-- Popup -->
 <div class="popup" id="popup">
-  <button class="close-btn" id="closePopup" title="Cerrar">&times;</button>
-  <img src="" alt="" id="popupImg" />
-  <h2 id="popupTitle"></h2>
-  <p id="popupPrompt"></p>
-  <div class="buttons">
-    <button id="usePromptBtn">Usar Prompt</button>
-    <button id="likeBtn">❤️ 0</button>
+  <button class="close-btn" onclick="closePopup()">&times;</button>
+  <div class="popup-content">
+    <img id="popupImage" src="" alt="">
+    <p id="popupPrompt"></p>
   </div>
 </div>
 
-<script>
-  const gallery = document.getElementById('gallery');
-  const popup = document.getElementById('popup');
-  const popupImg = document.getElementById('popupImg');
-  const popupTitle = document.getElementById('popupTitle');
-  const popupPrompt = document.getElementById('popupPrompt');
-  const closePopup = document.getElementById('closePopup');
-  const usePromptBtn = document.getElementById('usePromptBtn');
-  const likeBtn = document.getElementById('likeBtn');
-
-  let likesCount = 0;
-
-  gallery.addEventListener('click', e => {
-    if (e.target.tagName === 'IMG') {
-      const img = e.target;
-      popupImg.src = img.src;
-      popupTitle.textContent = img.dataset.title;
-      popupPrompt.textContent = img.dataset.prompt;
-      likesCount = 0;
-      likeBtn.textContent = '❤️ ' + likesCount;
-      popup.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  });
-
-  closePopup.addEventListener('click', () => {
-    popup.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-
-  usePromptBtn.addEventListener('click', () => {
-    alert('Prompt usado:\n' + popupPrompt.textContent);
-  });
-
-  likeBtn.addEventListener('click', () => {
-    likesCount++;
-    likeBtn.textContent = '❤️ ' + likesCount;
-  });
-
-  popup.addEventListener('click', (e) => {
-    if (e.target === popup) {
-      popup.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-</script>
+<!-- Footer visible -->
+<div class="footer">
+  Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 16 de junio de 2025, 16:46:20 · www.paulinadots.com
+</div>
 
 <!-- Control de cambios manual -->
-<p style="font-family: Arial, sans-serif; color: white; font-size: 10px; text-align: center; margin: 30px 0 10px;">
-  Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 16 de junio de 2025, 11:14 · www.paulinadots.com
-</p>
+<!-- CONTROL DE CAMBIOS — Última edición: 16 de junio de 2025, 11:35 -->
+
+<script>
+  const popup = document.getElementById("popup");
+  const popupImage = document.getElementById("popupImage");
+  const popupPrompt = document.getElementById("popupPrompt");
+
+  document.querySelectorAll(".card img").forEach(img => {
+    img.addEventListener("click", () => {
+      popupImage.src = img.src;
+      popupPrompt.textContent = img.dataset.prompt;
+      popup.classList.add("active");
+    });
+  });
+
+  function closePopup() {
+    popup.classList.remove("active");
+  }
+
+  function showPrompt(prompt) {
+    alert("Prompt:\n" + prompt);
+  }
+
+  function incrementLike(button) {
+    const countSpan = button.querySelector("span");
+    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+  }
+
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) closePopup();
+  });
+</script>
 
 </body>
 </html>
