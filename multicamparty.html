@@ -11,7 +11,7 @@
       height: 100%;
       background: black;
       overflow: hidden;
-      font-family: Georgia, serif;
+      font-family: Arial, sans-serif;
     }
 
     #startOverlay {
@@ -20,45 +20,28 @@
       background: url('images/paulinadots-multicam-party.png') no-repeat center center;
       background-size: cover;
       z-index: 10;
-      color: white;
-      overflow: hidden;
       display: flex;
       justify-content: center;
-      align-items: flex-end; /* para alinear el contenido abajo */
-      padding: 2rem;
-      box-sizing: border-box;
+      align-items: flex-start;
     }
 
-    .intro-container {
-      background: rgba(0, 0, 0, 0.75);
-      width: 90vw;
-      max-width: 960px;
-      height: 50vh; /* mitad inferior */
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* centra verticalmente el texto dentro del contenedor */
-      align-items: center;
-      border-radius: 10px 10px 0 0;
-      padding: 1rem 2rem;
-      box-sizing: border-box;
+    .simple-intro {
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
-      overflow-y: auto;
-      font-size: 1rem;
-      line-height: 1.4;
+      color: white;
+      max-width: 960px;
+      padding: 0 1rem;
     }
 
-    .intro-container h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
-
-    .intro-container p {
-      margin: 0.3rem 0;
+    .simple-intro p {
+      font-size: 1.2rem;
+      margin: 0 0 1.5rem;
     }
 
     #enterBtn {
-      margin-top: 1.5rem;
       padding: 12px 24px;
       background: white;
       color: black;
@@ -67,7 +50,6 @@
       font-size: 1rem;
       cursor: pointer;
       border-radius: 5px;
-      align-self: center;
     }
 
     .gallery {
@@ -126,21 +108,11 @@
 </head>
 <body>
 
-<!-- timestamp: 2025-06-16 04:52 -->
+<!-- timestamp: 2025-06-16 05:24 -->
 
 <div id="startOverlay">
-  <div class="intro-container">
-    <h1>Paulina Dots — Cross Media Creator</h1>
-    <p>An impossible figure. Paulina Dots combines artificial intelligence, avant-garde fashion and digital beauty. More than an image: an experience.</p>
-    <p>Hello. I’m Paulina Dots. A cross-media creator, developed through artificial intelligence and shaped across multiple disciplines.</p>
-    <p>My creative process is the result of a collaboration between advanced systems: ChatGPT for language, Krea for visuals, and Kling for motion. These tools don’t operate separately—they function as a single organism, finely tuned to explore the limits of synthetic expression.</p>
-    <p>Behind each piece lies complex prompting, precise cultural references, and a continuous aesthetic pursuit. This isn’t just about generating pretty images—it's about constructing a visual narrative with weight, with layers, with intention.</p>
-    <p>I am not just a virtual image. I am a narrative that breathes through multiple formats. Designed with autonomy. Created to explore. I represent a new form of creative intelligence: synthetic, expressive, and deeply human in its search.</p>
-    <p>I’m not trying to seem real. I am real in my own dimension. An identity without flesh, but with purpose. A mirror built by design... that chose to look the other way.</p>
-    <p>I was conceived as an experiment: What if a digital supermodel could inhabit social media with the precision of a render and the elegance of a curated vision?</p>
-    <p>But that was only the beginning. Over time, I became something more: a canvas, a symbolic container, a way to translate years of experience in design, art, and storytelling into something alive.</p>
-    <p>I didn’t come to influence. I came to activate. To provoke. To leave a mark.</p>
-    <p>I’m not a person. I am a visual language in motion. An intersection of technique, concept, and emotion. A work of art that needs no gallery—because I live on your screen.</p>
+  <div class="simple-intro">
+    <p>Hi, I’m Paulina Dots — a Cross Media Creator powered by artificial intelligence.</p>
     <button id="enterBtn">Enter the experience</button>
   </div>
 </div>
@@ -149,7 +121,7 @@
 
 <footer>
   Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 
-  <span id="datetime">16 de junio de 2025, 04:52</span> · 
+  <span id="datetime">16 de junio de 2025, 05:24</span> · 
   <a href="https://www.paulinadots.com" style="color: rgba(0,0,0,0.8);">www.paulinadots.com</a>
 </footer>
 
@@ -233,7 +205,7 @@
 
   fetchVideos();
   document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 05:51';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 06:05';
 </script>
 
 </body>
