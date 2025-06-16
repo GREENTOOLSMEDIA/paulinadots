@@ -16,18 +16,17 @@
     #startOverlay {
       position: fixed;
       inset: 0;
-      background: transparent;
+      background: black;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      pointer-events: auto;
     }
 
     #startOverlay img {
-      max-width: 80%;
-      max-height: 80%;
+      width: 100vw;
+      height: 100vh;
       object-fit: contain;
       pointer-events: none;
     }
@@ -69,31 +68,20 @@
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-  const MAX_RESULTS_API = 50; // cantidad máxima a pedir
-  const MAX_RESULTS = 16;     // cuántos se mostrarán en pantalla
+  const MAX_RESULTS_API = 50;
+  const MAX_RESULTS = 16;
 
   const gallery = document.getElementById('gallery');
   const overlay = document.getElementById('startOverlay');
-  const players = [];
-  let unmutedIndex = Math.floor(Math.random() * MAX_RESULTS);
 
   overlay.addEventListener('click', () => {
-    overlay.remove();
-    const player = players[unmutedIndex];
-    if (player) {
-      player.iframe.contentWindow.postMessage(JSON.stringify({
-        event: 'command',
-        func: 'unMute',
-        args: []
-      }), '*');
-    }
+    overlay.remove(); // Oculta la pantalla inicial al hacer clic
   });
 
-  function createIframe(videoId, unmuted = false) {
-    const muteValue = unmuted ? '0' : '1';
+  function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=${muteValue}&rel=0&controls=1&loop=1&playlist=${videoId}&vq=small`;
-    iframe.allow = 'autoplay; encrypted-media';
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&loop=1&playlist=${videoId}&vq=small`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
     iframe.setAttribute('data-id', videoId);
     return iframe;
   }
@@ -111,15 +99,14 @@
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-      selectedItems.forEach((item, index) => {
+      selectedItems.forEach((item) => {
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const iframe = createIframe(videoId, index === unmutedIndex);
+        const iframe = createIframe(videoId);
         card.appendChild(iframe);
         gallery.appendChild(card);
-        players.push({ iframe, videoId });
       });
     } catch (err) {
       console.error('Error al obtener videos:', err);
