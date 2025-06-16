@@ -52,6 +52,9 @@
       width: 100%;
       height: 100%;
       border: none;
+      max-width: 640px;
+      max-height: 360px;
+      object-fit: contain;
     }
   </style>
 </head>
@@ -103,12 +106,15 @@
       const data = await res.json();
       const items = data.items || [];
 
+      // Escoger uno al azar para desmutear
+      const unmutedIndex = Math.floor(Math.random() * items.length);
+
       items.forEach((item, index) => {
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const iframe = createIframe(videoId, false); // todos muteados al inicio
+        const iframe = createIframe(videoId, index === unmutedIndex);
         card.appendChild(iframe);
         gallery.appendChild(card);
 
