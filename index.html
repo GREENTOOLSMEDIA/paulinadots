@@ -3,146 +3,193 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PAULINA DOTS VIDEOS</title>
+  <title>Paulina Dots – Sitio Oficial</title>
+  <meta name="description" content="Modelo virtual Paulina Dots, AI Fashion & Virtual Elegance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+    /* Reset base */
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    html, body {
+      height:100%;
+      font-family:'Lato', sans-serif;
+      background-color:#1F1F1F;
+      color:#fff;
+    }
 
     body {
-      margin: 0;
-      padding: 1rem;
-      font-family: 'Lato', sans-serif;
-      background-color: transparent;
-      color: white;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: white;
-      font-weight: bold;
-      font-size: 2rem;
+
+    header {
+      width:100%;
+      background:#181818;
+      padding:2rem 1rem;
+      text-align:center;
     }
+
+    header h1 {
+      font-size:2.5rem;
+      letter-spacing:0.05em;
+    }
+
+    main {
+      max-width:960px;
+      width:100%;
+      padding:2rem 1rem;
+      flex:1;
+    }
+
+    section {
+      margin-bottom:3rem;
+    }
+
+    .intro {
+      text-align:center;
+      margin-bottom:3rem;
+    }
+
+    .intro p {
+      font-size:1.1rem;
+      color:#ccc;
+      margin:1rem 0;
+    }
+
+    .button {
+      display:inline-block;
+      padding:0.75rem 2rem;
+      background:#ff0055;
+      color:#fff;
+      font-weight:700;
+      border-radius:30px;
+      text-decoration:none;
+      transition:background 0.3s ease;
+    }
+
+    .button:hover {
+      background:#e6004c;
+    }
+
+    .gallery-title {
+      font-size:1.5rem;
+      margin-bottom:1rem;
+      border-bottom:2px solid #ff0055;
+      display:inline-block;
+    }
+
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.5rem;
     }
+
     .video-card {
-      background: transparent;
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      background:#262626;
+      border-radius:8px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      box-shadow:0 4px 12px rgba(0,0,0,0.5);
     }
+
     .video-card iframe {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: none;
-      border-radius: 6px;
+      width:100%;
+      aspect-ratio:16/9;
+      border:none;
     }
+
     .info {
-      padding: 10px 8px;
-      font-size: 0.9rem;
-      color: white;
-      line-height: 1.8;
+      padding:0.75rem;
+      font-size:0.9rem;
+      color:#ddd;
     }
+
     .info .title {
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      font-weight:bold;
+      margin-bottom:0.5rem;
     }
-    .info .desc {
-      color: white;
-    }
-    @media (max-width: 1200px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-    a {
-      color: #1e90ff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+
+    footer {
+      padding:1rem;
+      font-size:0.8rem;
+      color:#777;
+      background:#181818;
+      width:100%;
+      text-align:center;
     }
   </style>
 </head>
 <body>
 
-<h1>PAULINA DOTS VIDEOS</h1>
-<div id="gallery" class="gallery"></div>
+  <header>
+    <h1>Paulina Dots</h1>
+  </header>
 
-<script>
-  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
-  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-  const MAX_RESULTS = 30;
+  <main>
+    <section class="intro">
+      <p>Bienvenido al sitio oficial de Paulina Dots.<br>
+         Modelo virtual hiperreal, AI fashion y musa digital.</p>
+      <a class="button" href="https://youtube.com/@paulinadots" target="_blank" rel="noopener">
+        Nuestro canal de YouTube →
+      </a>
+    </section>
 
-  // Convierte URLs a links clicables
-  function linkifyURLs(text) {
-    const urlPattern = /(\bhttps?:\/\/[^\s]+)/gi;
-    return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
-  }
+    <section>
+      <div class="gallery-title">Videos recientes</div>
+      <div id="gallery" class="gallery"></div>
+    </section>
+  </main>
 
-  // Convierte hashtags a links apuntando a YouTube hashtags
-  function linkifyHashtags(text) {
-    return text.replace(/#(\w+)/g, '<a href="https://www.youtube.com/hashtag/$1" target="_blank" rel="noopener noreferrer">#$1</a>');
-  }
+  <footer>
+    &copy; 2025 Paulina Dots. Todos los derechos reservados.
+  </footer>
 
-  // Reemplaza emojis básicos (puedes expandir la lista)
-  function replaceEmojis(text) {
-    return text
-      .replace(/:heart:/g, '❤️')
-      .replace(/:smile:/g, '😄')
-      .replace(/:star:/g, '⭐');
-  }
+  <script>
+    const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+    const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
+    const MAX_RESULTS = 30;
 
-  // Aplica el formateo enriquecido
-  function enrichText(text) {
-    let enriched = text;
-    enriched = linkifyURLs(enriched);
-    enriched = linkifyHashtags(enriched);
-    enriched = replaceEmojis(enriched);
-    return enriched;
-  }
-
-  async function fetchVideos() {
-    const gallery = document.getElementById('gallery');
-
-    try {
-      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      const items = data.items || [];
-
-      items.forEach(item => {
-        const videoId = item.snippet.resourceId.videoId;
-
-        const titleRaw = item.snippet.title || '';
-        const descRaw = item.snippet.description || '';
-
-        const title = titleRaw.length > 40 ? titleRaw.slice(0, 50).toUpperCase() + '…' : titleRaw.toUpperCase();
-        const desc = descRaw.length > 200 ? descRaw.slice(0, 200) + '…' : descRaw;
-
-        const card = document.createElement('div');
-        card.className = 'video-card';
-        card.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videoId}?rel=0" allowfullscreen loading="lazy"></iframe>
-          <div class="info">
-            <div class="title">${title}</div>
-            <div class="desc">${enrichText(desc)}</div>
-          </div>
-        `;
-        gallery.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p>Error cargando videos. Intenta más tarde.</p>';
+    function linkifyURLs(text) {
+      return text.replace(/(\bhttps?:\/\/[^\s]+)/gi, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     }
-  }
 
-  fetchVideos();
-</script>
+    function linkifyHashtags(text) {
+      return text.replace(/#(\w+)/g, '<a href="https://www.youtube.com/hashtag/$1" target="_blank" rel="noopener">#$1</a>');
+    }
+
+    async function fetchVideos() {
+      const gallery = document.getElementById('gallery');
+      try {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
+        const data = await res.json();
+        const items = data.items || [];
+        items.forEach(item => {
+          const snip = item.snippet;
+          const videoId = snip.resourceId.videoId;
+          const title = snip.title.length > 50 ? snip.title.slice(0,50)+'…' : snip.title;
+          const desc = snip.description.length > 200 ? snip.description.slice(0,200)+'…' : snip.description;
+
+          const div = document.createElement('div');
+          div.className = 'video-card';
+          div.innerHTML = `
+            <iframe src="https://www.youtube.com/embed/${videoId}?rel=0" allowfullscreen loading="lazy"></iframe>
+            <div class="info">
+              <div class="title">${title}</div>
+              <div class="desc">${linkifyURLs(linkifyHashtags(desc))}</div>
+            </div>`;
+          gallery.appendChild(div);
+        });
+      } catch(err) {
+        console.error(err);
+        document.getElementById('gallery').innerHTML = '<p>Error cargando videos.</p>';
+      }
+    }
+
+    fetchVideos();
+  </script>
 
 </body>
 </html>
