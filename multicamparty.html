@@ -3,79 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PAULINA DOTS VIDEOS</title>
+  <title>Paulina Dots Multicam Party</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background-color: transparent;
-      font-family: sans-serif;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-    }
-
-    .video-card {
       background: transparent;
       overflow: hidden;
     }
 
-    .video-card iframe {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: none;
-      display: block;
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
 
-    @media (max-width: 1200px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); }
+    #startOverlay img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
-    @media (max-width: 768px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
     }
-    @media (max-width: 480px) {
-      .gallery { grid-template-columns: repeat(1, 1fr); }
+
+    .video-card {
+      width: 100%;
+      height: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
 
-<div id="gallery" class="gallery"></div>
+<div id="startOverlay">
+  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
+</div>
+
+<div id="gallery" class="gallery" style="display: none;"></div>
 
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
   const MAX_RESULTS = 30;
 
-  async function fetchVideos() {
-    const gallery = document.getElementById('gallery');
+  const gallery = document.getElementById('gallery');
+  const overlay = document.getElementById('startOverlay');
 
+  overlay.addEventListener('click', () => {
+    overlay.style.display = 'none';
+    gallery.style.display = 'grid';
+    fetchVideos();
+  });
+
+  let players = [];
+
+  function createIframe(videoId, unmuted = false) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=${unmuted ? '0' : '1'}&rel=0&controls=0&loop=1&playlist=${videoId}`;
+    iframe.allow = 'autoplay; encrypted-media';
+    iframe.setAttribute('data-id', videoId);
+    return iframe;
+  }
+
+  async function fetchVideos() {
     try {
-      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
-      const res = await fetch(url);
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
       const data = await res.json();
       const items = data.items || [];
 
-      items.forEach(item => {
+      items.forEach((item, index) => {
         const videoId = item.snippet.resourceId.videoId;
-
         const card = document.createElement('div');
         card.className = 'video-card';
-        card.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videoId}?rel=0" allowfullscreen loading="lazy"></iframe>
-        `;
+
+        const iframe = createIframe(videoId, index === 0);
+        card.appendChild(iframe);
         gallery.appendChild(card);
+        players.push({ iframe, videoId, unmuted: index === 0 });
+
+        // Click para desmutear este video y mutear los otros
+        card.addEventListener('click', () => {
+          players.forEach(p => {
+            p.iframe.contentWindow.postMessage(JSON.stringify({
+              event: 'command',
+              func: 'mute',
+              args: []
+            }), '*');
+          });
+
+          iframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: 'unMute',
+            args: []
+          }), '*');
+        });
       });
     } catch (err) {
       console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p>Error cargando videos. Intenta más tarde.</p>';
+      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
     }
   }
-
-  fetchVideos();
 </script>
 
 </body>
