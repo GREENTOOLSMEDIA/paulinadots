@@ -6,21 +6,28 @@
   <title>Paulina Dots Multicam Party</title>
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+      margin: 0; padding: 0; height: 100%;
       background: black;
       overflow: hidden;
       font-family: Arial, sans-serif;
       color: white;
     }
 
-    /* Disclaimer oculto para protección legal */
     #disclaimer {
-      display: none; /* NO visible para usuarios */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #111;
+      color: #ccc;
+      font-size: 12px;
+      text-align: center;
+      padding: 4px 0;
+      user-select: none;
+      z-index: 20;
+      font-family: Arial, sans-serif;
     }
 
-    /* Pantalla de inicio con imagen full screen */
     #startOverlay {
       position: fixed;
       inset: 0;
@@ -39,7 +46,6 @@
       pointer-events: none;
     }
 
-    /* Galería 4x4 */
     #gallery {
       position: fixed;
       inset: 0;
@@ -72,11 +78,10 @@
 </head>
 <body>
 
-  <!-- Disclaimer oculto para protección legal -->
-  <div id="disclaimer">Web desarrollada por Paulina Dots® 2025, Derechos reservados</div>
+  <div id="disclaimer">Web desarrollada por Paulina Dots® 2025, Derechos reservados — www.paulinadots.com</div>
 
   <div id="startOverlay">
-    <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
+    <img src="images/paulinadots-multicam-party.png" alt="Inicio Paulina Dots">
   </div>
 
   <div id="gallery"></div>
@@ -84,14 +89,13 @@
   <script>
     const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
     const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-    const MAX_RESULTS_API = 50; // max videos to fetch
-    const MAX_RESULTS = 16;     // how many to show
+    const MAX_RESULTS_API = 50;
+    const MAX_RESULTS = 16;
 
     const gallery = document.getElementById('gallery');
     const overlay = document.getElementById('startOverlay');
 
     let players = [];
-    let videoStates = [];
 
     function getRandomItems(arr, count) {
       const shuffled = arr.slice().sort(() => 0.5 - Math.random());
@@ -118,7 +122,6 @@
       players.forEach((player, i) => {
         if (i !== index) {
           postMessageCommand(player.iframe, 'pauseVideo');
-          videoStates[i] = 'paused';
         }
       });
     }
@@ -141,12 +144,10 @@
           gallery.appendChild(card);
 
           players.push({ iframe, videoId });
-          videoStates.push('paused');
 
           card.addEventListener('click', () => {
             postMessageCommand(iframe, 'playVideo');
             pauseAllExcept(index);
-            videoStates[index] = 'playing';
           });
         });
       } catch (err) {
@@ -162,7 +163,6 @@
       if (player) {
         postMessageCommand(player.iframe, 'playVideo');
         pauseAllExcept(randomIndex);
-        videoStates[randomIndex] = 'playing';
       }
       overlay.style.display = 'none';
     });
