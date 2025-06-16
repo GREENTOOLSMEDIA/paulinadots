@@ -23,8 +23,6 @@
       justify-content: center;
       align-items: center;
       cursor: wait; /* Bloqueado hasta carga */
-      transition: background 0.3s ease;
-      pointer-events: none;
     }
 
     #startOverlay img {
@@ -44,16 +42,33 @@
     }
 
     .video-card {
+      position: relative; /* para posicionar máscara */
       width: 100%;
       height: 100%;
       background-color: black;
+      overflow: hidden;
     }
 
-    iframe {
+    .video-card iframe {
       width: 100%;
       height: 100%;
       border: none;
       background-color: black;
+      display: block;
+    }
+
+    .video-card .overlay-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 5;
+      pointer-events: none; /* no bloquea eventos inicialmente */
+      transition: opacity 0.3s ease;
+    }
+
+    .video-card:hover .overlay-mask {
+      opacity: 0;
+      pointer-events: auto; /* habilita eventos para interacción */
     }
 
     footer {
@@ -61,7 +76,7 @@
       bottom: 0;
       width: 100%;
       background: rgba(0,0,0,0);
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.5); /* Blanco 50% opacidad */
       text-align: center;
       font-size: 12px;
       padding: 5px 0;
@@ -99,24 +114,12 @@
 
   // Overlay bloqueado hasta que todos los iframes carguen
   overlay.style.cursor = 'wait';
-  overlay.style.pointerEvents = 'none';
 
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=0`;
-    iframe.allow = 'autoplay; encrypted-media; fullscreen';
-    iframe.setAttribute('allowfullscreen', '');
+    iframe.allow = 'autoplay; encrypted-media';
     iframe.setAttribute('data-id', videoId);
-
-    iframe.onload = () => {
-      videosCargados++;
-      if (videosCargados === MAX_RESULTS) {
-        overlay.style.cursor = 'pointer';
-        overlay.style.background = 'transparent';
-        overlay.style.pointerEvents = 'auto';
-        overlay.addEventListener('click', handleOverlayClick);
-      }
-    };
     return iframe;
   }
 
@@ -152,25 +155,33 @@
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-      for (let i = 0; i < selectedItems.length; i++) {
-        const item = selectedItems[i];
+      selectedItems.forEach((item) => {
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
 
         const iframe = createIframe(videoId);
         card.appendChild(iframe);
+
+        const mask = document.createElement('div');
+        mask.className = 'overlay-mask';
+        card.appendChild(mask);
+
         gallery.appendChild(card);
         players.push({ iframe, videoId });
 
-        // Espera 200ms antes de cargar el siguiente iframe
-        await new Promise(resolve => setTimeout(resolve, 200));
-      }
+        iframe.onload = () => {
+          videosCargados++;
+          if (videosCargados === MAX_RESULTS) {
+            overlay.style.cursor = 'pointer';
+            overlay.addEventListener('click', handleOverlayClick);
+          }
+        };
+      });
     } catch (err) {
       console.error('Error al obtener videos:', err);
       gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
       overlay.style.cursor = 'pointer';
-      overlay.style.pointerEvents = 'auto';
       overlay.addEventListener('click', () => overlay.remove());
     }
   }
@@ -178,7 +189,7 @@
   fetchVideos();
 
   // Fecha fija hardcodeada para saber si es cache o no
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:40';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:48';
 
 </script>
 
