@@ -80,7 +80,7 @@
 
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&loop=1&playlist=${videoId}&vq=small`;
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&showinfo=0&loop=1&playlist=${videoId}&vq=small`;
     iframe.allow = 'autoplay; encrypted-media; fullscreen';
     iframe.setAttribute('data-id', videoId);
     return iframe;
