@@ -100,7 +100,7 @@
 
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&autoplay=0`;
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=0&modestbranding=1&iv_load_policy=3&autoplay=0`;
     iframe.allow = 'autoplay; encrypted-media';
     iframe.setAttribute('data-id', videoId);
 
@@ -167,7 +167,7 @@
   fetchVideos();
 
   // Fecha fija hardcodeada para saber si es cache o no
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 03:37';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 03:50';
 
 </script>
 
