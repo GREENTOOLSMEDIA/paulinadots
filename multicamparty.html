@@ -6,11 +6,8 @@
   <title>Paulina Dots Multicam Party</title>
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
+      margin: 0; padding: 0; height: 100%; background: transparent; overflow: hidden;
+      font-family: sans-serif;
     }
 
     #startOverlay {
@@ -48,14 +45,22 @@
       width: 100%;
       height: 100%;
       background-color: black;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
     }
 
-    iframe {
+    .video-card img.thumbnail {
       width: 100%;
       height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-card iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
       border: none;
-      background-color: black;
-      pointer-events: auto;
     }
   </style>
 </head>
@@ -70,75 +75,64 @@
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-  const MAX_RESULTS_API = 50; // Máximo que pide a API
-  const MAX_RESULTS = 16;     // Cuántos videos mostrar
+  const MAX_RESULTS_API = 50;
+  const MAX_RESULTS = 16;
 
   const gallery = document.getElementById('gallery');
   const overlay = document.getElementById('startOverlay');
 
-  let players = [];
-  let currentlyPlayingIndex = null;
+  // Guarda los videoIds cargados
+  let videoIds = [];
 
-  // Crea iframe sin autoplay, sin mute, sin loop, solo controles básicos
+  // Crea thumbnail limpio de YouTube sin logos
+  // Se usa la miniatura oficial de YouTube (sin overlays)
+  function getThumbnailUrl(videoId) {
+    // maxresdefault.jpg es la mejor calidad si está disponible
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  }
+
+  // Crea iframe cuando el usuario reproduce
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1`;
+    iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&controls=1&modestbranding=1`;
     iframe.allow = 'autoplay; fullscreen; encrypted-media';
-    iframe.setAttribute('data-id', videoId);
     iframe.setAttribute('allowfullscreen', '');
     return iframe;
   }
 
-  // Envía mensaje para controlar reproducción vía API de YouTube
-  function postMessageToPlayer(player, command) {
-    player.contentWindow.postMessage(JSON.stringify({
-      event: 'command',
-      func: command,
-      args: []
-    }), '*');
-  }
-
-  // Pausa todos los videos excepto el que tiene el índice indicado
-  function pauseAllExcept(indexToPlay) {
-    players.forEach((playerObj, i) => {
-      if (i === indexToPlay) {
-        postMessageToPlayer(playerObj.iframe, 'playVideo');
-      } else {
-        postMessageToPlayer(playerObj.iframe, 'pauseVideo');
-      }
-    });
-    currentlyPlayingIndex = indexToPlay;
-  }
-
-  // Selecciona N elementos aleatorios de un array
-  function getRandomItems(arr, count) {
-    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  }
-
-  // Carga los videos y arma la grilla
   async function fetchVideos() {
     try {
       const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
       const data = await res.json();
       const items = data.items || [];
 
-      const selectedItems = getRandomItems(items, MAX_RESULTS);
+      // Mezclamos para variar
+      const shuffled = items.slice().sort(() => 0.5 - Math.random());
+      const selectedItems = shuffled.slice(0, MAX_RESULTS);
 
       selectedItems.forEach((item, index) => {
         const videoId = item.snippet.resourceId.videoId;
+        videoIds.push(videoId);
+
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const iframe = createIframe(videoId);
-        card.appendChild(iframe);
+        // Creamos thumbnail limpio
+        const thumb = document.createElement('img');
+        thumb.className = 'thumbnail';
+        thumb.src = getThumbnailUrl(videoId);
+        thumb.alt = `Video ${index + 1}`;
+
+        card.appendChild(thumb);
         gallery.appendChild(card);
 
-        players.push({ iframe, videoId });
-
-        // Al hacer click en la tarjeta, se reproduce ese video y se pausas los demás
+        // Al hacer click reemplaza thumbnail por iframe y reproduce video
         card.addEventListener('click', () => {
-          pauseAllExcept(index);
+          if (card.querySelector('iframe')) return; // Ya está reproduciendo
+
+          const iframe = createIframe(videoId);
+          card.innerHTML = '';
+          card.appendChild(iframe);
         });
       });
     } catch (err) {
@@ -147,13 +141,32 @@
     }
   }
 
-  // Al hacer click en la pantalla de inicio, desaparece y se reproduce un video aleatorio
+  // Al hacer click en la pantalla de inicio, desaparece y reproduce video aleatorio
   overlay.addEventListener('click', () => {
     overlay.remove();
-    if (players.length > 0) {
-      const randomIndex = Math.floor(Math.random() * players.length);
-      pauseAllExcept(randomIndex);
-    }
+    if (videoIds.length === 0) return;
+
+    // Crear un card temporal en overlay para reproducir el video en full screen
+    const randomIndex = Math.floor(Math.random() * videoIds.length);
+    const videoId = videoIds[randomIndex];
+
+    const fullScreenDiv = document.createElement('div');
+    fullScreenDiv.style.position = 'fixed';
+    fullScreenDiv.style.inset = '0';
+    fullScreenDiv.style.background = 'black';
+    fullScreenDiv.style.zIndex = '30';
+
+    const iframe = createIframe(videoId);
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+
+    fullScreenDiv.appendChild(iframe);
+    document.body.appendChild(fullScreenDiv);
+
+    // Opcional: quitar el video full screen si se hace click
+    fullScreenDiv.addEventListener('click', () => {
+      document.body.removeChild(fullScreenDiv);
+    });
   });
 
   fetchVideos();
