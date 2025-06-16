@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PAULINA DOTS VIDEOS</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+    body {
+      margin: 0;
+      padding: 1rem;
+      font-family: 'Lato', sans-serif;
+      background-color: transparent;
+      color: white;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: white;
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .video-card {
+      background: transparent;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: none;
+      border-radius: 6px;
+    }
+    .info {
+      padding: 10px 8px;
+      font-size: 0.9rem;
+      color: white;
+      line-height: 1.8;
+    }
+    .info .title {
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .info .desc {
+      color: white;
+    }
+    @media (max-width: 1200px) {
+      .gallery { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .gallery { grid-template-columns: repeat(3, 1fr); }
+    }
+    a {
+      color: #1e90ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<h1>PAULINA DOTS VIDEOS</h1>
+<div id="gallery" class="gallery"></div>
+
+<script>
+  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
+  const MAX_RESULTS = 30;
+
+  // Convierte URLs a links clicables
+  function linkifyURLs(text) {
+    const urlPattern = /(\bhttps?:\/\/[^\s]+)/gi;
+    return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  }
+
+  // Convierte hashtags a links apuntando a YouTube hashtags
+  function linkifyHashtags(text) {
+    return text.replace(/#(\w+)/g, '<a href="https://www.youtube.com/hashtag/$1" target="_blank" rel="noopener noreferrer">#$1</a>');
+  }
+
+  // Reemplaza emojis básicos (puedes expandir la lista)
+  function replaceEmojis(text) {
+    return text
+      .replace(/:heart:/g, '❤️')
+      .replace(/:smile:/g, '😄')
+      .replace(/:star:/g, '⭐');
+  }
+
+  // Aplica el formateo enriquecido
+  function enrichText(text) {
+    let enriched = text;
+    enriched = linkifyURLs(enriched);
+    enriched = linkifyHashtags(enriched);
+    enriched = replaceEmojis(enriched);
+    return enriched;
+  }
+
+  async function fetchVideos() {
+    const gallery = document.getElementById('gallery');
+
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const items = data.items || [];
+
+      items.forEach(item => {
+        const videoId = item.snippet.resourceId.videoId;
+
+        const titleRaw = item.snippet.title || '';
+        const descRaw = item.snippet.description || '';
+
+        const title = titleRaw.length > 40 ? titleRaw.slice(0, 50).toUpperCase() + '…' : titleRaw.toUpperCase();
+        const desc = descRaw.length > 200 ? descRaw.slice(0, 200) + '…' : descRaw;
+
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${videoId}?rel=0" allowfullscreen loading="lazy"></iframe>
+          <div class="info">
+            <div class="title">${title}</div>
+            <div class="desc">${enrichText(desc)}</div>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error al obtener videos:', err);
+      gallery.innerHTML = '<p>Error cargando videos. Intenta más tarde.</p>';
+    }
+  }
+
+  fetchVideos();
+</script>
+
+</body>
+</html>
