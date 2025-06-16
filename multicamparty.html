@@ -1,148 +1,54 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Paulina Dots Multicam Party</title>
-  <style>
-    body {
-      margin: 0;
-      background: transparent;
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
+}
 
-    #startOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: opacity 1s ease;
-    }
+#startOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 1s ease;
+}
 
-    #startOverlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
+#startOverlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
 
-    #startOverlay img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
+#startOverlay img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: black; /* asegúrate de que el fondo sea negro */
+}
 
-    .video-card {
-      width: 100%;
-      height: 100%;
-    }
+.video-card {
+  width: 100%;
+  height: 100%;
+  background: black; /* elimina líneas visibles */
+  border: none;
+}
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      max-width: 640px;
-      max-height: 360px;
-      object-fit: contain;
-    }
-  </style>
-</head>
-<body>
-
-<div id="startOverlay">
-  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
-</div>
-
-<div id="gallery" class="gallery" style="display: none;"></div>
-
-<script>
-  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
-  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-  const MAX_RESULTS = 30;
-
-  const gallery = document.getElementById('gallery');
-  const overlay = document.getElementById('startOverlay');
-  let players = [];
-
-  overlay.addEventListener('click', async () => {
-    overlay.classList.add('fade-out');
-    setTimeout(() => overlay.style.display = 'none', 1000);
-    gallery.style.display = 'grid';
-    await fetchVideos();
-    // Forzar reproducción después del click permitido
-    setTimeout(() => {
-      players.forEach(p => {
-        p.iframe.contentWindow.postMessage(JSON.stringify({
-          event: 'command',
-          func: 'playVideo',
-          args: []
-        }), '*');
-      });
-    }, 1000);
-  });
-
-  function createIframe(videoId, unmuted = false) {
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=${unmuted ? '0' : '1'}&rel=0&controls=0&loop=1&playlist=${videoId}`;
-    iframe.allow = 'autoplay; encrypted-media';
-    iframe.setAttribute('data-id', videoId);
-    return iframe;
-  }
-
-  async function fetchVideos() {
-    try {
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
-      const data = await res.json();
-      const items = data.items || [];
-
-      // Escoger uno al azar para desmutear
-      const unmutedIndex = Math.floor(Math.random() * items.length);
-
-      items.forEach((item, index) => {
-        const videoId = item.snippet.resourceId.videoId;
-        const card = document.createElement('div');
-        card.className = 'video-card';
-
-        const iframe = createIframe(videoId, index === unmutedIndex);
-        card.appendChild(iframe);
-        gallery.appendChild(card);
-
-        players.push({ iframe, videoId });
-
-        // Click individual para activar sonido solo en ese video
-        card.addEventListener('click', () => {
-          players.forEach(p => {
-            p.iframe.contentWindow.postMessage(JSON.stringify({
-              event: 'command',
-              func: 'mute',
-              args: []
-            }), '*');
-          });
-
-          iframe.contentWindow.postMessage(JSON.stringify({
-            event: 'command',
-            func: 'unMute',
-            args: []
-          }), '*');
-        });
-      });
-    } catch (err) {
-      console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
-    }
-  }
-</script>
-
-</body>
-</html>
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: black; /* fuerza fondo oscuro si el iframe lo requiere */
+  display: block;
+}
