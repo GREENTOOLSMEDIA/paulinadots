@@ -24,6 +24,7 @@
       align-items: center;
       cursor: wait; /* Bloqueado hasta carga */
       transition: background 0.3s ease;
+      pointer-events: none;
     }
 
     #startOverlay img {
@@ -98,6 +99,7 @@
 
   // Overlay bloqueado hasta que todos los iframes carguen
   overlay.style.cursor = 'wait';
+  overlay.style.pointerEvents = 'none';
 
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
@@ -150,7 +152,8 @@
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-      selectedItems.forEach((item) => {
+      for (let i = 0; i < selectedItems.length; i++) {
+        const item = selectedItems[i];
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
@@ -159,11 +162,15 @@
         card.appendChild(iframe);
         gallery.appendChild(card);
         players.push({ iframe, videoId });
-      });
+
+        // Espera 200ms antes de cargar el siguiente iframe
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
     } catch (err) {
       console.error('Error al obtener videos:', err);
       gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
       overlay.style.cursor = 'pointer';
+      overlay.style.pointerEvents = 'auto';
       overlay.addEventListener('click', () => overlay.remove());
     }
   }
@@ -171,7 +178,7 @@
   fetchVideos();
 
   // Fecha fija hardcodeada para saber si es cache o no
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:14';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:40';
 
 </script>
 
