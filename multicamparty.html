@@ -22,7 +22,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
+      cursor: wait; /* Bloqueado hasta carga */
     }
 
     #startOverlay img {
@@ -59,7 +59,7 @@
       bottom: 0;
       width: 100%;
       background: rgba(0,0,0,0.7);
-      color: white;
+      color: rgba(0, 0, 0, 0.8); /* Negro 80% opacidad */
       text-align: center;
       font-size: 12px;
       padding: 5px 0;
@@ -69,6 +69,8 @@
 </head>
 <body>
 
+<!-- timestamp: 2025-06-16 03:37 -->
+
 <div id="startOverlay">
   <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
 </div>
@@ -77,8 +79,8 @@
 
 <footer>
   Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 
-  <span id="datetime">16 de junio de 2025, 03:11</span> · 
-  <a href="https://www.paulinadots.com" style="color: #fff;">www.paulinadots.com</a>
+  <span id="datetime">16 de junio de 2025, 03:37</span> · 
+  <a href="https://www.paulinadots.com" style="color: rgba(0,0,0,0.8);">www.paulinadots.com</a>
 </footer>
 
 <script>
@@ -90,25 +92,45 @@
   const gallery = document.getElementById('gallery');
   const overlay = document.getElementById('startOverlay');
   const players = [];
+  let videosCargados = 0;
   let randomVideoIndex = Math.floor(Math.random() * MAX_RESULTS);
 
-  overlay.addEventListener('click', () => {
-    overlay.remove();
-    // Ya no es necesario hacer playVideo por JS porque iframe tendrá autoplay=1&mute=0
-  });
+  // Overlay bloqueado hasta que todos los iframes carguen
+  overlay.style.cursor = 'wait';
 
-  function createIframe(videoId, autoplayUnmuted = false) {
-    let src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1`;
-    if (autoplayUnmuted) {
-      src += `&autoplay=1&mute=0`;
-    } else {
-      src += `&autoplay=0`;
-    }
+  function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = src;
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&autoplay=0`;
     iframe.allow = 'autoplay; encrypted-media';
     iframe.setAttribute('data-id', videoId);
+
+    iframe.onload = () => {
+      videosCargados++;
+      if (videosCargados === MAX_RESULTS) {
+        overlay.style.cursor = 'pointer';
+        overlay.addEventListener('click', handleOverlayClick);
+      }
+    };
     return iframe;
+  }
+
+  function handleOverlayClick() {
+    overlay.remove();
+    const selected = players[randomVideoIndex];
+    if (selected) {
+      // Desmutear y reproducir video seleccionado
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'unMute',
+        args: []
+      }), '*');
+
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'playVideo',
+        args: []
+      }), '*');
+    }
   }
 
   function getRandomItems(arr, count) {
@@ -124,13 +146,12 @@
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-      selectedItems.forEach((item, index) => {
+      selectedItems.forEach((item) => {
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const autoplayUnmuted = index === randomVideoIndex;
-        const iframe = createIframe(videoId, autoplayUnmuted);
+        const iframe = createIframe(videoId);
         card.appendChild(iframe);
         gallery.appendChild(card);
         players.push({ iframe, videoId });
@@ -138,10 +159,16 @@
     } catch (err) {
       console.error('Error al obtener videos:', err);
       gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
+      overlay.style.cursor = 'pointer';
+      overlay.addEventListener('click', () => overlay.remove());
     }
   }
 
   fetchVideos();
+
+  // Fecha fija hardcodeada para saber si es cache o no
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 03:37';
+
 </script>
 
 </body>
