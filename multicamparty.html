@@ -23,6 +23,7 @@
       justify-content: center;
       align-items: center;
       cursor: wait; /* Bloqueado hasta carga */
+      transition: background 0.3s ease;
     }
 
     #startOverlay img {
@@ -59,7 +60,7 @@
       bottom: 0;
       width: 100%;
       background: rgba(0,0,0,0);
-      color: rgba(255, 255, 255, 0.5); /* Blanco 50% opacidad */
+      color: rgba(255, 255, 255, 0.5);
       text-align: center;
       font-size: 12px;
       padding: 5px 0;
@@ -109,6 +110,8 @@
       videosCargados++;
       if (videosCargados === MAX_RESULTS) {
         overlay.style.cursor = 'pointer';
+        overlay.style.background = 'transparent';
+        overlay.style.pointerEvents = 'auto';
         overlay.addEventListener('click', handleOverlayClick);
       }
     };
@@ -168,7 +171,7 @@
   fetchVideos();
 
   // Fecha fija hardcodeada para saber si es cache o no
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:02';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 04:14';
 
 </script>
 
