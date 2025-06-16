@@ -1,93 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Galería Paulina Dots</title>
-<style>
-  body {
-    background: #111;
-    color: #eee;
-    font-family: 'Lato', sans-serif;
-    margin: 0; padding: 20px;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: 300;
-  }
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-  }
-  .gallery img {
-    width: 100%;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgb(255 0 100 / 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .gallery img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 30px rgb(255 0 100 / 0.6);
-  }
-  /* Lightbox */
-  #lightbox {
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  #lightbox img {
-    max-width: 90vw;
-    max-height: 90vh;
-    border-radius: 16px;
-    box-shadow: 0 0 30px rgb(255 0 100);
-  }
-  #lightbox:target {
-    display: flex;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galería Paulina Dots</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+    }
+
+    .gallery {
+      column-count: 4;
+      column-gap: 0;
+      width: 100vw;
+    }
+
+    @media (max-width: 1200px) {
+      .gallery { column-count: 3; }
+    }
+
+    @media (max-width: 768px) {
+      .gallery { column-count: 2; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery { column-count: 1; }
+    }
+
+    .gallery img {
+      width: 100%;
+      display: block;
+      break-inside: avoid;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Galería Paulina Dots</h1>
-
-<div class="gallery" id="gallery"></div>
-
-<!-- Lightbox container -->
-<div id="lightbox" onclick="this.style.display='none'">
-  <img id="lightbox-img" src="" alt="Imagen ampliada" />
+<div class="gallery">
+  <img src="paulina_dots_01.webp" alt="">
+  <img src="paulina_dots_02.webp" alt="">
+  <img src="paulina_dots_03.webp" alt="">
+  <img src="paulina_dots_04.webp" alt="">
+  <img src="paulina_dots_05.webp" alt="">
+  <img src="paulina_dots_06.webp" alt="">
+  <img src="paulina_dots_07.webp" alt="">
+  <img src="paulina_dots_08.webp" alt="">
+  <img src="paulina_dots_09.webp" alt="">
+  <img src="paulina_dots_10.webp" alt="">
+  <img src="paulina_dots_11.webp" alt="">
+  <img src="paulina_dots_12.webp" alt="">
+  <img src="paulina_dots_13.webp" alt="">
+  <img src="paulina_dots_14.webp" alt="">
+  <img src="paulina_dots_15.webp" alt="">
+  <img src="paulina_dots_16.webp" alt="">
 </div>
-
-<script>
-  const gallery = document.getElementById('gallery');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-
-  for(let i = 1; i <= 16; i++) {
-    const imgNumber = i.toString().padStart(2, '0');
-    const imgSrc = `paulina_dots_${imgNumber}.webp`;
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    img.alt = `Paulina Dots ${imgNumber}`;
-    img.loading = 'lazy';
-    img.addEventListener('click', () => {
-      lightbox.style.display = 'flex';
-      lightboxImg.src = imgSrc;
-      lightboxImg.alt = `Paulina Dots ${imgNumber}`;
-    });
-    gallery.appendChild(img);
-  }
-
-  // Click en lightbox para cerrarlo (ya en HTML con onclick)
-</script>
 
 </body>
 </html>
