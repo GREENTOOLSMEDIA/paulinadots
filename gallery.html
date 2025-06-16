@@ -5,59 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Galería Paulina Dots</title>
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      background-color: black;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
     }
 
     .gallery {
-      column-count: 4;
-      column-gap: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0;
       width: 100vw;
-    }
-
-    @media (max-width: 1200px) {
-      .gallery { column-count: 3; }
-    }
-
-    @media (max-width: 768px) {
-      .gallery { column-count: 2; }
-    }
-
-    @media (max-width: 480px) {
-      .gallery { column-count: 1; }
+      height: 100vh;
     }
 
     .gallery img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      break-inside: avoid;
-      margin: 0;
-      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
-
-<div class="gallery">
-  <img src="image/paulina_dots_01.webp" alt="">
-  <img src="image/paulina_dots_02.webp" alt="">
-  <img src="image/paulina_dots_03.webp" alt="">
-  <img src="image/paulina_dots_04.webp" alt="">
-  <img src="image/paulina_dots_05.webp" alt="">
-  <img src="image/paulina_dots_06.webp" alt="">
-  <img src="image/paulina_dots_07.webp" alt="">
-  <img src="image/paulina_dots_08.webp" alt="">
-  <img src="image/paulina_dots_09.webp" alt="">
-  <img src="image/paulina_dots_10.webp" alt="">
-  <img src="image/paulina_dots_11.webp" alt="">
-  <img src="image/paulina_dots_12.webp" alt="">
-  <img src="image/paulina_dots_13.webp" alt="">
-  <img src="image/paulina_dots_14.webp" alt="">
-  <img src="image/paulina_dots_15.webp" alt="">
-  <img src="image/paulina_dots_16.webp" alt="">
-</div>
-
+  <div class="gallery">
+    <img src="https://www.paulinadots.com/images/paulina_dots_01.webp" alt="Paulina Dots 01" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_02.webp" alt="Paulina Dots 02" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_03.webp" alt="Paulina Dots 03" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_04.webp" alt="Paulina Dots 04" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_05.webp" alt="Paulina Dots 05" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_06.webp" alt="Paulina Dots 06" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_07.webp" alt="Paulina Dots 07" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_08.webp" alt="Paulina Dots 08" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_09.webp" alt="Paulina Dots 09" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_10.webp" alt="Paulina Dots 10" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_11.webp" alt="Paulina Dots 11" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_12.webp" alt="Paulina Dots 12" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_13.webp" alt="Paulina Dots 13" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_14.webp" alt="Paulina Dots 14" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_15.webp" alt="Paulina Dots 15" />
+    <img src="https://www.paulinadots.com/images/paulina_dots_16.webp" alt="Paulina Dots 16" />
+  </div>
 </body>
 </html>
