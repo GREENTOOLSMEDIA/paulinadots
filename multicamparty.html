@@ -9,15 +9,15 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: black;
+      background: transparent;
       overflow: hidden;
     }
 
     #startOverlay {
       position: fixed;
       inset: 0;
-      background: black;
-      z-index: 10;
+      background: transparent;
+      z-index: 20;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -41,6 +41,7 @@
       width: 100vw;
       height: 100vh;
       z-index: 1;
+      background: black;
     }
 
     .video-card {
@@ -54,13 +55,14 @@
       height: 100%;
       border: none;
       background-color: black;
+      pointer-events: auto;
     }
   </style>
 </head>
 <body>
 
 <div id="startOverlay">
-  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
+  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party" />
 </div>
 
 <div id="gallery" class="gallery"></div>
@@ -68,29 +70,53 @@
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-  const MAX_RESULTS_API = 50;
-  const MAX_RESULTS = 16;
+  const MAX_RESULTS_API = 50; // Máximo que pide a API
+  const MAX_RESULTS = 16;     // Cuántos videos mostrar
 
   const gallery = document.getElementById('gallery');
   const overlay = document.getElementById('startOverlay');
 
-  overlay.addEventListener('click', () => {
-    overlay.remove(); // Oculta la pantalla inicial al hacer clic
-  });
+  let players = [];
+  let currentlyPlayingIndex = null;
 
+  // Crea iframe sin autoplay, sin mute, sin loop, solo controles básicos
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&showinfo=0&loop=1&playlist=${videoId}&vq=small`;
-    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1`;
+    iframe.allow = 'autoplay; fullscreen; encrypted-media';
     iframe.setAttribute('data-id', videoId);
+    iframe.setAttribute('allowfullscreen', '');
     return iframe;
   }
 
+  // Envía mensaje para controlar reproducción vía API de YouTube
+  function postMessageToPlayer(player, command) {
+    player.contentWindow.postMessage(JSON.stringify({
+      event: 'command',
+      func: command,
+      args: []
+    }), '*');
+  }
+
+  // Pausa todos los videos excepto el que tiene el índice indicado
+  function pauseAllExcept(indexToPlay) {
+    players.forEach((playerObj, i) => {
+      if (i === indexToPlay) {
+        postMessageToPlayer(playerObj.iframe, 'playVideo');
+      } else {
+        postMessageToPlayer(playerObj.iframe, 'pauseVideo');
+      }
+    });
+    currentlyPlayingIndex = indexToPlay;
+  }
+
+  // Selecciona N elementos aleatorios de un array
   function getRandomItems(arr, count) {
     const shuffled = arr.slice().sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
 
+  // Carga los videos y arma la grilla
   async function fetchVideos() {
     try {
       const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
@@ -99,7 +125,7 @@
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-      selectedItems.forEach((item) => {
+      selectedItems.forEach((item, index) => {
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
@@ -107,12 +133,28 @@
         const iframe = createIframe(videoId);
         card.appendChild(iframe);
         gallery.appendChild(card);
+
+        players.push({ iframe, videoId });
+
+        // Al hacer click en la tarjeta, se reproduce ese video y se pausas los demás
+        card.addEventListener('click', () => {
+          pauseAllExcept(index);
+        });
       });
     } catch (err) {
       console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
+      gallery.innerHTML = '<p style="color:white; text-align:center;">Error cargando videos. Intenta más tarde.</p>';
     }
   }
+
+  // Al hacer click en la pantalla de inicio, desaparece y se reproduce un video aleatorio
+  overlay.addEventListener('click', () => {
+    overlay.remove();
+    if (players.length > 0) {
+      const randomIndex = Math.floor(Math.random() * players.length);
+      pauseAllExcept(randomIndex);
+    }
+  });
 
   fetchVideos();
 </script>
