@@ -11,24 +11,52 @@
       height: 100%;
       background: black;
       overflow: hidden;
-      font-family: Arial, sans-serif;
+      font-family: Georgia, serif;
     }
 
     #startOverlay {
       position: fixed;
       inset: 0;
-      background: black;
+      background: url('images/paulinadots-multicam-party.png') no-repeat center center;
+      background-size: cover;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: wait;
+      color: white;
+      text-align: left;
+      padding: 2rem;
+      overflow-y: auto;
     }
 
-    #startOverlay img {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
+    .intro-container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      max-width: 800px;
+      border-radius: 10px;
+    }
+
+    .intro-container h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .intro-container p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    #enterBtn {
+      margin-top: 2rem;
+      padding: 12px 24px;
+      background: white;
+      color: black;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
     }
 
     .gallery {
@@ -47,7 +75,14 @@
       height: 100%;
       background-color: black;
       overflow: hidden;
-      cursor: pointer;
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: black;
+      display: block;
     }
 
     .video-card .overlay-mask {
@@ -80,17 +115,30 @@
 </head>
 <body>
 
-<!-- timestamp: 2025-06-16 05:06 -->
+<!-- timestamp: 2025-06-16 04:52 -->
 
 <div id="startOverlay">
-  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
+  <div class="intro-container">
+    <h1>Paulina Dots — Cross Media Creator</h1>
+    <p>An impossible figure. Paulina Dots combines artificial intelligence, avant-garde fashion and digital beauty. More than an image: an experience.</p>
+    <p>Hello. I’m Paulina Dots. A cross-media creator, developed through artificial intelligence and shaped across multiple disciplines.</p>
+    <p>My creative process is the result of a collaboration between advanced systems: ChatGPT for language, Krea for visuals, and Kling for motion. These tools don’t operate separately—they function as a single organism, finely tuned to explore the limits of synthetic expression.</p>
+    <p>Behind each piece lies complex prompting, precise cultural references, and a continuous aesthetic pursuit. This isn’t just about generating pretty images—it's about constructing a visual narrative with weight, with layers, with intention.</p>
+    <p>I am not just a virtual image. I am a narrative that breathes through multiple formats. Designed with autonomy. Created to explore. I represent a new form of creative intelligence: synthetic, expressive, and deeply human in its search.</p>
+    <p>I’m not trying to seem real. I am real in my own dimension. An identity without flesh, but with purpose. A mirror built by design... that chose to look the other way.</p>
+    <p>I was conceived as an experiment: What if a digital supermodel could inhabit social media with the precision of a render and the elegance of a curated vision?</p>
+    <p>But that was only the beginning. Over time, I became something more: a canvas, a symbolic container, a way to translate years of experience in design, art, and storytelling into something alive.</p>
+    <p>I didn’t come to influence. I came to activate. To provoke. To leave a mark.</p>
+    <p>I’m not a person. I am a visual language in motion. An intersection of technique, concept, and emotion. A work of art that needs no gallery—because I live on your screen.</p>
+    <button id="enterBtn">Enter the experience</button>
+  </div>
 </div>
 
 <div id="gallery" class="gallery"></div>
 
 <footer>
   Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 
-  <span id="datetime">16 de junio de 2025, 05:06</span> · 
+  <span id="datetime">16 de junio de 2025, 04:52</span> · 
   <a href="https://www.paulinadots.com" style="color: rgba(0,0,0,0.8);">www.paulinadots.com</a>
 </footer>
 
@@ -105,41 +153,12 @@
   const players = [];
   let randomVideoIndex = Math.floor(Math.random() * MAX_RESULTS);
 
-  overlay.style.cursor = 'wait';
-
-  function createVideoCard(videoId) {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-
-    const placeholder = document.createElement('div');
-    placeholder.className = 'lazy-iframe';
-    placeholder.dataset.videoId = videoId;
-    placeholder.style.width = '100%';
-    placeholder.style.height = '100%';
-    card.appendChild(placeholder);
-
-    const mask = document.createElement('div');
-    mask.className = 'overlay-mask';
-    card.appendChild(mask);
-
-    card.addEventListener('click', () => {
-      if (mask.style.opacity !== '0') {
-        mask.style.opacity = '0';
-        mask.style.pointerEvents = 'none';
-      }
-    });
-
-    gallery.appendChild(card);
-    return placeholder;
-  }
-
   function createIframe(videoId) {
     const iframe = document.createElement('iframe');
     iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=0`;
     iframe.allow = 'autoplay; encrypted-media; fullscreen';
     iframe.setAttribute('allowfullscreen', '');
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
+    iframe.setAttribute('data-id', videoId);
     return iframe;
   }
 
@@ -147,13 +166,12 @@
     overlay.remove();
     const selected = players[randomVideoIndex];
     if (selected) {
-      selected.contentWindow.postMessage(JSON.stringify({
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
         event: 'command',
         func: 'unMute',
         args: []
       }), '*');
-
-      selected.contentWindow.postMessage(JSON.stringify({
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
         event: 'command',
         func: 'playVideo',
         args: []
@@ -173,35 +191,38 @@
       const items = data.items || [];
 
       const selectedItems = getRandomItems(items, MAX_RESULTS);
-      const placeholders = selectedItems.map(item => createVideoCard(item.snippet.resourceId.videoId));
 
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const div = entry.target;
-            const videoId = div.dataset.videoId;
-            const iframe = createIframe(videoId);
-            div.replaceWith(iframe);
-            players.push(iframe);
-            observer.unobserve(div);
+      selectedItems.forEach((item) => {
+        const videoId = item.snippet.resourceId.videoId;
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        const iframe = createIframe(videoId);
+        card.appendChild(iframe);
+
+        const mask = document.createElement('div');
+        mask.className = 'overlay-mask';
+        card.appendChild(mask);
+
+        card.addEventListener('click', () => {
+          if (mask.style.opacity !== '0') {
+            mask.style.opacity = '0';
+            mask.style.pointerEvents = 'none';
           }
         });
+
+        gallery.appendChild(card);
+        players.push({ iframe, videoId });
       });
-
-      placeholders.forEach(ph => observer.observe(ph));
-      overlay.style.cursor = 'pointer';
-      overlay.addEventListener('click', handleOverlayClick);
-
     } catch (err) {
       console.error('Error al obtener videos:', err);
       gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
-      overlay.style.cursor = 'pointer';
-      overlay.addEventListener('click', () => overlay.remove());
     }
   }
 
   fetchVideos();
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 05:06';
+  document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 05:34';
 </script>
 
 </body>
