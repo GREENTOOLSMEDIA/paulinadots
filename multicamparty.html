@@ -77,7 +77,8 @@
 
 <footer>
   Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 
-  <span id="datetime"></span> · <a href="https://www.paulinadots.com" style="color: #fff;">www.paulinadots.com</a>
+  <span id="datetime">16 de junio de 2025, 03:11</span> · 
+  <a href="https://www.paulinadots.com" style="color: #fff;">www.paulinadots.com</a>
 </footer>
 
 <script>
@@ -93,19 +94,18 @@
 
   overlay.addEventListener('click', () => {
     overlay.remove();
-    const selected = players[randomVideoIndex];
-    if (selected) {
-      selected.iframe.contentWindow.postMessage(JSON.stringify({
-        event: 'command',
-        func: 'playVideo',
-        args: []
-      }), '*');
-    }
+    // Ya no es necesario hacer playVideo por JS porque iframe tendrá autoplay=1&mute=0
   });
 
-  function createIframe(videoId) {
+  function createIframe(videoId, autoplayUnmuted = false) {
+    let src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1`;
+    if (autoplayUnmuted) {
+      src += `&autoplay=1&mute=0`;
+    } else {
+      src += `&autoplay=0`;
+    }
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&autoplay=0`;
+    iframe.src = src;
     iframe.allow = 'autoplay; encrypted-media';
     iframe.setAttribute('data-id', videoId);
     return iframe;
@@ -129,7 +129,8 @@
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const iframe = createIframe(videoId);
+        const autoplayUnmuted = index === randomVideoIndex;
+        const iframe = createIframe(videoId, autoplayUnmuted);
         card.appendChild(iframe);
         gallery.appendChild(card);
         players.push({ iframe, videoId });
@@ -140,17 +141,7 @@
     }
   }
 
-  function updateDateTime() {
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat('es-CL', {
-      dateStyle: 'medium',
-      timeStyle: 'short'
-    });
-    document.getElementById('datetime').textContent = formatter.format(now);
-  }
-
   fetchVideos();
-  updateDateTime();
 </script>
 
 </body>
