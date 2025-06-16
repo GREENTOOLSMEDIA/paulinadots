@@ -20,35 +20,45 @@
       background: url('images/paulinadots-multicam-party.png') no-repeat center center;
       background-size: cover;
       z-index: 10;
+      color: white;
+      overflow: hidden;
       display: flex;
       justify-content: center;
-      align-items: center;
-      color: white;
-      text-align: left;
+      align-items: flex-end; /* para alinear el contenido abajo */
       padding: 2rem;
-      overflow-y: auto;
+      box-sizing: border-box;
     }
 
     .intro-container {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 2rem;
-      max-width: 800px;
-      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.75);
+      width: 90vw;
+      max-width: 960px;
+      height: 50vh; /* mitad inferior */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* centra verticalmente el texto dentro del contenedor */
+      align-items: center;
+      border-radius: 10px 10px 0 0;
+      padding: 1rem 2rem;
+      box-sizing: border-box;
+      text-align: center;
+      overflow-y: auto;
+      font-size: 1rem;
+      line-height: 1.4;
     }
 
     .intro-container h1 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-bottom: 1rem;
+      font-weight: bold;
     }
 
     .intro-container p {
-      margin-bottom: 1rem;
-      line-height: 1.6;
-      font-size: 1rem;
+      margin: 0.3rem 0;
     }
 
     #enterBtn {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       padding: 12px 24px;
       background: white;
       color: black;
@@ -57,6 +67,7 @@
       font-size: 1rem;
       cursor: pointer;
       border-radius: 5px;
+      align-self: center;
     }
 
     .gallery {
@@ -222,7 +233,7 @@
 
   fetchVideos();
   document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
-  document.getElementById('datetime').textContent = '16 de junio de 2025, 05:34';
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 05:51';
 </script>
 
 </body>
