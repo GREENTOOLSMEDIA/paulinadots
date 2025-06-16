@@ -20,6 +20,12 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      transition: opacity 1s ease;
+    }
+
+    #startOverlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
     }
 
     #startOverlay img {
@@ -64,14 +70,24 @@
 
   const gallery = document.getElementById('gallery');
   const overlay = document.getElementById('startOverlay');
-
-  overlay.addEventListener('click', () => {
-    overlay.style.display = 'none';
-    gallery.style.display = 'grid';
-    fetchVideos();
-  });
-
   let players = [];
+
+  overlay.addEventListener('click', async () => {
+    overlay.classList.add('fade-out');
+    setTimeout(() => overlay.style.display = 'none', 1000);
+    gallery.style.display = 'grid';
+    await fetchVideos();
+    // Forzar reproducción después del click permitido
+    setTimeout(() => {
+      players.forEach(p => {
+        p.iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: 'playVideo',
+          args: []
+        }), '*');
+      });
+    }, 1000);
+  });
 
   function createIframe(videoId, unmuted = false) {
     const iframe = document.createElement('iframe');
@@ -92,12 +108,13 @@
         const card = document.createElement('div');
         card.className = 'video-card';
 
-        const iframe = createIframe(videoId, index === 0);
+        const iframe = createIframe(videoId, false); // todos muteados al inicio
         card.appendChild(iframe);
         gallery.appendChild(card);
-        players.push({ iframe, videoId, unmuted: index === 0 });
 
-        // Click para desmutear este video y mutear los otros
+        players.push({ iframe, videoId });
+
+        // Click individual para activar sonido solo en ese video
         card.addEventListener('click', () => {
           players.forEach(p => {
             p.iframe.contentWindow.postMessage(JSON.stringify({
