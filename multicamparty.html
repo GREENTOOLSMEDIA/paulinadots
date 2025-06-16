@@ -1,3 +1,16 @@
+<!--
+  *******************************************************
+  *  AVISO DE PROPIEDAD Y SEGURIDAD                    *
+  *  Este código y contenido son propiedad exclusiva    *
+  *  de Paulina Dots®                                   *
+  *                                                     *
+  *  Queda prohibida la reproducción, distribución o    *
+  *  uso no autorizado del mismo.                       *
+  *                                                     *
+  *  © Paulina Dots® - Todos los derechos reservados   *
+  *  Más información en: www.paulinadots.com           *
+  *******************************************************
+-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,25 +19,35 @@
   <title>Paulina Dots Multicam Party</title>
   <style>
     html, body {
-      margin: 0; padding: 0; height: 100%; background: black; overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
     }
+
     #startOverlay {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: transparent;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      pointer-events: auto;
     }
+
     #startOverlay img {
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       pointer-events: none;
     }
+
     .gallery {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(4, 1fr);
@@ -32,137 +55,117 @@
       width: 100vw;
       height: 100vh;
       z-index: 1;
-      background: black;
     }
+
     .video-card {
-      position: relative;
       width: 100%;
       height: 100%;
-      background: black;
-      cursor: pointer;
+      background-color: black;
     }
+
     iframe {
       width: 100%;
       height: 100%;
       border: none;
-      background: black;
-      pointer-events: none; /* Desactivado por defecto para que no se pueda clickear y solo se use el div padre */
-    }
-    .video-card.active iframe {
-      pointer-events: auto; /* Solo el video activo permite interacción */
+      background-color: black;
+      pointer-events: auto;
     }
   </style>
 </head>
 <body>
 
-  <div id="startOverlay">
-    <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party" />
-  </div>
+<div id="startOverlay">
+  <img src="images/paulinadots-multicam-party.png" alt="Start Multicam Party">
+</div>
 
-  <div id="gallery" class="gallery"></div>
+<div id="gallery" class="gallery"></div>
 
-  <script>
-    const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
-    const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-    const MAX_RESULTS_API = 50;
-    const MAX_RESULTS = 16;
+<script>
+  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
+  const MAX_RESULTS_API = 50; // cantidad máxima a pedir
+  const MAX_RESULTS = 16;     // cuántos se mostrarán en pantalla
 
-    const gallery = document.getElementById('gallery');
-    const overlay = document.getElementById('startOverlay');
+  const gallery = document.getElementById('gallery');
+  const overlay = document.getElementById('startOverlay');
+  const players = [];
+  let playingIndex = null;
 
-    let players = [];
-    let activeIndex = null;
+  function createIframe(videoId) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&loop=0&modestbranding=1&showinfo=0&iv_load_policy=3`;
+    iframe.allow = 'autoplay; fullscreen; encrypted-media';
+    iframe.setAttribute('data-id', videoId);
+    iframe.setAttribute('allowfullscreen', '');
+    return iframe;
+  }
 
-    // Crear iframe sin autoplay ni mute ni loop, sin controles visibles, solo para carga inicial
-    function createIframe(videoId) {
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=0&autoplay=0&loop=0&modestbranding=1&showinfo=0&iv_load_policy=3`;
-      iframe.allow = 'autoplay; encrypted-media';
-      iframe.setAttribute('data-id', videoId);
-      return iframe;
-    }
+  function getRandomItems(arr, count) {
+    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
 
-    // Envía comandos a iframe para reproducir o pausar video
-    function postMessageToIframe(iframe, command) {
-      iframe.contentWindow.postMessage(JSON.stringify({
-        event: 'command',
-        func: command,
-        args: []
-      }), '*');
-    }
+  async function fetchVideos() {
+    try {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
+      const data = await res.json();
+      const items = data.items || [];
 
-    // Activar video (reproducir y mostrar controles)
-    function activateVideo(index) {
-      if (activeIndex !== null && players[activeIndex]) {
-        // Pausar video activo anterior y ocultar controles
-        postMessageToIframe(players[activeIndex].iframe, 'pauseVideo');
-        players[activeIndex].card.classList.remove('active');
-        // Ocultar controles: recargar iframe sin controles para dejarlo limpio
-        players[activeIndex].iframe.src = players[activeIndex].videoSrcClean;
-      }
-      activeIndex = index;
-      const player = players[index];
-      player.card.classList.add('active');
-      // Recargar iframe con controles y autoplay
-      player.iframe.src = player.videoSrcWithControls;
-      // Esperar a que el iframe cargue para enviar play (por si no autoplaya automáticamente)
-      setTimeout(() => {
-        postMessageToIframe(player.iframe, 'playVideo');
-      }, 500);
-    }
+      const selectedItems = getRandomItems(items, MAX_RESULTS);
 
-    async function fetchVideos() {
-      try {
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
-        const data = await res.json();
-        const items = data.items || [];
-        // Elegir 16 videos aleatorios
-        const shuffled = items.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, MAX_RESULTS);
+      selectedItems.forEach((item, index) => {
+        const videoId = item.snippet.resourceId.videoId;
+        const card = document.createElement('div');
+        card.className = 'video-card';
 
-        selected.forEach((item, i) => {
-          const videoId = item.snippet.resourceId.videoId;
-          const card = document.createElement('div');
-          card.className = 'video-card';
+        const iframe = createIframe(videoId);
+        card.appendChild(iframe);
+        gallery.appendChild(card);
 
-          // iframe sin controles para cargar
-          const iframeClean = createIframe(videoId);
+        players.push({ iframe, videoId });
 
-          // Iframe con controles para activar al reproducir
-          const videoSrcWithControls = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&autoplay=1&loop=0&modestbranding=1&showinfo=0&iv_load_policy=3`;
-
-          players.push({
-            card,
-            iframe: iframeClean,
-            videoId,
-            videoSrcClean: iframeClean.src,
-            videoSrcWithControls,
-          });
-
-          card.appendChild(iframeClean);
-          gallery.appendChild(card);
-
-          // Click en tarjeta activa video
-          card.addEventListener('click', () => {
-            activateVideo(i);
-          });
+        card.addEventListener('click', () => {
+          playVideo(index);
         });
-      } catch (error) {
-        console.error('Error cargando videos:', error);
-        gallery.innerHTML = '<p style="color:white; text-align:center;">Error cargando videos. Intenta más tarde.</p>';
-      }
+      });
+    } catch (err) {
+      console.error('Error al obtener videos:', err);
+      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
+    }
+  }
+
+  function postMessageToPlayer(player, command) {
+    player.iframe.contentWindow.postMessage(JSON.stringify(command), '*');
+  }
+
+  function playVideo(index) {
+    if (playingIndex !== null && playingIndex !== index) {
+      // Pausar el video que estaba reproduciéndose
+      postMessageToPlayer(players[playingIndex], {
+        event: 'command',
+        func: 'pauseVideo',
+        args: []
+      });
     }
 
-    // Al hacer click en overlay, quitarlo y activar un video aleatorio
-    overlay.addEventListener('click', () => {
-      overlay.style.display = 'none';
-      if (players.length > 0) {
-        const randomIndex = Math.floor(Math.random() * players.length);
-        activateVideo(randomIndex);
-      }
+    // Reproducir el video seleccionado
+    postMessageToPlayer(players[index], {
+      event: 'command',
+      func: 'playVideo',
+      args: []
     });
 
-    fetchVideos();
-  </script>
+    playingIndex = index;
+  }
+
+  overlay.addEventListener('click', () => {
+    overlay.remove();
+    const randomIndex = Math.floor(Math.random() * players.length);
+    playVideo(randomIndex);
+  });
+
+  fetchVideos();
+</script>
+
 </body>
 </html>
