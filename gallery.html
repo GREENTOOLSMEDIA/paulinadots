@@ -3,57 +3,299 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Galería Paulina Dots</title>
+  <title>Galería Paulina Dots con Detalles</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
-
     body {
-      background-color: #000;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 0;
-      width: 100vw;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
       height: 100vh;
+      overflow: hidden;
     }
-
-    .gallery img {
+    .gallery {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      width: 60vw;
+      background: #111;
+      padding: 10px;
+    }
+    .photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      margin-bottom: 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      background: #222;
+      transition: transform 0.2s ease;
+    }
+    .photo:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    }
+    .photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
+    .caption {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 1.1rem;
+      background: rgba(0,0,0,0.5);
+      padding: 5px 0;
+    }
+    .overlay-buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 6px 0;
+      background: rgba(0,0,0,0.7);
+    }
+    .overlay-buttons button {
+      background: #222;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease;
+    }
+    .overlay-buttons button:hover {
+      background: #444;
+    }
+    .overlay-buttons .heart-icon {
+      color: #e63946;
+      font-size: 1.2rem;
+      user-select: none;
+    }
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
+    /* Panel lateral */
+    .side-panel {
+      width: 40vw;
+      background: #111;
+      padding: 20px;
+      overflow-y: auto;
+      border-left: 2px solid #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+      transform: translateX(100%);
+      position: relative;
+    }
+    .side-panel.open {
+      transform: translateX(0);
+    }
+    .side-panel img {
+      max-width: 90%;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+    .side-panel h2 {
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .side-panel p {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      font-size: 1rem;
+      line-height: 1.4;
+      max-width: 90%;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: #ccc;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .close-btn:hover {
+      color: white;
     }
   </style>
 </head>
 <body>
-  <div class="gallery">
-    <img src="https://www.paulinadots.com/images/paulina_dots_01.webp" alt="Paulina Dots 01" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_02.webp" alt="Paulina Dots 02" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_03.webp" alt="Paulina Dots 03" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_04.webp" alt="Paulina Dots 04" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_05.webp" alt="Paulina Dots 05" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_06.webp" alt="Paulina Dots 06" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_07.webp" alt="Paulina Dots 07" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_08.webp" alt="Paulina Dots 08" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_09.webp" alt="Paulina Dots 09" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_10.webp" alt="Paulina Dots 10" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_11.webp" alt="Paulina Dots 11" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_12.webp" alt="Paulina Dots 12" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_13.webp" alt="Paulina Dots 13" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_14.webp" alt="Paulina Dots 14" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_15.webp" alt="Paulina Dots 15" />
-    <img src="https://www.paulinadots.com/images/paulina_dots_16.webp" alt="Paulina Dots 16" />
+
+  <div class="gallery" id="gallery">
+    <!-- Las fotos se cargarán por JS -->
   </div>
+
+  <div class="side-panel" id="sidePanel">
+    <button class="close-btn" id="closePanel">&times;</button>
+    <img id="panelImage" src="" alt="Imagen ampliada" />
+    <h2 id="panelTitle"></h2>
+    <p id="panelPrompt"></p>
+  </div>
+
+  <script>
+    // Datos de ejemplo para cada foto
+    const photos = [
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_01.webp",
+        title: "Paulina Dots 01",
+        prompt: "Retrato hiperrealista con luz natural, estilo editorial fashion.",
+        likes: 124
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_02.webp",
+        title: "Paulina Dots 02",
+        prompt: "Look futurista con tonos rojos y negro, estética cyberpunk.",
+        likes: 98
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_03.webp",
+        title: "Paulina Dots 03",
+        prompt: "Modelo en túnica etérea sobre fondo oscuro, inspiración mística.",
+        likes: 203
+      },
+      // Añade las 16 o las que quieras
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_04.webp",
+        title: "Paulina Dots 04",
+        prompt: "Sesión en exteriores con luz dorada y ambiente cálido.",
+        likes: 76
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_05.webp",
+        title: "Paulina Dots 05",
+        prompt: "Estilo casual chic, fondo minimalista, foco en expresividad facial.",
+        likes: 53
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_06.webp",
+        title: "Paulina Dots 06",
+        prompt: "Look sofisticado con tonos pastel, ambiente elegante y sereno.",
+        likes: 85
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_07.webp",
+        title: "Paulina Dots 07",
+        prompt: "Ropa deportiva urbana, colores vibrantes, estilo dinámico.",
+        likes: 66
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_08.webp",
+        title: "Paulina Dots 08",
+        prompt: "Iluminación dramática, enfoque en sombras y contornos.",
+        likes: 90
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_09.webp",
+        title: "Paulina Dots 09",
+        prompt: "Estilo vintage con filtros cálidos y textura granulada.",
+        likes: 77
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_10.webp",
+        title: "Paulina Dots 10",
+        prompt: "Sesión nocturna con luces de neón y reflejos en el agua.",
+        likes: 110
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_11.webp",
+        title: "Paulina Dots 11",
+        prompt: "Moda minimalista, fondo blanco, atención al detalle en la ropa.",
+        likes: 65
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_12.webp",
+        title: "Paulina Dots 12",
+        prompt: "Tono melancólico, composición artística y expresión profunda.",
+        likes: 58
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_13.webp",
+        title: "Paulina Dots 13",
+        prompt: "Efecto de luz suave, ambiente cálido y acogedor.",
+        likes: 102
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_14.webp",
+        title: "Paulina Dots 14",
+        prompt: "Ropa elegante con texturas metálicas, fondo oscuro.",
+        likes: 91
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_15.webp",
+        title: "Paulina Dots 15",
+        prompt: "Estilo de calle con grafitis y actitud desenfadada.",
+        likes: 85
+      },
+      {
+        src: "https://www.paulinadots.com/images/paulina_dots_16.webp",
+        title: "Paulina Dots 16",
+        prompt: "Retrato artístico con contraste fuerte y enfoque nítido.",
+        likes: 120
+      }
+    ];
+
+    const gallery = document.getElementById("gallery");
+    const sidePanel = document.getElementById("sidePanel");
+    const panelImage = document.getElementById("panelImage");
+    const panelTitle = document.getElementById("panelTitle");
+    const panelPrompt = document.getElementById("panelPrompt");
+    const closePanel = document.getElementById("closePanel");
+
+    // Crear elementos en galería
+    photos.forEach((photo, index) => {
+      const div = document.createElement("div");
+      div.className = "photo";
+      div.setAttribute("data-index", index);
+
+      div.innerHTML = `
+        <img src="${photo.src}" alt="${photo.title}" />
+        <div class="caption">${photo.title}</div>
+        <div class="overlay-buttons">
+          <button class="use-prompt-btn">Usar Prompt</button>
+          <button class="likes-btn"><span class="heart-icon">❤️</span> ${photo.likes}</button>
+        </div>
+      `;
+
+      // Abrir panel lateral al hacer click en la foto
+      div.addEventListener("click", () => {
+        panelImage.src = photo.src;
+        panelTitle.textContent = photo.title;
+        panelPrompt.textContent = photo.prompt;
+        sidePanel.classList.add("open");
+      });
+
+      gallery.appendChild(div);
+    });
+
+    // Cerrar panel lateral
+    closePanel.addEventListener("click", () => {
+      sidePanel.classList.remove("open");
+    });
+  </script>
+
 </body>
 </html>
