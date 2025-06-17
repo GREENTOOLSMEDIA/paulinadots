@@ -131,12 +131,19 @@
       font-size: 12px;
       padding: 5px 0;
       z-index: 20;
+      font-weight: 500;
+      user-select: none;
     }
 
     footer a {
       color: white;
       text-decoration: none;
-      margin: 0 5px;
+      margin: 0 8px;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -155,12 +162,12 @@
 <!-- Galería dinámica -->
 <div id="gallery" class="gallery"></div>
 
-<!-- Footer con nuevo contenido -->
+<!-- Footer con links personalizados -->
 <footer>
-  <a href="https://www.paulinadots.com">:: HOME ::</a>
-  <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
-  <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
+  <a href="https://www.paulinadots.com" target="_blank" rel="noopener noreferrer">:: HOME ::</a>
+  <a href="https://www.paulinadots.com/aboutme.html" target="_blank" rel="noopener noreferrer">:: ABOUT ME ::</a>
+  <a href="https://www.paulinadots.com/gallery.html" target="_blank" rel="noopener noreferrer">:: PHOTO GALLERY ::</a>
+  <span>:: PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43</span>
 </footer>
 
 <!-- Script principal de la experiencia -->
@@ -221,6 +228,12 @@
         const iframe = createIframe(videoId);
         card.appendChild(iframe);
 
+        // Se elimina completamente el overlay-mask (no se agrega)
+
+        card.addEventListener('click', () => {
+          // Sin overlay, no hay cambio de máscara aquí.
+        });
+
         gallery.appendChild(card);
         players.push({ iframe, videoId });
       });
@@ -232,7 +245,10 @@
 
   fetchVideos();
   document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
+  document.getElementById('datetime').textContent = '16 de junio de 2025, 11:43';
 </script>
+
+<!-- Aquí puedes añadir etiquetas de tracking o scripts extra -->
 
 </body>
 </html>
