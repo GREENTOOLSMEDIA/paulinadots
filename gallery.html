@@ -3,359 +3,235 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Galería Paulina Dots</title>
+  <title>Paulina Dots Multicam Party</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+
+  <!-- SEO básico -->
+  <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
+  <meta name="author" content="Paulina Dots" />
+
+  <!-- Open Graph para redes sociales -->
+  <meta property="og:title" content="Paulina Dots Multicam Party" />
+  <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+  <meta property="og:url" content="https://www.paulinadots.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Paulina Dots Multicam Party" />
+  <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+
   <style>
-    body {
+    /* Estilos globales */
+    html, body {
       margin: 0;
-      background: #111;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .image-container {
-      position: relative;
-      width: 100%;
-      border-radius: 4px;
+      padding: 0;
+      height: 100%;
+      background: black;
       overflow: hidden;
-      cursor: pointer;
+      font-family: Arial, sans-serif;
     }
-    .image-container img {
-      width: 100%;
-      aspect-ratio: 9 / 16;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .image-container:hover img {
-      transform: scale(1.03);
-    }
-    .text-over-buttons {
-      position: absolute;
-      bottom: 32px;
-      left: 0;
-      width: 100%;
-      color: white;
-      text-align: center;
-      font-weight: bold;
-      font-size: 13px;
-      text-shadow: 0 0 6px #000;
-      pointer-events: none;
-    }
-    .overlay-buttons {
-      position: absolute;
-      bottom: 6px;
-      left: 0;
-      right: 0;
+
+    /* Overlay de inicio */
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      background: url('images/paulinadots-multicam-party.png') no-repeat center center;
+      background-size: cover;
+      z-index: 10;
       display: flex;
       justify-content: center;
-      gap: 6px;
-      padding: 4px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 0 0 4px 4px;
-      pointer-events: auto;
+      align-items: center;
+      flex-direction: column;
+      padding: 0;
     }
-    .overlay-buttons button {
+
+    .intro-text-box {
       background: rgba(0, 0, 0, 0.6);
       color: white;
-      border: 1px solid #444;
-      padding: 2px 6px;
-      font-size: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .overlay-buttons button:hover {
-      background: rgba(80, 80, 80, 0.8);
-    }
-    .popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .popup.active {
-      display: flex;
-    }
-    .popup-content {
-      max-width: 90vw;
-      max-height: 90vh;
+      padding: 1.5rem 2rem;
+      max-width: 960px;
+      border-radius: 16px;
       text-align: center;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0 0 1rem 0;
     }
-    .popup-content img {
-      max-height: 80vh;
-      max-width: 100%;
-      aspect-ratio: 9 / 16;
-      object-fit: contain;
-      border-radius: 6px;
-    }
-    .popup-content p {
-      font-size: 14px;
-      margin-top: 12px;
-      color: #ccc;
-    }
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 28px;
-      background: none;
+
+    #enterBtn {
+      padding: 12px 24px;
+      background: red;
       color: white;
       border: none;
+      font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
-    .footer {
-      font-family: Arial, sans-serif;
+
+    #enterBtn:hover {
+      background: #cc0000;
+      transform: scale(1.05);
+    }
+
+    /* Galería de videos */
+    .gallery {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      z-index: 1;
+      overflow-y: auto;
+      padding-bottom: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: black;
+      display: block;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0,0,0,0);
       color: white;
-      font-size: 10px;
       text-align: center;
-      margin: 30px 0 20px;
+      font-size: 12px;
+      padding: 5px 0;
+      z-index: 20;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 5px;
     }
   </style>
 </head>
 <body>
 
-<div class="gallery">
+<!-- timestamp: 2025-06-16 07:13 -->
 
-  <!-- Repetir card para cada imagen -->
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_01.webp" alt="Paulina Dots 01" data-prompt="Prompt usado para la imagen 01" />
-      <div class="text-over-buttons">Paulina Dots 01</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 01')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
+<!-- Botón de entrada con overlay -->
+<div id="startOverlay">
+  <div class="intro-text-box">
+    Hello, I'm PAULINA DOTS, Cross Media Creator based on artificial intelligence.
   </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_02.webp" alt="Paulina Dots 02" data-prompt="Prompt usado para la imagen 02" />
-      <div class="text-over-buttons">Paulina Dots 02</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 02')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_03.webp" alt="Paulina Dots 03" data-prompt="Prompt usado para la imagen 03" />
-      <div class="text-over-buttons">Paulina Dots 03</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 03')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_04.webp" alt="Paulina Dots 04" data-prompt="Prompt usado para la imagen 04" />
-      <div class="text-over-buttons">Paulina Dots 04</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 04')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_05.webp" alt="Paulina Dots 05" data-prompt="Prompt usado para la imagen 05" />
-      <div class="text-over-buttons">Paulina Dots 05</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 05')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_06.webp" alt="Paulina Dots 06" data-prompt="Prompt usado para la imagen 06" />
-      <div class="text-over-buttons">Paulina Dots 06</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 06')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_07.webp" alt="Paulina Dots 07" data-prompt="Prompt usado para la imagen 07" />
-      <div class="text-over-buttons">Paulina Dots 07</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 07')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_08.webp" alt="Paulina Dots 08" data-prompt="Prompt usado para la imagen 08" />
-      <div class="text-over-buttons">Paulina Dots 08</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 08')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_09.webp" alt="Paulina Dots 09" data-prompt="Prompt usado para la imagen 09" />
-      <div class="text-over-buttons">Paulina Dots 09</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 09')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_10.webp" alt="Paulina Dots 10" data-prompt="Prompt usado para la imagen 10" />
-      <div class="text-over-buttons">Paulina Dots 10</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 10')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_11.webp" alt="Paulina Dots 11" data-prompt="Prompt usado para la imagen 11" />
-      <div class="text-over-buttons">Paulina Dots 11</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 11')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_12.webp" alt="Paulina Dots 12" data-prompt="Prompt usado para la imagen 12" />
-      <div class="text-over-buttons">Paulina Dots 12</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 12')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_13.webp" alt="Paulina Dots 13" data-prompt="Prompt usado para la imagen 13" />
-      <div class="text-over-buttons">Paulina Dots 13</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 13')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_14.webp" alt="Paulina Dots 14" data-prompt="Prompt usado para la imagen 14" />
-      <div class="text-over-buttons">Paulina Dots 14</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 14')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_15.webp" alt="Paulina Dots 15" data-prompt="Prompt usado para la imagen 15" />
-      <div class="text-over-buttons">Paulina Dots 15</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 15')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="image-container" >
-      <img src="images/paulina_dots_16.webp" alt="Paulina Dots 16" data-prompt="Prompt usado para la imagen 16" />
-      <div class="text-over-buttons">Paulina Dots 16</div>
-      <div class="overlay-buttons">
-        <button onclick="showPrompt('Prompt usado para la imagen 16')">Usar Prompt</button>
-        <button onclick="incrementLike(this)">♥ <span>0</span></button>
-      </div>
-    </div>
-  </div>
-
+  <button id="enterBtn">Enter the experience</button>
 </div>
 
-<div class="popup" id="popup">
-  <button class="close-btn" onclick="closePopup()">&times;</button>
-  <div class="popup-content">
-    <img id="popupImage" src="" alt="">
-    <p id="popupPrompt"></p>
-  </div>
-</div>
+<!-- Galería dinámica -->
+<div id="gallery" class="gallery"></div>
 
-<div class="footer">
-  Web desarrollada por Paulina Dots® 2025, Derechos reservados — Actualizado: 16 de junio de 2025, 12:59 · www.paulinadots.com
-</div>
+<!-- Footer con nuevo contenido -->
+<footer>
+  <a href="https://www.paulinadots.com">:: HOME ::</a>
+  <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
+  <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
+  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
+</footer>
 
+<!-- Script principal de la experiencia -->
 <script>
-  const popup = document.getElementById("popup");
-  const popupImage = document.getElementById("popupImage");
-  const popupPrompt = document.getElementById("popupPrompt");
+  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
+  const MAX_RESULTS_API = 50;
+  const MAX_RESULTS = 16;
 
-  // Abrir popup al click en imagen
-  document.querySelectorAll(".image-container img").forEach(img => {
-    img.addEventListener("click", () => {
-      popupImage.src = img.src;
-      popupPrompt.textContent = img.dataset.prompt;
-      popup.classList.add("active");
-    });
-  });
+  const gallery = document.getElementById('gallery');
+  const overlay = document.getElementById('startOverlay');
+  const players = [];
+  let randomVideoIndex = Math.floor(Math.random() * MAX_RESULTS);
 
-  function closePopup() {
-    popup.classList.remove("active");
+  function createIframe(videoId) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=0`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('data-id', videoId);
+    return iframe;
   }
 
-  function showPrompt(prompt) {
-    alert("Prompt:\n" + prompt);
+  function handleOverlayClick() {
+    overlay.remove();
+    const selected = players[randomVideoIndex];
+    if (selected) {
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'unMute',
+        args: []
+      }), '*');
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'playVideo',
+        args: []
+      }), '*');
+    }
   }
 
-  function incrementLike(button) {
-    const countSpan = button.querySelector("span");
-    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+  function getRandomItems(arr, count) {
+    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   }
 
-  popup.addEventListener("click", (e) => {
-    if (e.target === popup) closePopup();
-  });
+  async function fetchVideos() {
+    try {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
+      const data = await res.json();
+      const items = data.items || [];
+      const selectedItems = getRandomItems(items, MAX_RESULTS);
+
+      selectedItems.forEach((item) => {
+        const videoId = item.snippet.resourceId.videoId;
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        const iframe = createIframe(videoId);
+        card.appendChild(iframe);
+
+        gallery.appendChild(card);
+        players.push({ iframe, videoId });
+      });
+    } catch (err) {
+      console.error('Error al obtener videos:', err);
+      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
+    }
+  }
+
+  fetchVideos();
+  document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
 </script>
 
 </body>
