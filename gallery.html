@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paulina Dots Gallery</title>
-
-  <meta name="description" content="Explore the gallery of Paulina Dots: hyper-realistic AI fashion and digital storytelling in 16:9." />
-  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, digital fashion, hyperrealism, photo gallery" />
+  <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+  <meta name="description" content="Explore Paulina Dots' AI-powered photo gallery: futuristic fashion, digital narrative, and immersive visuals." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, fashion tech, gallery, synthetic media" />
   <meta name="author" content="Paulina Dots" />
-
-  <!-- Styles -->
   <style>
     * { box-sizing: border-box; }
     body {
@@ -51,6 +49,11 @@
     .overlay h3 {
       margin: 0 0 8px;
       font-size: 1.1rem;
+    }
+
+    .overlay p {
+      margin: 0;
+      font-size: 0.9rem;
     }
 
     .overlay-controls {
@@ -95,13 +98,49 @@
       width: 80px;
       opacity: 0.6;
     }
+
+    /* Footer styles */
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 20px 0;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ff4b4b;
+      transform: scale(1.1);
+    }
+
+    .footer-links svg.icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-meta {
+      text-align: center;
+      font-size: 12px;
+      color: white;
+      padding-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+
   <div class="gallery" id="gallery"></div>
 
-  <div id="footer-placeholder"></div>
-
+  <!-- Prompt Modal -->
   <div id="promptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
     <div style="background:#111; padding:20px; max-width:600px; width:90%; color:white; border-radius:10px; position:relative;">
       <button onclick="closePrompt()" style="position:absolute; top:10px; right:10px; background:none; color:white; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
@@ -110,6 +149,7 @@
     </div>
   </div>
 
+  <!-- Video Modal -->
   <div id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; justify-content:center; align-items:center;">
     <div style="position:relative; width:90%; max-width:960px; aspect-ratio:16/9;">
       <button onclick="closeVideo()" style="position:absolute; top:-40px; right:0; background:none; color:white; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
@@ -117,35 +157,10 @@
     </div>
   </div>
 
-  <script src="js/gallery-loader.js" defer></script>
-  <script src="js/include-footer.js" defer></script>
-  <script>
-    function openPrompt(id) {
-      document.getElementById('promptText').textContent = id;
-      document.getElementById('promptModal').style.display = 'flex';
-    }
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  <script src="js/include-footer.js"></script>
+  <script src="js/gallery-loader.js"></script>
 
-    function closePrompt() {
-      document.getElementById('promptModal').style.display = 'none';
-    }
-
-    function openVideo(url) {
-      const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-      document.getElementById('videoIframe').src = embedUrl;
-      document.getElementById('videoModal').style.display = 'flex';
-    }
-
-    function closeVideo() {
-      document.getElementById('videoIframe').src = '';
-      document.getElementById('videoModal').style.display = 'none';
-    }
-
-    function incrementLike(el) {
-      const countSpan = el.querySelector('.like-count');
-      let current = parseInt(countSpan.textContent, 10);
-      countSpan.textContent = current + 1;
-    }
-  </script>
 </body>
 </html>
