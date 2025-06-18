@@ -24,29 +24,19 @@
     }
 
     main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 60px 20px;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 16px;
+      max-width: 100%;
+      padding: 40px 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      font-weight: normal;
-      color: #bbb;
-      margin-bottom: 40px;
-    }
-
-    p {
-      font-size: 1rem;
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
+    .photo-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 16/9;
     }
 
     /* Footer styles para carga dinámica */
@@ -84,13 +74,40 @@
       color: white;
       padding-bottom: 20px;
     }
+
+    @media (max-width: 1024px) {
+      main {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <main>
-    <!-- Contenido eliminado según solicitud -->
+  <main class="photo-grid">
+    <img src="images/Paulinadots01.webp" alt="Paulina Dots 01" />
+    <img src="images/Paulinadots02.webp" alt="Paulina Dots 02" />
+    <img src="images/Paulinadots03.webp" alt="Paulina Dots 03" />
+    <img src="images/Paulinadots04.webp" alt="Paulina Dots 04" />
+    <img src="images/Paulinadots05.webp" alt="Paulina Dots 05" />
+    <img src="images/Paulinadots06.webp" alt="Paulina Dots 06" />
+    <img src="images/Paulinadots07.webp" alt="Paulina Dots 07" />
+    <img src="images/Paulinadots08.webp" alt="Paulina Dots 08" />
+    <img src="images/Paulinadots09.webp" alt="Paulina Dots 09" />
+    <img src="images/Paulinadots10.webp" alt="Paulina Dots 10" />
+    <img src="images/Paulinadots11.webp" alt="Paulina Dots 11" />
+    <img src="images/Paulinadots12.webp" alt="Paulina Dots 12" />
+    <img src="images/Paulinadots13.webp" alt="Paulina Dots 13" />
+    <img src="images/Paulinadots14.webp" alt="Paulina Dots 14" />
+    <img src="images/Paulinadots15.webp" alt="Paulina Dots 15" />
+    <img src="images/Paulinadots16.webp" alt="Paulina Dots 16" />
   </main>
 
   <div id="footer-placeholder"></div>
