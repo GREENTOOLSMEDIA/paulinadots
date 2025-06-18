@@ -1,13 +1,9 @@
 // js/include-footer.js
-fetch('footer.html')
+fetch("footer.html")
   .then(response => response.text())
   .then(data => {
-    const container = document.getElementById('footer-container');
-    if (container) {
-      container.innerHTML = data;
-    } else {
-      console.error('No se encontró el contenedor #footer-container.');
-    }
+    document.getElementById("footer-placeholder").innerHTML = data;
   })
-  .catch(error => console.error('Error al cargar el footer:', error));
-
+  .catch(error => {
+    console.error("Error loading footer:", error);
+  });
