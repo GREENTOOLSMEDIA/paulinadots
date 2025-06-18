@@ -8,7 +8,7 @@
   <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
 
-  <!-- SEO original (mantener sin cambios salvo el título) -->
+  <!-- SEO original (solo cambia <title>) -->
   <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
   <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
@@ -33,27 +33,18 @@
       background: black;
       font-family: Arial, sans-serif;
       color: white;
-      line-height: 0;
     }
-
     .gallery {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
     }
-
     @media (max-width: 1024px) {
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 600px) {
-      .gallery {
-        grid-template-columns: 1fr;
-      }
+      .gallery { grid-template-columns: 1fr; }
     }
-
     .photo-card {
       position: relative;
       width: 100%;
@@ -62,14 +53,12 @@
       border: none;
       line-height: 0;
     }
-
     .photo-card img.main-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
     .overlay-info {
       position: absolute;
       bottom: 0;
@@ -79,24 +68,20 @@
       padding: 1rem;
       line-height: initial;
     }
-
     .overlay-info h2 {
       margin: 0;
       font-size: 1rem;
     }
-
     .overlay-info p {
       margin: 0.2rem 0 0.6rem 0;
       font-size: 0.85rem;
     }
-
     .overlay-controls {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .overlay-controls button {
       background: transparent;
       color: white;
@@ -105,29 +90,7 @@
       border-radius: 4px;
       font-size: 0.75rem;
       cursor: pointer;
-      transition: all 0.2s ease-in-out;
     }
-
-    .overlay-controls button:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .overlay-controls span {
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-    }
-
-    .heart-icon {
-      width: 16px;
-      height: 16px;
-      vertical-align: middle;
-      margin-right: 5px;
-      stroke: white;
-      fill: none;
-      stroke-width: 1.5;
-    }
-
     .logo-watermark {
       position: absolute;
       bottom: 10px;
@@ -135,14 +98,42 @@
       width: 50px;
       opacity: 0.7;
     }
-
+    .modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #111;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      color: white;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 315px;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
     footer {
       text-align: center;
       font-size: 12px;
       padding: 10px 0;
       color: white;
     }
-
     footer a {
       color: white;
       text-decoration: none;
@@ -152,55 +143,86 @@
 </head>
 <body>
 
-<!-- Galería -->
-<div class="gallery" id="gallery"></div>
+<div class="gallery">
+  <!-- FOTO 01 -->
+  <div class="photo-card">
+    <img class="main-photo" src="images/Paulinadots01.webp" alt="Super Dots Night" />
+    <div class="overlay-info">
+      <h2>Super Dots Night</h2>
+      <p>Paulina y VikD protagonizan una noche épica con capas rojas, luces cálidas y mucha actitud.</p>
+      <div class="overlay-controls">
+        <button onclick="openModal('promptModal01')">Prompt</button>
+        <button onclick="openModal('videoModal01')">Video</button>
+      </div>
+    </div>
+    <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
+  </div>
+  <!-- FOTO 02 -->
+  <div class="photo-card">
+    <img class="main-photo" src="images/Paulinadots02.webp" alt="Sunset Machine" />
+    <div class="overlay-info">
+      <h2>Sunset Machine</h2>
+      <p>Paulina detiene el tiempo en el desierto mientras el sol se rinde tras ella.</p>
+      <div class="overlay-controls">
+        <button onclick="openModal('promptModal02')">Prompt</button>
+        <button onclick="openModal('videoModal02')">Video</button>
+      </div>
+    </div>
+    <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
+  </div>
+</div>
 
-<!-- Footer -->
+<!-- MODAL PROMPT 01 -->
+<div id="promptModal01" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('promptModal01')">&times;</span>
+    <h3>Prompt – Super Dots Night</h3>
+    <p>Two virtual fashion characters dressed as iconic heroes walk confidently down a glowing catwalk in a neon-lit club. Captured at eye-level with a 50mm f/1.4 lens for natural depth and intimacy. Ambient red lighting enhances atmosphere, while the seated audience frames the moment. Cinematic, high-contrast, vibrant tones. Studio-grade AI rendering.</p>
+  </div>
+</div>
+<!-- MODAL VIDEO 01 -->
+<div id="videoModal01" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('videoModal01')">&times;</span>
+    <iframe src="https://www.youtube.com/embed/axtqAzgHyBI" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- MODAL PROMPT 02 -->
+<div id="promptModal02" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('promptModal02')">&times;</span>
+    <h3>Prompt – Sunset Machine</h3>
+    <p>Model standing in front of a vintage convertible car in a desert at golden hour. Shot with a 35mm lens at chest level to capture symmetry and sunset depth. Warm tones and directional light enhance the mood. Wind blowing through hair, red leather jacket, and dry brush foreground for cinematic energy. Fashion editorial with natural landscape fusion.</p>
+  </div>
+</div>
+<!-- MODAL VIDEO 02 -->
+<div id="videoModal02" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('videoModal02')">&times;</span>
+    <iframe src="https://www.youtube.com/embed/dD6vOY17FKw" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
 <footer>
   <a href="https://www.paulinadots.com">:: HOME ::</a>
   <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
   <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 21:11
+  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 22:08
 </footer>
 
-<!-- Script -->
 <script>
-  const gallery = document.getElementById('gallery');
-
-  const photos = Array.from({ length: 16 }, (_, i) => {
-    const index = String(i + 1).padStart(2, '0');
-    return {
-      src: `images/Paulinadots${index}.webp`,
-      title: `Foto ${index}`,
-      description: `Descripción breve de la imagen ${index}`,
-      likes: Math.floor(1000 + Math.random() * 9000),
-      prompt: `Prompt #${index}`
-    };
-  });
-
-  photos.forEach(photo => {
-    const card = document.createElement('div');
-    card.className = 'photo-card';
-    card.innerHTML = `
-      <img class="main-photo" src="${photo.src}" alt="${photo.title}" />
-      <div class="overlay-info">
-        <h2>${photo.title}</h2>
-        <p>${photo.description}</p>
-        <div class="overlay-controls">
-          <button>Prompt</button>
-          <button>Video</button>
-          <span>
-            <svg class="heart-icon" viewBox="0 0 24 24">
-              <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.04 3 12.54 3.81 13.26 5.09C13.96 3.81 15.46 3 17 3C20.08 3 22.5 5.42 22.5 8.5C22.5 13.5 15 21 15 21H12Z" />
-            </svg>
-            ${photo.likes}
-          </span>
-        </div>
-      </div>
-      <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
-    `;
-    gallery.appendChild(card);
-  });
+  function openModal(id) {
+    document.getElementById(id).style.display = 'flex';
+  }
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+    }
+  }
 </script>
 
 </body>
