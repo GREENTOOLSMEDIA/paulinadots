@@ -13,7 +13,7 @@
   <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
 
-  <!-- Open Graph para redes sociales -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Paulina Dots Multicam Party" />
   <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
   <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
@@ -27,14 +27,13 @@
   <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
 
   <style>
-    /* Estilos globales */
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
       background: black;
-      overflow: hidden;
       font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
     }
 
     /* Overlay de inicio */
@@ -48,19 +47,17 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 0;
     }
 
     .intro-text-box {
       background: rgba(0, 0, 0, 0.6);
-      color: white;
       padding: 1.5rem 2rem;
       max-width: 960px;
       border-radius: 16px;
       text-align: center;
       font-size: 1rem;
       line-height: 1.6;
-      margin: 0 0 1rem 0;
+      margin-bottom: 1rem;
     }
 
     #enterBtn {
@@ -83,14 +80,10 @@
 
     /* Galería de videos */
     .gallery {
-      position: fixed;
-      inset: 0;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
-      z-index: 1;
-      overflow-y: auto;
-      padding-bottom: 2rem;
+      padding: 0;
     }
 
     @media (max-width: 1024px) {
@@ -117,20 +110,15 @@
       width: 100%;
       height: 100%;
       border: none;
-      background-color: black;
       display: block;
     }
 
     footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: rgba(0,0,0,0);
+      background: transparent;
       color: white;
       text-align: center;
       font-size: 12px;
-      padding: 5px 0;
-      z-index: 20;
+      padding: 20px 0;
     }
 
     footer a {
@@ -142,9 +130,9 @@
 </head>
 <body>
 
-<!-- timestamp: 2025-06-16 07:13 -->
+<!-- timestamp: 2025-06-17 23:05 -->
 
-<!-- Botón de entrada con overlay -->
+<!-- Overlay de entrada -->
 <div id="startOverlay">
   <div class="intro-text-box">
     Hello, I'm PAULINA DOTS, Cross Media Creator based on artificial intelligence.
@@ -155,7 +143,7 @@
 <!-- Galería dinámica -->
 <div id="gallery" class="gallery"></div>
 
-<!-- Footer con nuevo contenido -->
+<!-- Footer -->
 <footer>
   <a href="https://www.paulinadots.com">:: HOME ::</a>
   <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
@@ -163,7 +151,7 @@
   PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 17 de junio de 2025, 23:05
 </footer>
 
-<!-- Script principal de la experiencia -->
+<!-- Script principal -->
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
@@ -187,7 +175,7 @@
   function handleOverlayClick() {
     overlay.remove();
     const selected = players[randomVideoIndex];
-    if (selected) {
+    if (selected && selected.iframe) {
       selected.iframe.contentWindow.postMessage(JSON.stringify({
         event: 'command',
         func: 'unMute',
@@ -217,16 +205,14 @@
         const videoId = item.snippet.resourceId.videoId;
         const card = document.createElement('div');
         card.className = 'video-card';
-
         const iframe = createIframe(videoId);
         card.appendChild(iframe);
-
         gallery.appendChild(card);
         players.push({ iframe, videoId });
       });
     } catch (err) {
       console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p style="color:white;">Error cargando videos. Intenta más tarde.</p>';
+      gallery.innerHTML = '<p style="color:white; padding:2rem;">Error cargando videos. Intenta más tarde.</p>';
     }
   }
 
