@@ -4,163 +4,171 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paulina Dots Gallery</title>
-  <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
-  <meta name="description" content="Explore Paulina Dots' AI-powered photo gallery: futuristic fashion, digital narrative, and immersive visuals." />
-  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, fashion tech, gallery, synthetic media" />
-  <meta name="author" content="Paulina Dots" />
   <style>
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: black;
+      background-color: #000;
       font-family: Arial, sans-serif;
       color: white;
     }
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 0;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 8px;
+      padding: 16px;
     }
 
-    .photo-card {
+    .card {
       position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
       overflow: hidden;
+      border: 1px solid #333;
     }
 
-    .main-photo {
+    .card img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
+      object-fit: cover;
     }
 
     .overlay {
       position: absolute;
       bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .buttons button {
+      background-color: #111;
+      color: white;
+      border: 1px solid white;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      color: white;
+      padding: 20px;
+      border: 1px solid #fff;
+      display: none;
+      z-index: 1000;
+      max-width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+
+    .popup button {
+      margin-top: 10px;
+      background-color: #222;
+    }
+
+    .popup-bg {
+      position: fixed;
+      top: 0;
       left: 0;
-      right: 0;
-      padding: 16px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    }
-
-    .overlay h3 {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-    }
-
-    .overlay p {
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    .overlay-controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 8px;
-    }
-
-    .overlay button {
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: transparent;
-      color: white;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-
-    .like-button {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-
-    .like-button svg {
-      width: 20px;
-      height: 20px;
-      stroke: white;
-      fill: none;
-    }
-
-    .like-count {
-      font-size: 0.85rem;
-    }
-
-    .watermark {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      width: 80px;
-      opacity: 0.6;
-    }
-
-    /* Footer styles */
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      padding: 20px 0;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .footer-links a:hover {
-      color: #ff4b4b;
-      transform: scale(1.1);
-    }
-
-    .footer-links svg.icon {
-      width: 16px;
-      height: 16px;
-    }
-
-    .footer-meta {
-      text-align: center;
-      font-size: 12px;
-      color: white;
-      padding-bottom: 20px;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
 
-  <div class="gallery" id="gallery"></div>
+<div class="gallery" id="gallery"></div>
 
-  <!-- Prompt Modal -->
-  <div id="promptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:#111; padding:20px; max-width:600px; width:90%; color:white; border-radius:10px; position:relative;">
-      <button onclick="closePrompt()" style="position:absolute; top:10px; right:10px; background:none; color:white; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
-      <h3>Prompt Técnico</h3>
-      <pre id="promptText" style="white-space:pre-wrap; font-size:0.9rem; margin-top:10px;"></pre>
-    </div>
-  </div>
+<div class="popup-bg" id="popupBg"></div>
+<div class="popup" id="popup">
+  <div id="popupContent"></div>
+  <button onclick="closePopup()">Close</button>
+</div>
 
-  <!-- Video Modal -->
-  <div id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; justify-content:center; align-items:center;">
-    <div style="position:relative; width:90%; max-width:960px; aspect-ratio:16/9;">
-      <button onclick="closeVideo()" style="position:absolute; top:-40px; right:0; background:none; color:white; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
-      <iframe id="videoIframe" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    </div>
-  </div>
+<script>
+  async function loadGallery() {
+    const response = await fetch('paulina_dots_gallery_data.csv');
+    const text = await response.text();
+    const lines = text.trim().split('\n');
+    const header = lines.shift().split(',');
 
-  <!-- Footer -->
-  <div id="footer-placeholder"></div>
-  <script src="js/include-footer.js"></script>
-  <script src="js/gallery-loader.js"></script>
+    const gallery = document.getElementById('gallery');
+
+    lines.forEach(line => {
+      const fields = line.split(',');
+      const [filename, title, description, prompt, videoURL] = fields.map(f => f.trim());
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const img = document.createElement('img');
+      img.src = `images/${filename}`;
+
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'title';
+      titleEl.textContent = title;
+
+      const buttons = document.createElement('div');
+      buttons.className = 'buttons';
+
+      const promptBtn = document.createElement('button');
+      promptBtn.textContent = 'Prompt';
+      promptBtn.onclick = () => showPopup(prompt);
+
+      const videoBtn = document.createElement('button');
+      videoBtn.textContent = 'Video';
+      videoBtn.onclick = () => window.open(videoURL, '_blank');
+
+      buttons.appendChild(promptBtn);
+      buttons.appendChild(videoBtn);
+
+      overlay.appendChild(titleEl);
+      overlay.appendChild(buttons);
+
+      card.appendChild(img);
+      card.appendChild(overlay);
+      gallery.appendChild(card);
+    });
+  }
+
+  function showPopup(text) {
+    document.getElementById('popupContent').textContent = text;
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('popupBg').style.display = 'block';
+  }
+
+  function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('popupBg').style.display = 'none';
+  }
+
+  loadGallery();
+</script>
 
 </body>
 </html>
