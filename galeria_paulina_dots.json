@@ -1,0 +1,146 @@
+[
+  {
+    "id": "01",
+    "imagen": "Paulinadots01.webp",
+    "titulo": "Red Rebel",
+    "descripcion": "Paulina camina entre luces y sombras. Belleza futurista y actitud desafiante.",
+    "prompt": "Backstage editorial look, medium telephoto lens (85mm), camera angle at eye level, neutral lighting with soft shadows. Urban setting with subtle color grading and shallow depth of field.",
+    "youtube": "https://youtu.be/axtqAzgHyBI",
+    "likes": 12
+  },
+  {
+    "id": "02",
+    "imagen": "Paulinadots02.webp",
+    "titulo": "Soft Geometry",
+    "descripcion": "Elegancia etérea bajo geometrías digitales. Paulina redefine lo esencial.",
+    "prompt": "Runway aesthetic, frontal wide shot (35mm), dynamic lighting with dramatic rim light. High fashion styling, backdrop abstract futuristic red.",
+    "youtube": "https://youtu.be/dD6vOY17FKw",
+    "likes": 15
+  },
+  {
+    "id": "03",
+    "imagen": "Paulinadots03.webp",
+    "titulo": "White Lab Look",
+    "descripcion": "Minimalismo blanco con brillo científico. Mirada serena, precisión digital.",
+    "prompt": "Close-up portrait, 50mm lens, soft ambient lighting. Focus on facial expression and eye details. Minimalist background with bokeh.",
+    "youtube": "https://youtu.be/AszFSPWjfeY",
+    "likes": 9
+  },
+  {
+    "id": "04",
+    "imagen": "Paulinadots04.webp",
+    "titulo": "Chrome Pose",
+    "descripcion": "Fría, perfecta, cromada. Paulina como estatua futura de precisión estética.",
+    "prompt": "Side-lit pose, medium shot (70mm), golden hour lighting. Composition emphasizes contrast between skin and background glitch.",
+    "youtube": "https://youtu.be/uLpoKyy7Zco",
+    "likes": 7
+  },
+  {
+    "id": "05",
+    "imagen": "Paulinadots05.webp",
+    "titulo": "Red Signal",
+    "descripcion": "Ropa ajustada y mirada directa. Señales visuales que dominan la pantalla.",
+    "prompt": "High contrast scene, telephoto lens (135mm), straight-on angle, background with smoke and neon. Fashion-forward and futuristic tone.",
+    "youtube": "https://youtu.be/wIt7hNQGvhk",
+    "likes": 11
+  },
+  {
+    "id": "06",
+    "imagen": "Paulinadots06.webp",
+    "titulo": "Urban Run",
+    "descripcion": "Movilidad congelada. Paulina desafiando el espacio urbano con gracia digital.",
+    "prompt": "Studio setup, beauty lighting, 85mm lens, mid-body crop. Fashion editorial styling, neutral backdrop.",
+    "youtube": "https://youtu.be/wIt7hNQGvhk",
+    "likes": 6
+  },
+  {
+    "id": "07",
+    "imagen": "Paulinadots07.webp",
+    "titulo": "Closeup Mode",
+    "descripcion": "Detalles nítidos. Ojos que revelan datos. Paulina como algoritmo con alma.",
+    "prompt": "Environmental portrait, 35mm lens, low-angle shot. Cityscape blur with warm tones. Candid expression.",
+    "youtube": "https://youtu.be/xgHtIHuVdEA",
+    "likes": 17
+  },
+  {
+    "id": "08",
+    "imagen": "Paulinadots08.webp",
+    "titulo": "Sunset Attitude",
+    "descripcion": "Paulina mira al horizonte glitch. Rebelión digital al atardecer.",
+    "prompt": "Golden hour backlight, wide lens (28mm), full body capture. Emphasis on posture and soft flare around edges.",
+    "youtube": "https://youtu.be/okxy2UDf8xw",
+    "likes": 8
+  },
+  {
+    "id": "09",
+    "imagen": "Paulinadots09.webp",
+    "titulo": "Digital Drift",
+    "descripcion": "Humo rojo, mirada firme. Paulina en pausa entre frames de otro mundo.",
+    "prompt": "Streetwear concept, long lens (105mm), centered composition. Red haze filters through mid-ground.",
+    "youtube": "https://youtu.be/wOvQCLG-9O0",
+    "likes": 4
+  },
+  {
+    "id": "10",
+    "imagen": "Paulinadots10.webp",
+    "titulo": "Bloom in Glitch",
+    "descripcion": "Color digital expandido. Flores imposibles y rostro en calma.",
+    "prompt": "Art fashion style, symmetrical composition, frontal camera (50mm), experimental lighting in magenta tones.",
+    "youtube": "https://youtu.be/NB6IZ9lxwDg",
+    "likes": 10
+  },
+  {
+    "id": "11",
+    "imagen": "Paulinadots11.webp",
+    "titulo": "Red Liquid",
+    "descripcion": "Texturas líquidas se funden con una Paulina digitalmente clásica.",
+    "prompt": "Black-on-black style, contrasty lighting, detail focus. Editorial mood with deep shadows. Shot at f/2.8.",
+    "youtube": "https://youtu.be/8vp71YSy7lc",
+    "likes": 6
+  },
+  {
+    "id": "12",
+    "imagen": "Paulinadots12.webp",
+    "titulo": "Silk Transparency",
+    "descripcion": "Transparencias elegantes. Textiles invisibles bajo el foco de cámara editorial.",
+    "prompt": "Conceptual transparency, half-body crop, soft diffusion filter. Ultra-fashion angle with silk reflections.",
+    "youtube": "https://youtu.be/FPu5AaYa6O0",
+    "likes": 14
+  },
+  {
+    "id": "13",
+    "imagen": "Paulinadots13.webp",
+    "titulo": "Design Lines",
+    "descripcion": "El cuerpo como línea de diseño. Paulina se integra al trazo de moda.",
+    "prompt": "Design-focused crop, tilted frame, 24mm lens, harsh daylight. Posture and fabric lines define the geometry.",
+    "youtube": "https://youtu.be/Mbs1bM2yaXs",
+    "likes": 3
+  },
+  {
+    "id": "14",
+    "imagen": "Paulinadots14.webp",
+    "titulo": "Golden Fade",
+    "descripcion": "Fondo cálido, luz dorada, mirada que se desvanece hacia otra dimensión.",
+    "prompt": "Golden fade mood, portrait format, warm tonal grading. Paulina lit by indirect softbox glow.",
+    "youtube": "https://youtu.be/9s1JKPlTD9Q",
+    "likes": 13
+  },
+  {
+    "id": "15",
+    "imagen": "Paulinadots15.webp",
+    "titulo": "Digital Fog",
+    "descripcion": "Niebla roja artificial. Contraluz marcado, postura fuerte.",
+    "prompt": "High key contrast setup, red digital fog in backdrop. Strong side light, posture as central axis.",
+    "youtube": "https://youtu.be/XyqsvZt-dH8",
+    "likes": 5
+  },
+  {
+    "id": "16",
+    "imagen": "Paulinadots16.webp",
+    "titulo": "Ascension Glow",
+    "descripcion": "Fuego digital. Paulina emerge entre algoritmos cálidos. Final épico.",
+    "prompt": "Epic fashion finale, low-angle lens (35mm), red fire tone grade. Post-digital look with glowing gradient background.",
+    "youtube": "https://youtu.be/XyqsvZt-dH8",
+    "likes": 16
+  }
+]
