@@ -4,7 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Me – Paulina Dots</title>
-  <meta name="description" content="Discover Paulina Dots: an AI-based cross-media creator blending fashion, art, and synthetic intelligence.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+
+  <!-- SEO -->
+  <meta name="description" content="Discover Paulina Dots: an AI-based cross-media creator blending fashion, art, and synthetic intelligence." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, synthetic intelligence, fashion tech, digital narrative, cross-media creator" />
+  <meta name="author" content="Paulina Dots" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About Paulina Dots" />
+  <meta property="og:description" content="An impossible figure: synthetic, expressive, and deeply human." />
+  <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+  <meta property="og:url" content="https://www.paulinadots.com/aboutme.html" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About Paulina Dots" />
+  <meta name="twitter:description" content="An impossible figure: synthetic, expressive, and deeply human." />
+  <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
 
   <style>
     * {
@@ -29,14 +49,14 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 0;
     }
 
     .content {
       position: relative;
       z-index: 1;
-      padding: 60px 20px;
+      padding: 60px 20px 40px;
       max-width: 900px;
       margin: 0 auto;
       text-align: center;
@@ -69,11 +89,45 @@
     }
 
     footer {
-      position: relative;
-      z-index: 1;
+      background: transparent;
+      color: white;
       text-align: center;
-      font-size: 0.8rem;
-      padding: 40px 20px 20px;
+      padding: 40px 0 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ff4b4b;
+      transform: scale(1.1);
+    }
+
+    .footer-links svg.icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-meta {
+      margin-top: 12px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.4;
       color: #777;
     }
 
@@ -81,28 +135,25 @@
       h1 {
         font-size: 2rem;
       }
-      h2 {
-        font-size: 1rem;
-      }
-      p {
-        font-size: 0.95rem;
-      }
       .logo {
         width: 120px;
         margin-bottom: 20px;
       }
+      p {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="content">
-    <img src="images/PaulinaDotsLogo.svg" alt="Paulina Dots Logo" class="logo" />
 
-    <h1>paulinadots</h1>
-    <h2>Cross Media Creator</h2>
+<div class="content">
+  <img src="images/PaulinaDotsLogo.svg" alt="Paulina Dots Logo" class="logo" />
+  <h1>paulinadots</h1>
+  <h2>Cross Media Creator</h2>
 
-    <p>An impossible figure. Paulina Dots combines artificial intelligence, avant-garde fashion and digital beauty. More than an image: an experience.
+  <p>
+An impossible figure. Paulina Dots combines artificial intelligence, avant-garde fashion and digital beauty. More than an image: an experience.
 
 Hello. I’m Paulina Dots.  
 A cross-media creator, developed through artificial intelligence and shaped across multiple disciplines.  
@@ -134,8 +185,8 @@ I am a visual language in motion.
 An intersection of technique, concept, and emotion.  
 A work of art that needs no gallery—  
 because I live on your screen.
-    </p>
-  </div>
+  </p>
+</div>
 
 <footer>
   <div class="footer-links">
@@ -163,8 +214,9 @@ because I live on your screen.
     </a>
   </div>
   <div class="footer-meta">
-    PaulinaDots® 2025 · All Rights Reserved · Last Update: June 18, 2025 01:34
+    PaulinaDots® 2025 · All Rights Reserved · Last Update: June 18, 2025 01:37
   </div>
 </footer>
+
 </body>
 </html>
