@@ -4,21 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paulina Dots Gallery Party</title>
+
+  <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+
+  <!-- SEO básico -->
   <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
   <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
+
+  <!-- Open Graph para redes sociales -->
   <meta property="og:title" content="Paulina Dots Gallery Party" />
   <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
   <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
   <meta property="og:url" content="https://www.paulinadots.com" />
   <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Paulina Dots Gallery Party" />
   <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
   <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       background: black;
@@ -27,21 +38,18 @@
     }
     .gallery {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 0;
-    }
-    @media (max-width: 1024px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .gallery { grid-template-columns: 1fr; }
+      padding: 0;
+      margin: 0;
     }
     .photo-card {
       position: relative;
+      width: 100%;
       aspect-ratio: 16 / 9;
       overflow: hidden;
     }
-    .photo-card img {
+    .main-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -50,370 +58,417 @@
     .overlay {
       position: absolute;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
       width: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
       padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
     }
     .overlay h3 {
-      margin: 0;
-      font-size: 14px;
-      font-weight: bold;
+      margin: 0 0 4px;
+      font-size: 1rem;
     }
     .overlay p {
-      margin: 4px 0 8px 0;
-      font-size: 12px;
+      margin: 0 0 8px;
+      font-size: 0.85rem;
+      color: #ccc;
     }
-    .overlay button {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
+    .overlay-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .overlay-controls button {
       padding: 4px 10px;
-      margin-right: 6px;
-      border-radius: 4px;
-      font-size: 11px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.4);
+      color: white;
+      font-size: 0.8rem;
+      border-radius: 6px;
       cursor: pointer;
+    }
+    .like-button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .like-button:hover {
+      opacity: 1;
+    }
+    .like-button svg {
+      stroke: white;
+      width: 16px;
+      height: 16px;
+    }
+    .like-count {
+      font-size: 0.8rem;
     }
     .watermark {
       position: absolute;
-      bottom: 6px;
-      right: 8px;
-      width: 44px;
+      bottom: 4px;
+      right: 6px;
+      width: 80px;
       opacity: 0.6;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
-      width: 90%;
-      color: white;
-      position: relative;
-    }
-    .modal-content iframe {
-      width: 100%;
-      height: 315px;
-    }
-    .modal-content pre {
-      white-space: pre-wrap;
-      font-size: 12px;
-    }
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: white;
     }
     footer {
       text-align: center;
-      font-size: 11px;
-      padding: 12px;
-      color: white;
+      padding: 10px;
+      font-size: 0.75rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
-<div class="gallery">
-  <!-- FOTO 01 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots01.webp" alt="PaulinaDots01" class="main-photo" />
-    <div class="overlay">
-      <h3>Red Motion</h3>
-      <p>Una escena vibrante bajo luces urbanas rojas. Movimiento, actitud y mirada directa.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(1)">Prompt</button>
-        <button onclick="openVideo(1)">Video</button>
+  <div class="gallery">
+    <div class="photo-card">
+      <img src="images/Paulinadots01.webp" alt="Foto 01" class="main-photo">
+      <div class="overlay">
+        <h3>Red Rebel</h3>
+        <p>Paulina camina entre luces y sombras. Belleza futurista y actitud desafiante.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-01')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/axtqAzgHyBI')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">12</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 02 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots02.webp" alt="PaulinaDots02" class="main-photo" />
-    <div class="overlay">
-      <h3>Studio Flow</h3>
-      <p>Paulina en un estudio minimalista, iluminación lateral suave y actitud introspectiva.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(2)">Prompt</button>
-        <button onclick="openVideo(2)">Video</button>
+    <!-- Repite para las fotos 02 a 16 cambiando la info -->
+    <!-- Para resumir aquí, en la Parte 3 te pego las siguientes 15 tarjetas restantes -->
+    <div class="photo-card">
+      <img src="images/Paulinadots02.webp" alt="Foto 02" class="main-photo">
+      <div class="overlay">
+        <h3>Golden Hour</h3>
+        <p>Luz cálida y mirada profunda. La hora mágica se vuelve eterna con Paulina.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-02')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/dD6vOY17FKw')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">9</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 03 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots03.webp" alt="PaulinaDots03" class="main-photo" />
-    <div class="overlay">
-      <h3>Glass Horizon</h3>
-      <p>Escenario futurista con paneles de vidrio, luz fría y pose elegante en contrapicado.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(3)">Prompt</button>
-        <button onclick="openVideo(3)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots03.webp" alt="Foto 03" class="main-photo">
+      <div class="overlay">
+        <h3>Fractal Vision</h3>
+        <p>Reflejos geométricos, precisión digital. Paulina en su dimensión más abstracta.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-03')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/AszFSPWjfeY')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">14</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 04 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots04.webp" alt="PaulinaDots04" class="main-photo" />
-    <div class="overlay">
-      <h3>Velvet Pose</h3>
-      <p>En un sillón de terciopelo rojo, bajo foco cálido y lente 85mm, ángulo ligeramente alto.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(4)">Prompt</button>
-        <button onclick="openVideo(4)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots04.webp" alt="Foto 04" class="main-photo">
+      <div class="overlay">
+        <h3>Neon Steps</h3>
+        <p>Pasarela urbana, neón reflejado en charcos. Belleza entre concreto y electricidad.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-04')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/uLpoKyy7Zco')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">11</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
-  <!-- FOTO 05 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots05.webp" alt="PaulinaDots05" class="main-photo" />
-    <div class="overlay">
-      <h3>Concrete Glow</h3>
-      <p>Una pasarela urbana sobre concreto mojado, lente angular 24mm con flare natural.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(5)">Prompt</button>
-        <button onclick="openVideo(5)">Video</button>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots05.webp" alt="Foto 05" class="main-photo">
+      <div class="overlay">
+        <h3>Velvet Code</h3>
+        <p>Elegancia sintética. Paulina flota en una atmósfera entre terciopelo y datos.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-05')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wIt7hNQGvhk')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">8</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 06 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots06.webp" alt="PaulinaDots06" class="main-photo" />
-    <div class="overlay">
-      <h3>Backstage Chill</h3>
-      <p>Captura íntima tras bambalinas. Iluminación suave cenital con encuadre medio.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(6)">Prompt</button>
-        <button onclick="openVideo(6)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots06.webp" alt="Foto 06" class="main-photo">
+      <div class="overlay">
+        <h3>Blue Frame</h3>
+        <p>Minimalismo y calma. Paulina posa entre diagonales frías y precisión de encuadre.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-06')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wIt7hNQGvhk')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">10</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 07 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots07.webp" alt="PaulinaDots07" class="main-photo" />
-    <div class="overlay">
-      <h3>Neon Edge</h3>
-      <p>Paulina sobre fondo neón en tonos violeta y cyan, plano cerrado con lente de 50mm.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(7)">Prompt</button>
-        <button onclick="openVideo(7)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots07.webp" alt="Foto 07" class="main-photo">
+      <div class="overlay">
+        <h3>Cyber Innocence</h3>
+        <p>La dulzura se fusiona con lo digital. Paulina, entre mirada inocente y red neural.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-07')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/xgHtIHuVdEA')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">15</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 08 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots08.webp" alt="PaulinaDots08" class="main-photo" />
-    <div class="overlay">
-      <h3>Runway Breeze</h3>
-      <p>Toma al aire libre con viento leve, luz dorada al atardecer y encuadre vertical estilizado.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(8)">Prompt</button>
-        <button onclick="openVideo(8)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots08.webp" alt="Foto 08" class="main-photo">
+      <div class="overlay">
+        <h3>Red Dissonance</h3>
+        <p>Ruptura visual en rojo. El caos también puede ser hermoso si lo lidera Paulina.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-08')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/okxy2UDf8xw')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">17</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
-  <!-- FOTO 09 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots09.webp" alt="PaulinaDots09" class="main-photo" />
-    <div class="overlay">
-      <h3>Mirror Flame</h3>
-      <p>Reflejos simétricos con fondo rojo fuego. Cámara fija, lente de 35mm, mirada directa.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(9)">Prompt</button>
-        <button onclick="openVideo(9)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots09.webp" alt="Foto 09" class="main-photo">
+      <div class="overlay">
+        <h3>Smoke Geometry</h3>
+        <p>Humo digital que revela siluetas precisas. Paulina domina el glitch y el frame.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-09')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wOvQCLG-9O0')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">13</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 10 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots10.webp" alt="PaulinaDots10" class="main-photo" />
-    <div class="overlay">
-      <h3>Cinematic Corridor</h3>
-      <p>Pasillo con luces secuenciales. Toma en travelling lateral. Lente anamórfico.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(10)">Prompt</button>
-        <button onclick="openVideo(10)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots10.webp" alt="Foto 10" class="main-photo">
+      <div class="overlay">
+        <h3>Data Bloom</h3>
+        <p>Un jardín artificial florece entre polígonos. Paulina, flor central del algoritmo.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-10')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/NB6IZ9lxwDg')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">16</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 11 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots11.webp" alt="PaulinaDots11" class="main-photo" />
-    <div class="overlay">
-      <h3>Future Idol</h3>
-      <p>Escenario digital con halos LED. Lente 35mm, frontal media distancia con flare sintético.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(11)">Prompt</button>
-        <button onclick="openVideo(11)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots11.webp" alt="Foto 11" class="main-photo">
+      <div class="overlay">
+        <h3>Crimson Flow</h3>
+        <p>Corrientes rojas, energía vital digital. Paulina flota en pura intensidad estética.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-11')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/8vp71YSy7lc')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">18</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 12 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots12.webp" alt="PaulinaDots12" class="main-photo" />
-    <div class="overlay">
-      <h3>Espejismo Digital</h3>
-      <p>Montaje con espejos translúcidos y fondo glitch. Angular corto, foco en ojos.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(12)">Prompt</button>
-        <button onclick="openVideo(12)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots12.webp" alt="Foto 12" class="main-photo">
+      <div class="overlay">
+        <h3>Invisible Lace</h3>
+        <p>Entre encajes virtuales y texturas transparentes. Paulina redefine la sutileza.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-12')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/FPu5AaYa6O0')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">10</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
-  <!-- FOTO 13 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots13.webp" alt="PaulinaDots13" class="main-photo" />
-    <div class="overlay">
-      <h3>Crimson Vibes</h3>
-      <p>Retrato con fondo carmesí, luz directa desde arriba, lente 50mm con viñeta suave.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(13)">Prompt</button>
-        <button onclick="openVideo(13)">Video</button>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots13.webp" alt="Foto 13" class="main-photo">
+      <div class="overlay">
+        <h3>Ghost Line</h3>
+        <p>Silencio digital entre líneas blancas. Paulina como eco visual de un sistema que sueña.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-13')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/Mbs1bM2yaXs')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">11</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 14 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots14.webp" alt="PaulinaDots14" class="main-photo" />
-    <div class="overlay">
-      <h3>Industrial Dream</h3>
-      <p>Escenario metálico, tonos fríos, iluminación cruzada y cámara en contrapicado.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(14)">Prompt</button>
-        <button onclick="openVideo(14)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots14.webp" alt="Foto 14" class="main-photo">
+      <div class="overlay">
+        <h3>Amber Edge</h3>
+        <p>Luces ámbar, piel dorada, sombra digital. Paulina camina la línea del deseo elegante.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-14')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/9s1JKPlTD9Q')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">20</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 15 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots15.webp" alt="PaulinaDots15" class="main-photo" />
-    <div class="overlay">
-      <h3>AI Playground</h3>
-      <p>Ambiente geométrico digital, iluminación RGB dinámica. Lente 35mm. Posado firme.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(15)">Prompt</button>
-        <button onclick="openVideo(15)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots15.webp" alt="Foto 15" class="main-photo">
+      <div class="overlay">
+        <h3>Red Echo</h3>
+        <p>Un susurro rojo en una noche negra. Paulina emite luz desde lo invisible.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-15')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/XyqsvZt-dH8')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">9</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
-  </div>
 
-  <!-- FOTO 16 -->
-  <div class="photo-card">
-    <img src="images/Paulinadots16.webp" alt="PaulinaDots16" class="main-photo" />
-    <div class="overlay">
-      <h3>Cyber Pose</h3>
-      <p>Look vanguardista, fondo oscilante glitch y lente teleobjetivo de 85mm. Luz azul/fría.</p>
-      <div class="overlay-controls">
-        <button onclick="openPrompt(16)">Prompt</button>
-        <button onclick="openVideo(16)">Video</button>
+    <div class="photo-card">
+      <img src="images/Paulinadots16.webp" alt="Foto 16" class="main-photo">
+      <div class="overlay">
+        <h3>Digital Phoenix</h3>
+        <p>El renacer final. Paulina en rojo vibrante, rodeada de calor pixelado y aura de fuego.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-16')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/TgHr61THn84')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">19</span>
+          </div>
+        </div>
       </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
     </div>
-    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div> <!-- cierre de .gallery -->
+
+  <!-- MODAL PROMPT -->
+  <div id="promptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; color:white; padding:40px; overflow:auto;">
+    <div style="max-width:800px; margin:auto;">
+      <h2>Prompt</h2>
+      <pre id="promptText" style="white-space:pre-wrap; font-size:0.95rem; background:#111; padding:20px; border-radius:8px; border:1px solid #333;"></pre>
+      <br>
+      <button onclick="closePrompt()" style="padding:10px 20px; background:red; border:none; color:white; border-radius:6px;">Cerrar</button>
+    </div>
   </div>
-</div> <!-- Fin galería -->
-<!-- MODAL REUTILIZABLE -->
-<div id="modal" class="modal" onclick="closeModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <div id="modalBody"></div>
+
+  <!-- MODAL VIDEO -->
+  <div id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; color:white; padding:40px;">
+    <div style="max-width:900px; margin:auto; position:relative;">
+      <iframe id="videoFrame" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>
+      <br>
+      <button onclick="closeVideo()" style="padding:10px 20px; background:red; border:none; color:white; border-radius:6px; position:absolute; top:-40px; right:0;">Cerrar</button>
+    </div>
   </div>
-</div>
 
-<script>
-  const prompts = [
-    "", // index 0 (vacío, no usado)
-    `Fashion editorial shot in a neon-lit alleyway. Medium full-body angle, soft red glow, shot with a 35mm lens. Night city aesthetic, artificial lighting reflections on wet pavement.`,
-    `Minimalist studio with neutral background. Subject seated, angled 45° toward camera. Key light on left side, lens 50mm, shallow depth of field for portrait isolation.`,
-    `Futuristic rooftop terrace with glass panels. Subject standing confidently, low-angle shot, lens 24mm for perspective exaggeration. Cool blue hour lighting.`,
-    `Indoor lounge with red velvet chair, spotlight from above, subject leaning sideways. 85mm portrait lens with warm color tones.`,
-    `Wet urban pavement, backlit by vehicle lights, wide 24mm lens. Subject in motion, lens flare naturally captured through raindrops.`,
-    `Dressing room backstage environment. Soft top light, model relaxed, seated in candid posture. Captured with 35mm lens at f/2.2 for ambient mood.`,
-    `Night club environment with purple neon. Subject facing front, soft expression, lens 50mm with glowing bokeh in background.`,
-    `Outdoor runway setup with wind effect. Shot during golden hour using a 50mm lens. Subject mid-stride with long shadows.`,
-    `Symmetrical shot using mirrors with intense red lighting. Model centered, 35mm lens with clean framing and slight vignetting.`,
-    `Long corridor with industrial lights. Tracking shot at subject walking slowly. Shot in anamorphic lens with lens flares.`,
-    `LED halo ring setup on digital stage. Subject frontal, upper half framed. Artificial lens flare added in post-processing.`,
-    `Triangular mirror fragments as backdrop, glitch background added via projection. Close-up shot with 28mm lens for edge distortion.`,
-    `Deep red drape behind subject, overhead light and lens 50mm. Expression serene, shot in quiet close-up portrait framing.`,
-    `Cold metallic set, angled lighting from both sides. Shot from below using wide-angle lens for visual impact.`,
-    `Synthetic 3D shapes behind subject, RGB tones in animation. Camera front-facing, medium shot, lens 35mm.`,
-    `Low-key lighting with pulsating glitch background, subject in profile. 85mm lens with cool tones and soft background blur.`,
-  ];
+  <!-- FOOTER -->
+  <footer>
+    :: HOME :: ABOUT ME :: PHOTO GALLERY :: PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
+  </footer>
 
-  const videos = [
-    "", // index 0 (vacío, no usado)
-    "https://youtu.be/axtqAzgHyBI",
-    "https://youtu.be/dD6vOY17FKw",
-    "https://youtu.be/AszFSPWjfeY",
-    "https://youtu.be/uLpoKyy7Zco",
-    "https://youtu.be/wIt7hNQGvhk",
-    "https://youtu.be/wIt7hNQGvhk",
-    "https://youtu.be/xgHtIHuVdEA",
-    "https://youtu.be/okxy2UDf8xw",
-    "https://youtu.be/wOvQCLG-9O0",
-    "https://youtu.be/wIt7hNQGvhk",
-    "https://youtu.be/NB6IZ9lxwDg",
-    "https://youtu.be/8vp71YSy7lc",
-    "https://youtu.be/FPu5AaYa6O0",
-    "https://youtu.be/Mbs1bM2yaXs",
-    "https://youtu.be/9s1JKPlTD9Q",
-    "https://youtu.be/XyqsvZt-dH8",
-  ];
+  <!-- JS FUNCIONAL -->
+  <script>
+    const prompts = {
+      'prompt-01': 'Cámara inclinada 20°, lente de 50mm. Estética cyberpunk, pasarela nocturna con luces LED rojas. Fondo abstracto con niebla digital suave.',
+      'prompt-02': 'Plano medio, lente 35mm, iluminación lateral suave. Escena estilo fashion tech, fondo monocromático rojo oscuro. Tono elegante y sobrio.',
+      'prompt-03': 'Ángulo contrapicado 15°, lente 85mm. Entorno indoor, iluminación con aros de luz blancos. Estética vanguardista y editorial.',
+      'prompt-04': 'Toma cenital con lente gran angular 24mm. Fondo metálico texturizado. Composición simétrica con pose estirada y rígida.',
+      'prompt-05': 'Plano americano, lente 50mm, fondo rojo saturado con iluminación de contraste. Moda editorial con toque retrofuturista.',
+      'prompt-06': 'Toma en ángulo bajo, 35mm. Movimiento congelado con fondo borroso. Inspiración deportiva con elementos urbanos.',
+      'prompt-07': 'Primer plano, lente 85mm. Fondo plano negro, luces tenues sobre contorno del rostro. Estética de retrato editorial clásico.',
+      'prompt-08': 'Contrapicado extremo, lente 24mm. Escena al atardecer artificial con flare digital. Moda rebelde, actitud firme.',
+      'prompt-09': 'Plano general con lente 28mm. Humo rojo digital cruzando el encuadre. Postura fuerte y minimalismo en vestuario.',
+      'prompt-10': 'Ángulo ¾, lente 50mm. Fondo glitch abstracto en tonos rosados. Estilo tech bloom con textura orgánica artificial.',
+      'prompt-11': 'Plano medio, 70mm. Fondo rojo con textura líquida. Moda elegante, mirada fija a cámara con iluminación suave difusa.',
+      'prompt-12': 'Plano cerrado a cintura, lente 35mm. Tela invisible con transparencia controlada. Composición editorial de alto contraste.',
+      'prompt-13': 'Plano general, lente 28mm. Líneas blancas cruzan el encuadre horizontal. Inspiración en diseño gráfico de moda.',
+      'prompt-14': 'Plano medio largo, lente 50mm. Fondo en tonos dorados y ámbar. Iluminación suave tipo reflectores de pasarela.',
+      'prompt-15': 'Plano general, lente 35mm. Niebla digital roja. Vestuario sintético con textura brillante. Sombra definida trasera.',
+      'prompt-16': 'Contrapicado 45°, lente 24mm. Paulina emerge entre luces cálidas simulando fuego. Aura digital, escena potente.'
+    };
 
-  function openPrompt(index) {
-    document.getElementById("modalBody").innerHTML =
-      `<h3>Prompt de fotografía profesional</h3><pre>${prompts[index]}</pre>`;
-    document.getElementById("modal").style.display = "flex";
-  }
+    function openPrompt(key) {
+      document.getElementById('promptText').innerText = prompts[key] || 'Prompt no disponible.';
+      document.getElementById('promptModal').style.display = 'block';
+    }
 
-  function openVideo(index) {
-    document.getElementById("modalBody").innerHTML =
-      `<iframe src="${videos[index].replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>`;
-    document.getElementById("modal").style.display = "flex";
-  }
+    function closePrompt() {
+      document.getElementById('promptModal').style.display = 'none';
+    }
 
-  function closeModal() {
-    document.getElementById("modal").style.display = "none";
-    document.getElementById("modalBody").innerHTML = "";
-  }
-</script>
+    function openVideo(url) {
+      const frame = document.getElementById('videoFrame');
+      frame.src = url.replace("watch?v=", "embed/");
+      document.getElementById('videoModal').style.display = 'block';
+    }
 
-<footer>
-  :: HOME :: ABOUT ME :: PHOTO GALLERY :: PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 22:39
-</footer>
+    function closeVideo() {
+      const frame = document.getElementById('videoFrame');
+      frame.src = "";
+      document.getElementById('videoModal').style.display = 'none';
+    }
+
+    function incrementLike(element) {
+      const span = element.querySelector('.like-count');
+      let count = parseInt(span.innerText, 10) || 0;
+      count++;
+      span.innerText = count;
+    }
+  </script>
 </body>
 </html>
