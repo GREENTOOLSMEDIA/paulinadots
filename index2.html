@@ -112,86 +112,91 @@
     }
   </style>
 </head>
-
 <body>
-  <div id="startOverlay">
-    <div class="intro-text-box">
-      Hello, I'm PAULINA DOTS, a cross-media creator powered by artificial intelligence.
-    </div>
-    <button id="enterBtn">Enter the experience</button>
+
+<!-- timestamp: 2025-06-17 23:05 -->
+
+<div id="startOverlay">
+  <div class="intro-text-box">
+    Hello, I'm PAULINA DOTS, a cross-media creator powered by artificial intelligence.
   </div>
+  <button id="enterBtn">Enter the experience</button>
+</div>
 
-  <div id="gallery" class="gallery"></div>
+<div id="gallery" class="gallery"></div>
 
-  <div id="footer-placeholder"></div>
-  <script src="js/include-footer.js"></script>
+<!-- Footer dinámico -->
+<div id="footer-placeholder"></div>
+<script src="js/include-footer.js"></script>
 
-  <script>
-    const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
-    const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
-    const MAX_RESULTS_API = 50;
-    const MAX_RESULTS = 16;
+<!-- Carga dinámica de videos -->
+<script>
+  const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+  const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
+  const MAX_RESULTS_API = 50;
+  const MAX_RESULTS = 16;
 
-    const gallery = document.getElementById('gallery');
-    const overlay = document.getElementById('startOverlay');
-    const players = [];
-    let randomVideoIndex = Math.floor(Math.random() * MAX_RESULTS);
+  const gallery = document.getElementById('gallery');
+  const overlay = document.getElementById('startOverlay');
+  const players = [];
+  let randomVideoIndex = Math.floor(Math.random() * MAX_RESULTS);
 
-    function createIframe(videoId) {
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=0`;
-      iframe.allow = 'autoplay; encrypted-media; fullscreen';
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('data-id', videoId);
-      return iframe;
+  function createIframe(videoId) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0&controls=1&modestbranding=1&iv_load_policy=3&autoplay=0`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('data-id', videoId);
+    return iframe;
+  }
+
+  function handleOverlayClick() {
+    overlay.remove();
+    const selected = players[randomVideoIndex];
+    if (selected && selected.iframe) {
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'unMute',
+        args: []
+      }), '*');
+      selected.iframe.contentWindow.postMessage(JSON.stringify({
+        event: 'command',
+        func: 'playVideo',
+        args: []
+      }), '*');
     }
+  }
 
-    function handleOverlayClick() {
-      overlay.remove();
-      const selected = players[randomVideoIndex];
-      if (selected && selected.iframe) {
-        selected.iframe.contentWindow.postMessage(JSON.stringify({
-          event: 'command',
-          func: 'unMute',
-          args: []
-        }), '*');
-        selected.iframe.contentWindow.postMessage(JSON.stringify({
-          event: 'command',
-          func: 'playVideo',
-          args: []
-        }), '*');
-      }
+  function getRandomItems(arr, count) {
+    const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+
+  async function fetchVideos() {
+    try {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
+      const data = await res.json();
+      const items = data.items || [];
+      const selectedItems = getRandomItems(items, MAX_RESULTS);
+
+      selectedItems.forEach((item) => {
+        const videoId = item.snippet.resourceId.videoId;
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        const iframe = createIframe(videoId);
+        card.appendChild(iframe);
+        gallery.appendChild(card);
+        players.push({ iframe, videoId });
+      });
+    } catch (err) {
+      console.error('Error fetching videos:', err);
+      gallery.innerHTML = '<p style="color:white; padding:2rem;">Error loading videos. Please try again later.</p>';
     }
+  }
 
-    function getRandomItems(arr, count) {
-      const shuffled = arr.slice().sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, count);
-    }
+  fetchVideos();
+  document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
+</script>
 
-    async function fetchVideos() {
-      try {
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${MAX_RESULTS_API}&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
-        const data = await res.json();
-        const items = data.items || [];
-        const selectedItems = getRandomItems(items, MAX_RESULTS);
-
-        selectedItems.forEach((item) => {
-          const videoId = item.snippet.resourceId.videoId;
-          const card = document.createElement('div');
-          card.className = 'video-card';
-          const iframe = createIframe(videoId);
-          card.appendChild(iframe);
-          gallery.appendChild(card);
-          players.push({ iframe, videoId });
-        });
-      } catch (err) {
-        console.error('Error fetching videos:', err);
-        gallery.innerHTML = '<p style="color:white; padding:2rem;">Error loading videos. Please try again later.</p>';
-      }
-    }
-
-    fetchVideos();
-    document.getElementById('enterBtn').addEventListener('click', handleOverlayClick);
-  </script>
 </body>
 </html>
