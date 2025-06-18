@@ -3,97 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Galería Paulina Dots</title>
+  <title>Paulina Dots Gallery Party</title>
+
+  <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+
+  <!-- SEO básico (original sin cambios, solo <title>) -->
+  <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
+  <meta name="author" content="Paulina Dots" />
+
+  <!-- Open Graph para redes sociales -->
+  <meta property="og:title" content="Paulina Dots Multicam Party" />
+  <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+  <meta property="og:url" content="https://www.paulinadots.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Paulina Dots Multicam Party" />
+  <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: black;
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
       font-family: Arial, sans-serif;
-      overflow-x: hidden;
       color: white;
     }
+
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      background: url('images/paulinadots-multicam-party.png') no-repeat center center;
+      background-size: cover;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .intro-text-box {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 1.5rem 2rem;
+      max-width: 960px;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    #enterBtn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: red;
+      color: white;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 0;
     }
+
+    @media (max-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .photo-card {
       position: relative;
       width: 100%;
-      aspect-ratio: 16/9;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
     }
-    .photo-card img {
+
+    .photo-card img.main-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .overlay {
+
+    .overlay-info {
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 12px;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 1rem;
     }
-    .title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 4px;
+
+    .overlay-info h2 {
+      margin: 0;
+      font-size: 1rem;
     }
-    .desc {
-      font-size: 13px;
-      margin-bottom: 8px;
+
+    .overlay-info p {
+      margin: 0.2rem 0 0.6rem 0;
+      font-size: 0.85rem;
     }
-    .divider {
-      width: 100%;
-      height: 1px;
+
+    .overlay-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .overlay-controls button {
       background: white;
-      margin: 6px 0;
-    }
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-    }
-    .prompt-btn {
-      background: red;
+      color: black;
       border: none;
-      color: white;
-      padding: 4px 12px;
+      padding: 6px 12px;
       border-radius: 4px;
+      font-size: 0.75rem;
       cursor: pointer;
     }
-    .likes {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+
+    .overlay-controls span {
+      font-size: 0.8rem;
     }
-    .likes img {
-      width: 16px;
-      height: 16px;
-      filter: brightness(0) invert(1);
-      cursor: pointer;
-    }
-    .logo {
+
+    .logo-watermark {
       position: absolute;
       bottom: 10px;
       right: 10px;
-      width: 60px;
-      opacity: 0.5;
+      width: 50px;
+      opacity: 0.7;
     }
+
     footer {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
       text-align: center;
       font-size: 12px;
-      padding: 8px 0;
-      margin-top: 2rem;
+      padding: 10px 0;
+      color: white;
     }
+
     footer a {
       color: white;
       text-decoration: none;
@@ -103,59 +164,60 @@
 </head>
 <body>
 
-<div class="gallery">
-  <!-- Repetimos el bloque 16 veces -->
-  <!-- Simulación con nombres e ids automáticos -->
-  <!-- Puedes reemplazar las descripciones y prompts reales luego -->
-  <!-- IMAGEN 01 A 16 -->
-  <!-- Estructura base -->
-  
-  <!-- Generado dinámicamente abajo -->
-  
+<!-- Overlay de entrada -->
+<div id="startOverlay">
+  <div class="intro-text-box">Hello, I'm PAULINA DOTS, Cross Media Creator based on artificial intelligence.</div>
+  <button id="enterBtn">Enter the experience</button>
 </div>
 
+<!-- Galería -->
+<div class="gallery" id="gallery"></div>
+
+<!-- Footer -->
 <footer>
   <a href="https://www.paulinadots.com">:: HOME ::</a>
   <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
   <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 20:31
+  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
 </footer>
 
+<!-- Script -->
 <script>
-  const gallery = document.querySelector('.gallery');
+  const gallery = document.getElementById('gallery');
+  const overlay = document.getElementById('startOverlay');
 
-  for (let i = 1; i <= 16; i++) {
-    const num = i.toString().padStart(2, '0');
+  document.getElementById('enterBtn').addEventListener('click', () => {
+    overlay.remove();
+  });
+
+  const photos = Array.from({ length: 16 }, (_, i) => {
+    const index = String(i + 1).padStart(2, '0');
+    return {
+      src: `images/Paulinadots${index}.webp`,
+      title: `Foto ${index}`,
+      description: `Descripción breve de la imagen ${index}`,
+      likes: Math.floor(1000 + Math.random() * 9000),
+      prompt: `Prompt #${index}`
+    };
+  });
+
+  photos.forEach(photo => {
     const card = document.createElement('div');
     card.className = 'photo-card';
     card.innerHTML = `
-      <img src="images/PaulinaDots${num}.webp" alt="Paulina Dots ${num}">
-      <div class="overlay">
-        <div class="title">Paulina Dots ${num}</div>
-        <div class="desc">Descripción general no más de 100 caracteres.</div>
-        <div class="divider"></div>
-        <div class="actions">
-          <button class="prompt-btn">Prompt</button>
-          <div class="likes">
-            <img src="images/heart-icon.svg" class="heart-icon" alt="Like">
-            <span class="like-count">0000</span>
-          </div>
+      <img class="main-photo" src="${photo.src}" alt="${photo.title}" />
+      <div class="overlay-info">
+        <h2>${photo.title}</h2>
+        <p>${photo.description}</p>
+        <div class="overlay-controls">
+          <button>Prompt</button>
+          <span>❤️ ${photo.likes}</span>
         </div>
       </div>
-      <img src="images/PaulinaDotsLogo.svg" class="logo" alt="Logo">
+      <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
     `;
     gallery.appendChild(card);
-
-    // Likes funcionales
-    const likeIcon = card.querySelector('.heart-icon');
-    const likeCount = card.querySelector('.like-count');
-    let count = Math.floor(Math.random() * 1000) + 250;
-    likeCount.textContent = count;
-    likeIcon.addEventListener('click', () => {
-      count++;
-      likeCount.textContent = count;
-    });
-  }
+  });
 </script>
 
 </body>
