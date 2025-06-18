@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paulina Dots Gallery Party</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
+
+  <!-- SEO básico -->
+  <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
+  <meta name="author" content="Paulina Dots" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Paulina Dots Gallery Party" />
+  <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+  <meta property="og:url" content="https://www.paulinadots.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Paulina Dots Gallery Party" />
+  <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+
+  <!-- Estilos -->
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: black;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .photo-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .main-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    }
+
+    .overlay h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .overlay-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .overlay button {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .like-button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .like-button svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      fill: none;
+    }
+
+    .like-count {
+      font-size: 0.85rem;
+    }
+
+    .watermark {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 80px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="gallery"></div>
+
+  <footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: #ccc;">
+    :: HOME :: ABOUT ME :: PHOTO GALLERY :: PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
+  </footer>
+
+  <div id="promptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:#111; padding:20px; max-width:600px; width:90%; color:white; border-radius:10px; position:relative;">
+      <button onclick="closePrompt()" style="position:absolute; top:10px; right:10px; background:none; color:white; border:none; font-size:1.2rem; cursor:pointer;">\u2715</button>
+      <h3>Prompt T\u00e9cnico</h3>
+      <pre id="promptText" style="white-space:pre-wrap; font-size:0.9rem; margin-top:10px;"></pre>
+    </div>
+  </div>
+
+  <div id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; justify-content:center; align-items:center;">
+    <div style="position:relative; width:90%; max-width:960px; aspect-ratio:16/9;">
+      <button onclick="closeVideo()" style="position:absolute; top:-40px; right:0; background:none; color:white; border:none; font-size:1.5rem; cursor:pointer;">\u2715</button>
+      <iframe id="videoIframe" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+  </div>
+
+  <script>
+    async function loadGallery() {
+      try {
+        const response = await fetch('galeria_paulina_dots.json');
+        const data = await response.json();
+        const gallery = document.querySelector('.gallery');
+
+        data.forEach((item, index) => {
+          const card = document.createElement('div');
+          card.className = 'photo-card';
+          card.innerHTML = `
+            <img src="images/${item.imagen}" alt="${item.titulo}" class="main-photo">
+            <div class="overlay">
+              <h3>${item.titulo}</h3>
+              <p>${item.descripcion}</p>
+              <div class="overlay-controls">
+                <button onclick="openPrompt('prompt-${index + 1}')">Prompt</button>
+                <button onclick="openVideo('${item.video}')">Video</button>
+                <div class="like-button" onclick="incrementLike(this)">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/>
+                  </svg>
+                  <span class="like-count">${item.likes}</span>
+                </div>
+              </div>
+            </div>
+            <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+          `;
+          gallery.appendChild(card);
+        });
+
+        window.prompts = {};
+        data.forEach((item, index) => {
+          window.prompts[`prompt-${index + 1}`] = item.prompt;
+        });
+      } catch (error) {
+        console.error('Error al cargar la galería:', error);
+      }
+    }
+
+    function openPrompt(id) {
+      const promptText = document.getElementById('promptText');
+      promptText.textContent = window.prompts[id] || 'Prompt no disponible.';
+      document.getElementById('promptModal').style.display = 'flex';
+    }
+
+    function closePrompt() {
+      document.getElementById('promptModal').style.display = 'none';
+    }
+
+    function openVideo(url) {
+      const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = embedUrl;
+      document.getElementById('videoModal').style.display = 'flex';
+    }
+
+    function closeVideo() {
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = '';
+      document.getElementById('videoModal').style.display = 'none';
+    }
+
+    function incrementLike(el) {
+      const countSpan = el.querySelector('.like-count');
+      let current = parseInt(countSpan.textContent, 10);
+      countSpan.textContent = current + 1;
+    }
+
+    loadGallery();
+  </script>
+</body>
+</html>
