@@ -8,7 +8,7 @@
   <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
 
-  <!-- SEO básico (original sin cambios, solo <title>) -->
+  <!-- SEO básico (original sin cambios, salvo <title>) -->
   <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
   <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
@@ -127,17 +127,34 @@
     }
 
     .overlay-controls button {
-      background: white;
-      color: black;
-      border: none;
+      background: transparent;
+      color: white;
+      border: 1px solid red;
       padding: 6px 12px;
       border-radius: 4px;
       font-size: 0.75rem;
       cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .overlay-controls button:hover {
+      background: rgba(255, 0, 0, 0.1);
     }
 
     .overlay-controls span {
       font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .heart-icon {
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 5px;
+      stroke: white;
+      fill: none;
+      stroke-width: 1.5;
     }
 
     .logo-watermark {
@@ -178,7 +195,7 @@
   <a href="https://www.paulinadots.com">:: HOME ::</a>
   <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
   <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 20:50
+  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 20:59
 </footer>
 
 <!-- Script -->
@@ -211,7 +228,12 @@
         <p>${photo.description}</p>
         <div class="overlay-controls">
           <button>Prompt</button>
-          <span>❤️ ${photo.likes}</span>
+          <span>
+            <svg class="heart-icon" viewBox="0 0 24 24">
+              <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.04 3 12.54 3.81 13.26 5.09C13.96 3.81 15.46 3 17 3C20.08 3 22.5 5.42 22.5 8.5C22.5 13.5 15 21 15 21H12Z" />
+            </svg>
+            ${photo.likes}
+          </span>
         </div>
       </div>
       <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
