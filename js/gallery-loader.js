@@ -1,35 +1,47 @@
 // js/gallery-loader.js
 fetch('paulina_dots_gallery_data.csv')
   .then(response => response.text())
-  .then(text => {
-    const rows = text.trim().split('\n');
-    const headers = rows[0].split(';');
+  .then(data => {
+    const lines = data.trim().split('\n');
+    const headers = lines[1].split(';'); // saltamos la primera línea del título global
+
+    const items = lines.slice(2).map(line => {
+      const values = line.split(';');
+      const item = {};
+      headers.forEach((header, index) => {
+        item[header.trim()] = values[index]?.trim() || '';
+      });
+      return item;
+    });
+
     const gallery = document.querySelector('.gallery');
-
-    for (let i = 1; i < rows.length; i++) {
-      const cols = rows[i].split(';');
-      const data = {};
-      headers.forEach((h, j) => data[h.trim()] = cols[j]?.trim());
-
+    items.forEach(item => {
       const card = document.createElement('div');
       card.className = 'photo-card';
       card.innerHTML = `
-        <img src="images/${data.IMG_FILE}" alt="${data.TITLE}" class="main-photo">
+        <img src="images/${item.IMG_FILE}" alt="${item.TITLE}" class="main-photo">
         <div class="overlay">
-          <h3>${data.TITLE}</h3>
-          <p>${data.DESCRIPTION}</p>
+          <h3>${item.TITLE}</h3>
+          <p>${item.DESCRIPTION}</p>
           <div class="overlay-controls">
-            <button onclick="openPrompt('${data.PROMPT_ID}')">Prompt</button>
-            <button onclick="openVideo('${data.VIDEO_URL}')">Video</button>
+            <button onclick="openPrompt('${item.PROMPT_ID}')">Prompt</button>
+            <button onclick="openVideo('${item.VIDEO_URL}')">Video</button>
             <div class="like-button" onclick="incrementLike(this)">
               <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
-              <span class="like-count">${data.LIKES}</span>
+              <span class="like-count">${item.LIKES}</span>
             </div>
           </div>
         </div>
         <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
       `;
       gallery.appendChild(card);
-    }
+    });
+
+    // Cargar prompts
+    items.forEach(item => {
+      prompts[item.PROMPT_ID] = item.PROMPT_TEXT;
+    });
   })
-  .catch(error => console.error('Error loading CSV gallery:', error));
+  .catch(error => {
+    console.error('Error loading gallery:', error);
+  });
