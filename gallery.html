@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,21 +12,18 @@
       font-family: Arial, sans-serif;
       color: white;
     }
-
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 10px;
       padding: 16px;
     }
-
     .card {
       position: relative;
       overflow: hidden;
       border: 1px solid #333;
       background: #111;
     }
-
     .card img {
       width: 100%;
       height: auto;
@@ -33,24 +31,20 @@
       object-fit: cover;
       background-color: #222;
     }
-
     .overlay {
       padding: 8px;
       display: flex;
       flex-direction: column;
     }
-
     .title {
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 4px;
     }
-
     .buttons {
       display: flex;
       gap: 8px;
     }
-
     .buttons button {
       background-color: #111;
       color: white;
@@ -59,7 +53,6 @@
       cursor: pointer;
       font-size: 0.85rem;
     }
-
     .popup-bg,
     .popup {
       position: fixed;
@@ -68,17 +61,14 @@
       display: none;
       z-index: 999;
     }
-
     .popup-bg {
       background: rgba(0, 0, 0, 0.6);
     }
-
     .popup {
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
     .popup-content {
       background: #111;
       color: white;
@@ -92,14 +82,11 @@
   </style>
 </head>
 <body>
-
 <div class="gallery" id="gallery"></div>
-
 <div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
 <div class="popup" id="popup">
   <div class="popup-content" id="popupContent"></div>
 </div>
-
 <script>
   async function loadGallery() {
     const res = await fetch("paulina_dots_gallery_data.csv");
@@ -112,10 +99,10 @@
     for (let i = 1; i < lines.length; i++) {
       const fields = lines[i].split(',');
 
-      const filename = fields[1].trim();         // IMG_FILE
-      const title = fields[2].trim();            // TITLE
-      const prompt = fields[5].trim();           // PROMPT
-      const videoURL = fields[4].trim();         // VIDEO_URL
+      const filename = fields[1].trim();
+      const title = fields[2].trim();
+      const prompt = fields[5].trim();
+      const videoURL = fields[4].trim();
 
       const card = document.createElement("div");
       card.className = "card";
@@ -148,7 +135,6 @@
 
       buttons.appendChild(promptBtn);
       buttons.appendChild(videoBtn);
-
       overlay.appendChild(titleEl);
       overlay.appendChild(buttons);
       card.appendChild(img);
@@ -170,6 +156,5 @@
 
   loadGallery();
 </script>
-
 </body>
 </html>
