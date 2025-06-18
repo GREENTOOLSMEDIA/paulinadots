@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Paulina Dots Multicam Party</title>
+  <title>Paulina Dots</title>
 
   <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
 
-  <!-- SEO básico -->
-  <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
-  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
+  <!-- SEO -->
+  <meta name="description" content="Explore the world of Paulina Dots: a multicam, immersive experience powered by artificial intelligence. Enjoy fashion, music, visual storytelling, and digital performance." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, artificial intelligence, digital art, immersive experience" />
   <meta name="author" content="Paulina Dots" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Paulina Dots Multicam Party" />
-  <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta property="og:description" content="Dive into a unique digital experience with Paulina Dots." />
   <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
   <meta property="og:url" content="https://www.paulinadots.com" />
   <meta property="og:type" content="website" />
@@ -23,7 +23,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Paulina Dots Multicam Party" />
-  <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta name="twitter:description" content="Dive into a unique digital experience with Paulina Dots." />
   <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
 
   <style>
@@ -36,7 +36,6 @@
       overflow-x: hidden;
     }
 
-    /* Overlay de inicio */
     #startOverlay {
       position: fixed;
       inset: 0;
@@ -78,7 +77,6 @@
       transform: scale(1.05);
     }
 
-    /* Galería de videos */
     .gallery {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -117,14 +115,57 @@
       background: transparent;
       color: white;
       text-align: center;
-      font-size: 12px;
       padding: 20px 0;
     }
 
-    footer a {
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
       color: white;
       text-decoration: none;
-      margin: 0 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ff4b4b;
+      transform: scale(1.1);
+    }
+
+    .footer-links svg.icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-meta {
+      margin-top: 12px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+      .footer-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-links a {
+        font-size: 13px;
+      }
+
+      .footer-meta {
+        font-size: 10px;
+        padding-top: 6px;
+      }
     }
   </style>
 </head>
@@ -132,26 +173,37 @@
 
 <!-- timestamp: 2025-06-17 23:05 -->
 
-<!-- Overlay de entrada -->
 <div id="startOverlay">
   <div class="intro-text-box">
-    Hello, I'm PAULINA DOTS, Cross Media Creator based on artificial intelligence.
+    Hello, I'm PAULINA DOTS, a cross-media creator powered by artificial intelligence.
   </div>
   <button id="enterBtn">Enter the experience</button>
 </div>
 
-<!-- Galería dinámica -->
 <div id="gallery" class="gallery"></div>
 
-<!-- Footer -->
 <footer>
-  <a href="https://www.paulinadots.com">:: HOME ::</a>
-  <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
-  <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 17 de junio de 2025, 23:05
+  <div class="footer-links">
+    <a href="https://www.paulinadots.com">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9L12 2l9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      HOME
+    </a>
+    <a href="https://www.paulinadots.com/aboutme.html">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2.28 0 4.362.895 5.657 2.343a8 8 0 1 1-11.314 0A7.982 7.982 0 0 1 12 12z"/><circle cx="12" cy="8" r="4"/></svg>
+      ABOUT ME
+    </a>
+    <a href="https://www.paulinadots.com/gallery.html">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      PHOTO GALLERY
+    </a>
+  </div>
+  <div class="footer-meta">
+    PaulinaDots® 2025<br>
+    All Rights Reserved<br>
+    Last Update: June 17, 2025, 23:05
+  </div>
 </footer>
 
-<!-- Script principal -->
 <script>
   const API_KEY = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
   const PLAYLIST_ID = 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m';
@@ -211,8 +263,8 @@
         players.push({ iframe, videoId });
       });
     } catch (err) {
-      console.error('Error al obtener videos:', err);
-      gallery.innerHTML = '<p style="color:white; padding:2rem;">Error cargando videos. Intenta más tarde.</p>';
+      console.error('Error fetching videos:', err);
+      gallery.innerHTML = '<p style="color:white; padding:2rem;">Error loading videos. Please try again later.</p>';
     }
   }
 
