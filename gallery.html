@@ -82,11 +82,13 @@
   </style>
 </head>
 <body>
+
 <div class="gallery" id="gallery"></div>
 <div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
 <div class="popup" id="popup">
   <div class="popup-content" id="popupContent"></div>
 </div>
+
 <script>
   async function loadGallery() {
     const res = await fetch("paulina_dots_gallery_data.csv");
@@ -101,8 +103,8 @@
 
       const filename = fields[1].trim();
       const title = fields[2].trim();
-      const prompt = fields[5].trim();
-      const videoURL = fields[4].trim();
+      const prompt = fields[6].trim();        // CORRECTO: PROMPT_TEXT
+      const videoURL = fields[4].trim();      // VIDEO_URL
 
       const card = document.createElement("div");
       card.className = "card";
@@ -156,5 +158,6 @@
 
   loadGallery();
 </script>
+
 </body>
 </html>
