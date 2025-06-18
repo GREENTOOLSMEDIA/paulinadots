@@ -11,27 +11,24 @@
       font-family: Arial, sans-serif;
       color: white;
     }
-
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 8px;
       padding: 16px;
     }
-
     .card {
       position: relative;
       overflow: hidden;
       border: 1px solid #333;
     }
-
     .card img {
       width: 100%;
       height: auto;
       display: block;
       object-fit: cover;
+      background-color: #222;
     }
-
     .overlay {
       position: absolute;
       bottom: 0;
@@ -41,20 +38,16 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
     }
-
     .title {
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 4px;
     }
-
     .buttons {
       display: flex;
       gap: 8px;
     }
-
     .buttons button {
       background-color: #111;
       color: white;
@@ -63,102 +56,124 @@
       cursor: pointer;
       font-size: 0.85rem;
     }
-
-    .popup {
+    .popup, .popup-bg {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      z-index: 999;
+    }
+    .popup-bg {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .popup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
       background: #111;
       color: white;
       padding: 20px;
       border: 1px solid #fff;
-      display: none;
-      z-index: 1000;
       max-width: 90%;
       max-height: 80%;
       overflow-y: auto;
+      z-index: 1000;
     }
-
-    .popup button {
-      margin-top: 10px;
-      background-color: #222;
-    }
-
-    .popup-bg {
+    .debug {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      z-index: 999;
+      background: rgba(255,0,0,0.6);
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      z-index: 2000;
     }
   </style>
 </head>
 <body>
 
 <div class="gallery" id="gallery"></div>
-
-<div class="popup-bg" id="popupBg"></div>
+<div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
 <div class="popup" id="popup">
-  <div id="popupContent"></div>
-  <button onclick="closePopup()">Close</button>
+  <div class="popup-content" id="popupContent"></div>
 </div>
+<div class="debug" id="debug">Loading CSV...</div>
 
 <script>
   async function loadGallery() {
-    const response = await fetch('paulina_dots_gallery_data.csv');
-    const text = await response.text();
-    const lines = text.trim().split('\n');
-    const header = lines.shift().split(',');
+    try {
+      const response = await fetch('paulina_dots_gallery_data.csv');
+      if (!response.ok) throw new Error('CSV file not found');
 
-    const gallery = document.getElementById('gallery');
+      const text = await response.text();
+      const lines = text.trim().split('\n');
+      const header = lines.shift().split(',');
 
-    lines.forEach(line => {
-      const fields = line.split(',');
-      const [filename, title, description, prompt, videoURL] = fields.map(f => f.trim());
+      const gallery = document.getElementById('gallery');
+      const debug = document.getElementById('debug');
 
-      const card = document.createElement('div');
-      card.className = 'card';
+      lines.forEach((line, idx) => {
+        const fields = line.split(',');
+        if (fields.length < 5) {
+          debug.textContent = `Error en línea ${idx + 2}: Campos incompletos`;
+          return;
+        }
 
-      const img = document.createElement('img');
-      img.src = `images/${filename}`;
+        const [filename, title, , prompt, videoURL] = fields.map(f => f.trim());
 
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
+        const card = document.createElement('div');
+        card.className = 'card';
 
-      const titleEl = document.createElement('div');
-      titleEl.className = 'title';
-      titleEl.textContent = title;
+        const img = document.createElement('img');
+        img.src = `images/${filename}`;
+        img.alt = title;
+        img.onerror = () => {
+          img.alt = 'Error loading';
+          img.style.backgroundColor = '#900';
+        };
 
-      const buttons = document.createElement('div');
-      buttons.className = 'buttons';
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
 
-      const promptBtn = document.createElement('button');
-      promptBtn.textContent = 'Prompt';
-      promptBtn.onclick = () => showPopup(prompt);
+        const titleEl = document.createElement('div');
+        titleEl.className = 'title';
+        titleEl.textContent = title;
 
-      const videoBtn = document.createElement('button');
-      videoBtn.textContent = 'Video';
-      videoBtn.onclick = () => window.open(videoURL, '_blank');
+        const buttons = document.createElement('div');
+        buttons.className = 'buttons';
 
-      buttons.appendChild(promptBtn);
-      buttons.appendChild(videoBtn);
+        const promptBtn = document.createElement('button');
+        promptBtn.textContent = 'Prompt';
+        promptBtn.onclick = () => showPopup(prompt);
 
-      overlay.appendChild(titleEl);
-      overlay.appendChild(buttons);
+        const videoBtn = document.createElement('button');
+        videoBtn.textContent = 'Video';
+        videoBtn.onclick = () => window.open(videoURL, '_blank');
 
-      card.appendChild(img);
-      card.appendChild(overlay);
-      gallery.appendChild(card);
-    });
+        buttons.appendChild(promptBtn);
+        buttons.appendChild(videoBtn);
+
+        overlay.appendChild(titleEl);
+        overlay.appendChild(buttons);
+
+        card.appendChild(img);
+        card.appendChild(overlay);
+        gallery.appendChild(card);
+      });
+
+      debug.textContent = 'Gallery loaded successfully';
+      setTimeout(() => debug.remove(), 4000);
+
+    } catch (error) {
+      document.getElementById('debug').textContent = `ERROR: ${error.message}`;
+    }
   }
 
   function showPopup(text) {
     document.getElementById('popupContent').textContent = text;
-    document.getElementById('popup').style.display = 'block';
+    document.getElementById('popup').style.display = 'flex';
     document.getElementById('popupBg').style.display = 'block';
   }
 
