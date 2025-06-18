@@ -1,9 +1,11 @@
 // js/gallery-loader.js
+const prompts = {}; // necesario para que funcione openPrompt()
+
 fetch('paulina_dots_gallery_data.csv')
   .then(response => response.text())
   .then(data => {
     const lines = data.trim().split('\n');
-    const headers = lines[1].split(';'); // saltamos la primera línea del título global
+    const headers = lines[1].split(';'); // omite la primera línea global del CSV
 
     const items = lines.slice(2).map(line => {
       const values = line.split(';');
@@ -35,13 +37,12 @@ fetch('paulina_dots_gallery_data.csv')
         <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
       `;
       gallery.appendChild(card);
-    });
 
-    // Cargar prompts
-    items.forEach(item => {
+      // Guarda el prompt para uso posterior
       prompts[item.PROMPT_ID] = item.PROMPT_TEXT;
     });
   })
   .catch(error => {
     console.error('Error loading gallery:', error);
+    document.querySelector('.gallery').innerHTML = `<p style="padding: 2rem; color: white;">Failed to load gallery.</p>`;
   });
