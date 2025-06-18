@@ -4,32 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paulina Dots Gallery Party</title>
-
-  <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
-
-  <!-- SEO original (solo cambia <title>) -->
   <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
   <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Paulina Dots Multicam Party" />
+  <meta property="og:title" content="Paulina Dots Gallery Party" />
   <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
   <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
   <meta property="og:url" content="https://www.paulinadots.com" />
   <meta property="og:type" content="website" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Paulina Dots Multicam Party" />
+  <meta name="twitter:title" content="Paulina Dots Gallery Party" />
   <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
   <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
       background: black;
       font-family: Arial, sans-serif;
       color: white;
@@ -47,69 +38,60 @@
     }
     .photo-card {
       position: relative;
-      width: 100%;
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      border: none;
-      line-height: 0;
     }
-    .photo-card img.main-photo {
+    .photo-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .overlay-info {
+    .overlay {
       position: absolute;
       bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.6);
-      padding: 1rem;
-      line-height: initial;
+      background: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      padding: 10px;
     }
-    .overlay-info h2 {
+    .overlay h3 {
       margin: 0;
-      font-size: 1rem;
+      font-size: 14px;
+      font-weight: bold;
     }
-    .overlay-info p {
-      margin: 0.2rem 0 0.6rem 0;
-      font-size: 0.85rem;
+    .overlay p {
+      margin: 4px 0 8px 0;
+      font-size: 12px;
     }
-    .overlay-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .overlay-controls button {
+    .overlay button {
       background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 6px 12px;
+      padding: 4px 10px;
+      margin-right: 6px;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 11px;
       cursor: pointer;
     }
-    .logo-watermark {
+    .watermark {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 50px;
-      opacity: 0.7;
+      bottom: 6px;
+      right: 8px;
+      width: 44px;
+      opacity: 0.6;
     }
     .modal {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
       display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
     }
     .modal-content {
       background: #111;
-      padding: 2rem;
+      padding: 20px;
       border-radius: 10px;
       max-width: 600px;
       width: 90%;
@@ -120,110 +102,318 @@
       width: 100%;
       height: 315px;
     }
+    .modal-content pre {
+      white-space: pre-wrap;
+      font-size: 12px;
+    }
     .close {
       position: absolute;
       top: 10px;
       right: 15px;
-      color: white;
       font-size: 24px;
       cursor: pointer;
+      color: white;
     }
     footer {
       text-align: center;
-      font-size: 12px;
-      padding: 10px 0;
+      font-size: 11px;
+      padding: 12px;
       color: white;
-    }
-    footer a {
-      color: white;
-      text-decoration: none;
-      margin: 0 5px;
     }
   </style>
 </head>
 <body>
-
 <div class="gallery">
   <!-- FOTO 01 -->
   <div class="photo-card">
-    <img class="main-photo" src="images/Paulinadots01.webp" alt="Super Dots Night" />
-    <div class="overlay-info">
-      <h2>Super Dots Night</h2>
-      <p>Paulina y VikD protagonizan una noche épica con capas rojas, luces cálidas y mucha actitud.</p>
+    <img src="images/Paulinadots01.webp" alt="PaulinaDots01" class="main-photo" />
+    <div class="overlay">
+      <h3>Red Motion</h3>
+      <p>Una escena vibrante bajo luces urbanas rojas. Movimiento, actitud y mirada directa.</p>
       <div class="overlay-controls">
-        <button onclick="openModal('promptModal01')">Prompt</button>
-        <button onclick="openModal('videoModal01')">Video</button>
+        <button onclick="openPrompt(1)">Prompt</button>
+        <button onclick="openVideo(1)">Video</button>
       </div>
     </div>
-    <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
   </div>
+
   <!-- FOTO 02 -->
   <div class="photo-card">
-    <img class="main-photo" src="images/Paulinadots02.webp" alt="Sunset Machine" />
-    <div class="overlay-info">
-      <h2>Sunset Machine</h2>
-      <p>Paulina detiene el tiempo en el desierto mientras el sol se rinde tras ella.</p>
+    <img src="images/Paulinadots02.webp" alt="PaulinaDots02" class="main-photo" />
+    <div class="overlay">
+      <h3>Studio Flow</h3>
+      <p>Paulina en un estudio minimalista, iluminación lateral suave y actitud introspectiva.</p>
       <div class="overlay-controls">
-        <button onclick="openModal('promptModal02')">Prompt</button>
-        <button onclick="openModal('videoModal02')">Video</button>
+        <button onclick="openPrompt(2)">Prompt</button>
+        <button onclick="openVideo(2)">Video</button>
       </div>
     </div>
-    <img class="logo-watermark" src="images/PaulinaDotsLogo.svg" alt="Logo" />
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
   </div>
-</div>
 
-<!-- MODAL PROMPT 01 -->
-<div id="promptModal01" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('promptModal01')">&times;</span>
-    <h3>Prompt – Super Dots Night</h3>
-    <p>Two virtual fashion characters dressed as iconic heroes walk confidently down a glowing catwalk in a neon-lit club. Captured at eye-level with a 50mm f/1.4 lens for natural depth and intimacy. Ambient red lighting enhances atmosphere, while the seated audience frames the moment. Cinematic, high-contrast, vibrant tones. Studio-grade AI rendering.</p>
+  <!-- FOTO 03 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots03.webp" alt="PaulinaDots03" class="main-photo" />
+    <div class="overlay">
+      <h3>Glass Horizon</h3>
+      <p>Escenario futurista con paneles de vidrio, luz fría y pose elegante en contrapicado.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(3)">Prompt</button>
+        <button onclick="openVideo(3)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
   </div>
-</div>
-<!-- MODAL VIDEO 01 -->
-<div id="videoModal01" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('videoModal01')">&times;</span>
-    <iframe src="https://www.youtube.com/embed/axtqAzgHyBI" frameborder="0" allowfullscreen></iframe>
-  </div>
-</div>
 
-<!-- MODAL PROMPT 02 -->
-<div id="promptModal02" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('promptModal02')">&times;</span>
-    <h3>Prompt – Sunset Machine</h3>
-    <p>Model standing in front of a vintage convertible car in a desert at golden hour. Shot with a 35mm lens at chest level to capture symmetry and sunset depth. Warm tones and directional light enhance the mood. Wind blowing through hair, red leather jacket, and dry brush foreground for cinematic energy. Fashion editorial with natural landscape fusion.</p>
+  <!-- FOTO 04 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots04.webp" alt="PaulinaDots04" class="main-photo" />
+    <div class="overlay">
+      <h3>Velvet Pose</h3>
+      <p>En un sillón de terciopelo rojo, bajo foco cálido y lente 85mm, ángulo ligeramente alto.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(4)">Prompt</button>
+        <button onclick="openVideo(4)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
   </div>
-</div>
-<!-- MODAL VIDEO 02 -->
-<div id="videoModal02" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('videoModal02')">&times;</span>
-    <iframe src="https://www.youtube.com/embed/dD6vOY17FKw" frameborder="0" allowfullscreen></iframe>
+  <!-- FOTO 05 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots05.webp" alt="PaulinaDots05" class="main-photo" />
+    <div class="overlay">
+      <h3>Concrete Glow</h3>
+      <p>Una pasarela urbana sobre concreto mojado, lente angular 24mm con flare natural.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(5)">Prompt</button>
+        <button onclick="openVideo(5)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
   </div>
-</div>
 
-<footer>
-  <a href="https://www.paulinadots.com">:: HOME ::</a>
-  <a href="https://www.paulinadots.com/aboutme.html">ABOUT ME ::</a>
-  <a href="https://www.paulinadots.com/gallery.html">PHOTO GALLERY ::</a>
-  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 22:08
-</footer>
+  <!-- FOTO 06 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots06.webp" alt="PaulinaDots06" class="main-photo" />
+    <div class="overlay">
+      <h3>Backstage Chill</h3>
+      <p>Captura íntima tras bambalinas. Iluminación suave cenital con encuadre medio.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(6)">Prompt</button>
+        <button onclick="openVideo(6)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 07 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots07.webp" alt="PaulinaDots07" class="main-photo" />
+    <div class="overlay">
+      <h3>Neon Edge</h3>
+      <p>Paulina sobre fondo neón en tonos violeta y cyan, plano cerrado con lente de 50mm.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(7)">Prompt</button>
+        <button onclick="openVideo(7)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 08 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots08.webp" alt="PaulinaDots08" class="main-photo" />
+    <div class="overlay">
+      <h3>Runway Breeze</h3>
+      <p>Toma al aire libre con viento leve, luz dorada al atardecer y encuadre vertical estilizado.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(8)">Prompt</button>
+        <button onclick="openVideo(8)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+  <!-- FOTO 09 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots09.webp" alt="PaulinaDots09" class="main-photo" />
+    <div class="overlay">
+      <h3>Mirror Flame</h3>
+      <p>Reflejos simétricos con fondo rojo fuego. Cámara fija, lente de 35mm, mirada directa.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(9)">Prompt</button>
+        <button onclick="openVideo(9)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 10 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots10.webp" alt="PaulinaDots10" class="main-photo" />
+    <div class="overlay">
+      <h3>Cinematic Corridor</h3>
+      <p>Pasillo con luces secuenciales. Toma en travelling lateral. Lente anamórfico.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(10)">Prompt</button>
+        <button onclick="openVideo(10)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 11 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots11.webp" alt="PaulinaDots11" class="main-photo" />
+    <div class="overlay">
+      <h3>Future Idol</h3>
+      <p>Escenario digital con halos LED. Lente 35mm, frontal media distancia con flare sintético.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(11)">Prompt</button>
+        <button onclick="openVideo(11)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 12 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots12.webp" alt="PaulinaDots12" class="main-photo" />
+    <div class="overlay">
+      <h3>Espejismo Digital</h3>
+      <p>Montaje con espejos translúcidos y fondo glitch. Angular corto, foco en ojos.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(12)">Prompt</button>
+        <button onclick="openVideo(12)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+  <!-- FOTO 13 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots13.webp" alt="PaulinaDots13" class="main-photo" />
+    <div class="overlay">
+      <h3>Crimson Vibes</h3>
+      <p>Retrato con fondo carmesí, luz directa desde arriba, lente 50mm con viñeta suave.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(13)">Prompt</button>
+        <button onclick="openVideo(13)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 14 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots14.webp" alt="PaulinaDots14" class="main-photo" />
+    <div class="overlay">
+      <h3>Industrial Dream</h3>
+      <p>Escenario metálico, tonos fríos, iluminación cruzada y cámara en contrapicado.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(14)">Prompt</button>
+        <button onclick="openVideo(14)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 15 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots15.webp" alt="PaulinaDots15" class="main-photo" />
+    <div class="overlay">
+      <h3>AI Playground</h3>
+      <p>Ambiente geométrico digital, iluminación RGB dinámica. Lente 35mm. Posado firme.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(15)">Prompt</button>
+        <button onclick="openVideo(15)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+
+  <!-- FOTO 16 -->
+  <div class="photo-card">
+    <img src="images/Paulinadots16.webp" alt="PaulinaDots16" class="main-photo" />
+    <div class="overlay">
+      <h3>Cyber Pose</h3>
+      <p>Look vanguardista, fondo oscilante glitch y lente teleobjetivo de 85mm. Luz azul/fría.</p>
+      <div class="overlay-controls">
+        <button onclick="openPrompt(16)">Prompt</button>
+        <button onclick="openVideo(16)">Video</button>
+      </div>
+    </div>
+    <img src="images/PaulinaDotsLogo.svg" class="watermark" />
+  </div>
+</div> <!-- Fin galería -->
+<!-- MODAL REUTILIZABLE -->
+<div id="modal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
 
 <script>
-  function openModal(id) {
-    document.getElementById(id).style.display = 'flex';
+  const prompts = [
+    "", // index 0 (vacío, no usado)
+    `Fashion editorial shot in a neon-lit alleyway. Medium full-body angle, soft red glow, shot with a 35mm lens. Night city aesthetic, artificial lighting reflections on wet pavement.`,
+    `Minimalist studio with neutral background. Subject seated, angled 45° toward camera. Key light on left side, lens 50mm, shallow depth of field for portrait isolation.`,
+    `Futuristic rooftop terrace with glass panels. Subject standing confidently, low-angle shot, lens 24mm for perspective exaggeration. Cool blue hour lighting.`,
+    `Indoor lounge with red velvet chair, spotlight from above, subject leaning sideways. 85mm portrait lens with warm color tones.`,
+    `Wet urban pavement, backlit by vehicle lights, wide 24mm lens. Subject in motion, lens flare naturally captured through raindrops.`,
+    `Dressing room backstage environment. Soft top light, model relaxed, seated in candid posture. Captured with 35mm lens at f/2.2 for ambient mood.`,
+    `Night club environment with purple neon. Subject facing front, soft expression, lens 50mm with glowing bokeh in background.`,
+    `Outdoor runway setup with wind effect. Shot during golden hour using a 50mm lens. Subject mid-stride with long shadows.`,
+    `Symmetrical shot using mirrors with intense red lighting. Model centered, 35mm lens with clean framing and slight vignetting.`,
+    `Long corridor with industrial lights. Tracking shot at subject walking slowly. Shot in anamorphic lens with lens flares.`,
+    `LED halo ring setup on digital stage. Subject frontal, upper half framed. Artificial lens flare added in post-processing.`,
+    `Triangular mirror fragments as backdrop, glitch background added via projection. Close-up shot with 28mm lens for edge distortion.`,
+    `Deep red drape behind subject, overhead light and lens 50mm. Expression serene, shot in quiet close-up portrait framing.`,
+    `Cold metallic set, angled lighting from both sides. Shot from below using wide-angle lens for visual impact.`,
+    `Synthetic 3D shapes behind subject, RGB tones in animation. Camera front-facing, medium shot, lens 35mm.`,
+    `Low-key lighting with pulsating glitch background, subject in profile. 85mm lens with cool tones and soft background blur.`,
+  ];
+
+  const videos = [
+    "", // index 0 (vacío, no usado)
+    "https://youtu.be/axtqAzgHyBI",
+    "https://youtu.be/dD6vOY17FKw",
+    "https://youtu.be/AszFSPWjfeY",
+    "https://youtu.be/uLpoKyy7Zco",
+    "https://youtu.be/wIt7hNQGvhk",
+    "https://youtu.be/wIt7hNQGvhk",
+    "https://youtu.be/xgHtIHuVdEA",
+    "https://youtu.be/okxy2UDf8xw",
+    "https://youtu.be/wOvQCLG-9O0",
+    "https://youtu.be/wIt7hNQGvhk",
+    "https://youtu.be/NB6IZ9lxwDg",
+    "https://youtu.be/8vp71YSy7lc",
+    "https://youtu.be/FPu5AaYa6O0",
+    "https://youtu.be/Mbs1bM2yaXs",
+    "https://youtu.be/9s1JKPlTD9Q",
+    "https://youtu.be/XyqsvZt-dH8",
+  ];
+
+  function openPrompt(index) {
+    document.getElementById("modalBody").innerHTML =
+      `<h3>Prompt de fotografía profesional</h3><pre>${prompts[index]}</pre>`;
+    document.getElementById("modal").style.display = "flex";
   }
-  function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
+
+  function openVideo(index) {
+    document.getElementById("modalBody").innerHTML =
+      `<iframe src="${videos[index].replace("watch?v=", "embed/")}" frameborder="0" allowfullscreen></iframe>`;
+    document.getElementById("modal").style.display = "flex";
   }
-  window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-      event.target.style.display = 'none';
-    }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("modalBody").innerHTML = "";
   }
 </script>
 
+<footer>
+  :: HOME :: ABOUT ME :: PHOTO GALLERY :: PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 22:39
+</footer>
 </body>
 </html>
