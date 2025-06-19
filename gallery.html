@@ -1,117 +1,478 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Paulina Dots · About Me</title>
+  <title>Paulina Dots Gallery Party</title>
 
   <!-- Favicon -->
   <link rel="icon" href="images/paulina_dots_favicon.png" type="image/png" />
 
-  <!-- SEO -->
-  <meta name="description" content="Meet Paulina Dots, the cross-media AI creator blending fashion, technology, and digital aesthetics." />
-  <meta name="keywords" content="Paulina Dots, about, AI model, virtual influencer, digital art, creative AI, synthetic media" />
+  <!-- SEO básico -->
+  <meta name="description" content="Explora el universo de Paulina Dots: una experiencia multicámara, inmersiva y potenciada por inteligencia artificial. Disfruta moda, música, narrativa visual y performance digital." />
+  <meta name="keywords" content="Paulina Dots, AI model, virtual influencer, multicam party, fashion tech, inteligencia artificial, arte digital, experiencia inmersiva" />
   <meta name="author" content="Paulina Dots" />
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="Paulina Dots Gallery Party" />
+  <meta property="og:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta property="og:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+  <meta property="og:url" content="https://www.paulinadots.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Paulina Dots Gallery Party" />
+  <meta name="twitter:description" content="Sumérgete en una experiencia digital única con Paulina Dots." />
+  <meta name="twitter:image" content="https://www.paulinadots.com/images/og-preview.jpg" />
+
+  <!-- Estilos -->
   <style>
-    html, body {
+    * { box-sizing: border-box; }
+    body {
       margin: 0;
-      padding: 0;
-      background: url('images/paulina_dots_close_up_face.webp') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
+      background: black;
       font-family: Arial, sans-serif;
+      color: white;
     }
 
-    main {
-      max-width: 100%;
-      padding: 40px 10px;
+    .gallery {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
     }
 
-    .photo-grid img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      aspect-ratio: 16/9;
-    }
-
-    /* Footer styles para carga dinámica */
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      padding: 20px 0;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .footer-links a:hover {
-      color: #ff4b4b;
-      transform: scale(1.1);
-    }
-
-    .footer-links svg.icon {
-      width: 16px;
-      height: 16px;
-    }
-
-    .footer-meta {
-      text-align: center;
-      font-size: 12px;
-      color: white;
-      padding-bottom: 20px;
-    }
-
     @media (max-width: 1024px) {
-      main {
+      .gallery {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 600px) {
-      main {
-        grid-template-columns: repeat(1, 1fr);
+      .gallery {
+        grid-template-columns: 1fr;
       }
+    }
+
+    .photo-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .main-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    }
+
+    .overlay h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .overlay-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .overlay button {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .like-button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .like-button svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      fill: none;
+    }
+
+    .like-count {
+      font-size: 0.85rem;
+    }
+
+    .watermark {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 80px;
+      opacity: 0.6;
     }
   </style>
 </head>
 
 <body>
+  <div class="gallery">
+    <div class="photo-card">
+      <img src="images/Paulinadots01.webp" alt="Foto 01" class="main-photo">
+      <div class="overlay">
+        <h3>Red Rebel</h3>
+        <p>Paulina camina entre luces y sombras. Belleza futurista y actitud desafiante.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-01')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/axtqAzgHyBI')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">12</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+    <div class="photo-card">
+      <img src="images/Paulinadots02.webp" alt="Foto 02" class="main-photo">
+      <div class="overlay">
+        <h3>Soft Geometry</h3>
+        <p>Elegancia etérea bajo geometrías digitales. Paulina redefine lo esencial.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-02')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/dD6vOY17FKw')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">15</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
 
-  <main class="photo-grid">
-    <img src="images/Paulinadots01.webp" alt="Paulina Dots 01" />
-    <img src="images/Paulinadots02.webp" alt="Paulina Dots 02" />
-    <img src="images/Paulinadots03.webp" alt="Paulina Dots 03" />
-    <img src="images/Paulinadots04.webp" alt="Paulina Dots 04" />
-    <img src="images/Paulinadots05.webp" alt="Paulina Dots 05" />
-    <img src="images/Paulinadots06.webp" alt="Paulina Dots 06" />
-    <img src="images/Paulinadots07.webp" alt="Paulina Dots 07" />
-    <img src="images/Paulinadots08.webp" alt="Paulina Dots 08" />
-    <img src="images/Paulinadots09.webp" alt="Paulina Dots 09" />
-    <img src="images/Paulinadots10.webp" alt="Paulina Dots 10" />
-    <img src="images/Paulinadots11.webp" alt="Paulina Dots 11" />
-    <img src="images/Paulinadots12.webp" alt="Paulina Dots 12" />
-    <img src="images/Paulinadots13.webp" alt="Paulina Dots 13" />
-    <img src="images/Paulinadots14.webp" alt="Paulina Dots 14" />
-    <img src="images/Paulinadots15.webp" alt="Paulina Dots 15" />
-    <img src="images/Paulinadots16.webp" alt="Paulina Dots 16" />
-  </main>
+    <div class="photo-card">
+      <img src="images/Paulinadots03.webp" alt="Foto 03" class="main-photo">
+      <div class="overlay">
+        <h3>White Lab Look</h3>
+        <p>Minimalismo blanco con brillo científico. Mirada serena, precisión digital.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-03')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/AszFSPWjfeY')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">9</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
 
-  <div id="footer-placeholder"></div>
-  <script src="js/include-footer.js"></script>
+    <div class="photo-card">
+      <img src="images/Paulinadots04.webp" alt="Foto 04" class="main-photo">
+      <div class="overlay">
+        <h3>Chrome Pose</h3>
+        <p>Fría, perfecta, cromada. Paulina como estatua futura de precisión estética.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-04')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/uLpoKyy7Zco')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">7</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
 
+    <div class="photo-card">
+      <img src="images/Paulinadots05.webp" alt="Foto 05" class="main-photo">
+      <div class="overlay">
+        <h3>Red Signal</h3>
+        <p>Ropa ajustada y mirada directa. Señales visuales que dominan la pantalla.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-05')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wIt7hNQGvhk')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">11</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots06.webp" alt="Foto 06" class="main-photo">
+      <div class="overlay">
+        <h3>Urban Run</h3>
+        <p>Movilidad congelada. Paulina desafiando el espacio urbano con gracia digital.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-06')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wIt7hNQGvhk')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">6</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots07.webp" alt="Foto 07" class="main-photo">
+      <div class="overlay">
+        <h3>Closeup Mode</h3>
+        <p>Detalles nítidos. Ojos que revelan datos. Paulina como algoritmo con alma.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-07')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/xgHtIHuVdEA')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">17</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+    <div class="photo-card">
+      <img src="images/Paulinadots08.webp" alt="Foto 08" class="main-photo">
+      <div class="overlay">
+        <h3>Sunset Attitude</h3>
+        <p>Paulina mira al horizonte glitch. Rebelión digital al atardecer.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-08')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/okxy2UDf8xw')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">8</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots09.webp" alt="Foto 09" class="main-photo">
+      <div class="overlay">
+        <h3>Digital Drift</h3>
+        <p>Humo rojo, mirada firme. Paulina en pausa entre frames de otro mundo.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-09')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/wOvQCLG-9O0')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">4</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots10.webp" alt="Foto 10" class="main-photo">
+      <div class="overlay">
+        <h3>Bloom in Glitch</h3>
+        <p>Color digital expandido. Flores imposibles y rostro en calma.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-10')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/NB6IZ9lxwDg')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">10</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots11.webp" alt="Foto 11" class="main-photo">
+      <div class="overlay">
+        <h3>Red Liquid</h3>
+        <p>Texturas líquidas se funden con una Paulina digitalmente clásica.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-11')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/8vp71YSy7lc')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">6</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots12.webp" alt="Foto 12" class="main-photo">
+      <div class="overlay">
+        <h3>Silk Transparency</h3>
+        <p>Transparencias elegantes. Textiles invisibles bajo el foco de cámara editorial.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-12')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/FPu5AaYa6O0')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">14</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots13.webp" alt="Foto 13" class="main-photo">
+      <div class="overlay">
+        <h3>Design Lines</h3>
+        <p>El cuerpo como línea de diseño. Paulina se integra al trazo de moda.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-13')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/Mbs1bM2yaXs')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">3</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots14.webp" alt="Foto 14" class="main-photo">
+      <div class="overlay">
+        <h3>Golden Fade</h3>
+        <p>Fondo cálido, luz dorada, mirada que se desvanece hacia otra dimensión.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-14')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/9s1JKPlTD9Q')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">13</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots15.webp" alt="Foto 15" class="main-photo">
+      <div class="overlay">
+        <h3>Digital Fog</h3>
+        <p>Niebla roja artificial. Contraluz marcado, postura fuerte.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-15')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/XyqsvZt-dH8')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">5</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+
+    <div class="photo-card">
+      <img src="images/Paulinadots16.webp" alt="Foto 16" class="main-photo">
+      <div class="overlay">
+        <h3>Ascension Glow</h3>
+        <p>Fuego digital. Paulina emerge entre algoritmos cálidos. Final épico.</p>
+        <div class="overlay-controls">
+          <button onclick="openPrompt('prompt-16')">Prompt</button>
+          <button onclick="openVideo('https://youtu.be/XyqsvZt-dH8')">Video</button>
+          <div class="like-button" onclick="incrementLike(this)">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-6.5-5.2-9-9C1.2 9 2 5 5 5c2 0 3 2 3 2s1-2 3-2c3 0 4 4 2 7-2.5 3.8-4 5-4 5z" stroke-width="1.5"/></svg>
+            <span class="like-count">16</span>
+          </div>
+        </div>
+      </div>
+      <img src="images/PaulinaDotsLogo.svg" class="watermark" alt="Logo">
+    </div>
+  </div> <!-- fin de .gallery -->
+
+  <!-- Footer -->
+ <footer style="text-align: center; padding: 20px; font-size: 0.8rem; color: #ccc;">
+  :: <a href="https://www.paulinadots.com" style="color:#ccc; text-decoration:none;">HOME</a> ::
+  <a href="https://www.paulinadots.com/aboutme.html" style="color:#ccc; text-decoration:none;">ABOUT ME</a> ::
+  <a href="https://www.paulinadots.com/gallery.html" style="color:#ccc; text-decoration:none;">PHOTO GALLERY</a> ::
+  PaulinaDots® 2025 :: All Rights Reserved :: Last Update: 16 de junio de 2025, 11:43
+</footer>
+
+  <!-- Prompt Modal -->
+  <div id="promptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:#111; padding:20px; max-width:600px; width:90%; color:white; border-radius:10px; position:relative;">
+      <button onclick="closePrompt()" style="position:absolute; top:10px; right:10px; background:none; color:white; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+      <h3>Prompt Técnico</h3>
+      <pre id="promptText" style="white-space:pre-wrap; font-size:0.9rem; margin-top:10px;"></pre>
+    </div>
+  </div>
+
+  <!-- Video Modal -->
+  <div id="videoModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; justify-content:center; align-items:center;">
+    <div style="position:relative; width:90%; max-width:960px; aspect-ratio:16/9;">
+      <button onclick="closeVideo()" style="position:absolute; top:-40px; right:0; background:none; color:white; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
+      <iframe id="videoIframe" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+  </div>
+  <script>
+    const prompts = {
+      'prompt-01': 'Backstage editorial look, medium telephoto lens (85mm), camera angle at eye level, neutral lighting with soft shadows. Urban setting with subtle color grading and shallow depth of field.',
+      'prompt-02': 'Runway aesthetic, frontal wide shot (35mm), dynamic lighting with dramatic rim light. High fashion styling, backdrop abstract futuristic red.',
+      'prompt-03': 'Close-up portrait, 50mm lens, soft ambient lighting. Focus on facial expression and eye details. Minimalist background with bokeh.',
+      'prompt-04': 'Side-lit pose, medium shot (70mm), golden hour lighting. Composition emphasizes contrast between skin and background glitch.',
+      'prompt-05': 'High contrast scene, telephoto lens (135mm), straight-on angle, background with smoke and neon. Fashion-forward and futuristic tone.',
+      'prompt-06': 'Studio setup, beauty lighting, 85mm lens, mid-body crop. Fashion editorial styling, neutral backdrop.',
+      'prompt-07': 'Environmental portrait, 35mm lens, low-angle shot. Cityscape blur with warm tones. Candid expression.',
+      'prompt-08': 'Golden hour backlight, wide lens (28mm), full body capture. Emphasis on posture and soft flare around edges.',
+      'prompt-09': 'Streetwear concept, long lens (105mm), centered composition. Red haze filters through mid-ground.',
+      'prompt-10': 'Art fashion style, symmetrical composition, frontal camera (50mm), experimental lighting in magenta tones.',
+      'prompt-11': 'Black-on-black style, contrasty lighting, detail focus. Editorial mood with deep shadows. Shot at f/2.8.',
+      'prompt-12': 'Conceptual transparency, half-body crop, soft diffusion filter. Ultra-fashion angle with silk reflections.',
+      'prompt-13': 'Design-focused crop, tilted frame, 24mm lens, harsh daylight. Posture and fabric lines define the geometry.',
+      'prompt-14': 'Golden fade mood, portrait format, warm tonal grading. Paulina lit by indirect softbox glow.',
+      'prompt-15': 'High key contrast setup, red digital fog in backdrop. Strong side light, posture as central axis.',
+      'prompt-16': 'Epic fashion finale, low-angle lens (35mm), red fire tone grade. Post-digital look with glowing gradient background.'
+    };
+
+    function openPrompt(id) {
+      const promptText = document.getElementById('promptText');
+      promptText.textContent = prompts[id] || 'Prompt no disponible.';
+      document.getElementById('promptModal').style.display = 'flex';
+    }
+
+    function closePrompt() {
+      document.getElementById('promptModal').style.display = 'none';
+    }
+
+    function openVideo(url) {
+      const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = embedUrl;
+      document.getElementById('videoModal').style.display = 'flex';
+    }
+
+    function closeVideo() {
+      const iframe = document.getElementById('videoIframe');
+      iframe.src = '';
+      document.getElementById('videoModal').style.display = 'none';
+    }
+
+    function incrementLike(el) {
+      const countSpan = el.querySelector('.like-count');
+      let current = parseInt(countSpan.textContent, 10);
+      countSpan.textContent = current + 1;
+    }
+  </script>
 </body>
 </html>
