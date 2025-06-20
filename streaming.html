@@ -11,32 +11,45 @@
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       color: white;
     }
-    header {
+
+    /* Menu Apple TV+ Style */
+    .menu-container {
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.95);
       position: sticky;
       top: 0;
       z-index: 1000;
+      padding: 14px;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 40px;
+      margin: 16px auto;
+      width: fit-content;
     }
-    nav a {
-      margin: 0 20px;
+
+    .menu-container a {
+      padding: 10px 18px;
+      margin: 0 4px;
       text-decoration: none;
       color: white;
-      font-weight: 400;
-      font-size: 1rem;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.3s;
     }
-    nav a:hover {
-      text-decoration: underline;
+
+    .menu-container a.active {
+      background: white;
+      color: black;
     }
-    .search {
-      position: absolute;
-      right: 40px;
+
+    .search-icon {
       font-size: 1.2em;
-      cursor: pointer;
     }
+
     .hero {
       position: relative;
       width: 100%;
@@ -44,133 +57,164 @@
       background-size: cover;
       background-position: center;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 40px;
+      align-items: center;
+      justify-content: flex-start;
     }
-    .hero-overlay {
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-      padding: 20px;
+
+    .hero-content {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      margin-left: 5%;
+      max-width: 600px;
+      border-radius: 12px;
     }
+
     .hero h1 {
-      font-size: 2.5em;
+      font-size: 2.8em;
       margin: 0 0 10px;
     }
+
     .hero p {
-      font-size: 1em;
-      max-width: 600px;
-      margin-bottom: 15px;
+      font-size: 1.1em;
+      margin-bottom: 20px;
     }
+
     .hero button {
       background: white;
       color: black;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       font-size: 1em;
       cursor: pointer;
+      border-radius: 999px;
     }
+
     section {
       padding: 30px 40px;
     }
+
     section h2 {
       margin-bottom: 15px;
     }
+
     .carousel {
       display: flex;
       overflow-x: auto;
       gap: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
+
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
     .carousel iframe {
       flex: 0 0 auto;
       width: 320px;
       height: 180px;
       border: none;
+      scroll-snap-align: start;
+      border-radius: 8px;
     }
+
     @media (max-width: 768px) {
       .hero h1 { font-size: 2em; }
-      .hero p { font-size: 0.95em; }
+      .hero p { font-size: 1em; }
       .carousel iframe { width: 240px; height: 135px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="#">Watch Now</a>
-      <a href="#">PaulinaDots+</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="#">Shorts</a>
-      <a href="#">Library</a>
-    </nav>
-    <div class="search">🔍</div>
-  </header>
+  <div class="menu-container">
+    <a href="#">Watch Now</a>
+    <a href="#" class="active">
+      <img src="images/PaulinaDotsWhiteLogo.svg" alt="PaulinaDots Logo" style="height: 20px;" />
+    </a>
+    <a href="gallery.html">Gallery</a>
+    <a href="#">Shorts</a>
+    <a href="#">Library</a>
+    <a href="#" class="search-icon">🔍</a>
+  </div>
 
   <div id="hero" class="hero">
-    <div class="hero-overlay">
+    <div class="hero-content">
       <h1 id="hero-title">Loading...</h1>
-      <p id="hero-description">Selecting something amazing for you...</p>
+      <p id="hero-description">Getting something special for you...</p>
       <button id="hero-button">▶ Watch Now</button>
     </div>
   </div>
 
   <section>
     <h2>CROSS MEDIA CREATOR</h2>
-    <div class="carousel">
-      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx" allowfullscreen></iframe>
-    </div>
+    <div class="carousel" id="carousel1"></div>
   </section>
 
   <section>
     <h2>SUPER INFLUENCERS</h2>
-    <div class="carousel">
-      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC531UT_cMwgqrZB6pEs7a-6L" allowfullscreen></iframe>
-    </div>
+    <div class="carousel" id="carousel2"></div>
   </section>
 
   <section>
     <h2>AI DOTS FESTIVAL</h2>
-    <div class="carousel">
-      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC52rehsLqR0Z5KfB1Z--9mCV" allowfullscreen></iframe>
-    </div>
+    <div class="carousel" id="carousel3"></div>
   </section>
 
   <section>
     <h2>CINEMA MODE</h2>
-    <div class="carousel">
-      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m" allowfullscreen></iframe>
-    </div>
+    <div class="carousel" id="carousel4"></div>
   </section>
 
   <script>
     const apiKey = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
     const playlists = [
-      'PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx',
-      'PLKVS65BaeC531UT_cMwgqrZB6pEs7a-6L',
-      'PLKVS65BaeC52rehsLqR0Z5KfB1Z--9mCV',
-      'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m'
+      { id: 'PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx', el: 'carousel1' },
+      { id: 'PLKVS65BaeC531UT_cMwgqrZB6pEs7a-6L', el: 'carousel2' },
+      { id: 'PLKVS65BaeC52rehsLqR0Z5KfB1Z--9mCV', el: 'carousel3' },
+      { id: 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m', el: 'carousel4' }
     ];
 
-    async function getRandomVideo() {
-      const playlistId = playlists[Math.floor(Math.random() * playlists.length)];
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${apiKey}`);
+    async function loadPlaylist(playlistId, elementId) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=15&playlistId=${playlistId}&key=${apiKey}`);
       const data = await res.json();
-      const items = data.items || [];
-      if (items.length === 0) return;
-      const video = items[Math.floor(Math.random() * items.length)].snippet;
-      const title = video.title;
-      const description = video.description.slice(0, 200);
-      const videoId = video.resourceId.videoId;
-      const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-
-      document.getElementById("hero-title").innerText = title;
-      document.getElementById("hero-description").innerText = description;
-      document.getElementById("hero-button").onclick = () => {
-        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
-      };
-      document.getElementById("hero").style.backgroundImage = `url('${thumbnail}')`;
+      const container = document.getElementById(elementId);
+      data.items.forEach(item => {
+        const videoId = item.snippet.resourceId.videoId;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        container.appendChild(iframe);
+      });
     }
 
-    getRandomVideo();
+    async function loadAllPlaylists() {
+      for (let p of playlists) {
+        await loadPlaylist(p.id, p.el);
+      }
+    }
+
+    async function loadHero() {
+      const allVideos = [];
+      for (let p of playlists) {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${p.id}&key=${apiKey}`);
+        const data = await res.json();
+        allVideos.push(...data.items);
+      }
+      const pick = allVideos[Math.floor(Math.random() * allVideos.length)];
+      const snippet = pick.snippet;
+      const title = snippet.title;
+      const description = snippet.description.slice(0, 200);
+      const videoId = snippet.resourceId.videoId;
+      const thumb = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      document.getElementById('hero-title').innerText = title;
+      document.getElementById('hero-description').innerText = description;
+      document.getElementById('hero-button').onclick = () => {
+        window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+      };
+      document.getElementById('hero').style.backgroundImage = `url('${thumb}')`;
+    }
+
+    loadHero();
+    loadAllPlaylists();
   </script>
 </body>
 </html>
