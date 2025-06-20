@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PaulinaDots Streaming</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: white;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 40px;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: 300;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .search {
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: url('images/paulinadots01.webp') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px;
+    }
+    .hero h1 {
+      font-size: 3em;
+      margin: 0 0 10px;
+    }
+    .hero p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      max-width: 600px;
+    }
+    .hero button {
+      background: white;
+      color: black;
+      padding: 10px 25px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    section {
+      padding: 30px 40px;
+    }
+    section h2 {
+      margin-bottom: 15px;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+    }
+    .carousel iframe {
+      flex: 0 0 auto;
+      width: 320px;
+      height: 180px;
+      border: none;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2em; }
+      .hero p { font-size: 1em; }
+      .carousel iframe { width: 240px; height: 135px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#">Watch Now</a>
+      <a href="#">PaulinaDots+</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="#">Shorts</a>
+      <a href="#">Library</a>
+    </nav>
+    <div class="search">🔍</div>
+  </header>
+
+  <div class="hero">
+    <h1>Paulina Dots: Cross Media Creator</h1>
+    <p>Explora el universo de Paulina donde la inteligencia artificial y la estética digital se fusionan.</p>
+    <button onclick="window.open('https://www.youtube.com/playlist?list=PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx')">▶ Ver ahora</button>
+  </div>
+
+  <section>
+    <h2>CROSS MEDIA CREATOR</h2>
+    <div class="carousel">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section>
+    <h2>SUPER INFLUENCERS</h2>
+    <div class="carousel">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC531UT_cMwgqrZB6pEs7a-6L" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section>
+    <h2>AI DOTS FESTIVAL</h2>
+    <div class="carousel">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC52rehsLqR0Z5KfB1Z--9mCV" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section>
+    <h2>CINEMA MODE</h2>
+    <div class="carousel">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m" allowfullscreen></iframe>
+    </div>
+  </section>
+</body>
+</html>
