@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PaulinaDots Streaming - API Metadata</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: white;
+    }
+    .menu-container {
+      display: flex;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 14px;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 40px;
+      margin: 16px auto;
+      width: fit-content;
+    }
+    .menu-container a {
+      padding: 10px 18px;
+      margin: 0 4px;
+      text-decoration: none;
+      color: white;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.3s;
+    }
+    .menu-container a.active {
+      background: white;
+      color: black;
+    }
+    .search-icon {
+      font-size: 1.2em;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .hero-content {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      margin-left: 5%;
+      max-width: 600px;
+      border-radius: 12px;
+    }
+    .hero h1 {
+      font-size: 2.8em;
+      margin: 0 0 10px;
+    }
+    .video-meta {
+      font-size: 0.95em;
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    .hero button {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+    .hero iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    section {
+      padding: 30px 40px;
+    }
+    section h2 {
+      margin-bottom: 15px;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel iframe {
+      flex: 0 0 auto;
+      width: 320px;
+      height: 180px;
+      border: none;
+      scroll-snap-align: start;
+      border-radius: 8px;
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2em; }
+      .hero p { font-size: 1em; }
+      .carousel iframe { width: 240px; height: 135px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <a href="#">Watch Now</a>
+    <a href="#" class="active">
+      <img src="images/PaulinaDotsWhiteLogo.svg" alt="PaulinaDots Logo" style="height: 20px;" />
+    </a>
+    <a href="gallery.html">Gallery</a>
+    <a href="#">Shorts</a>
+    <a href="#">Library</a>
+    <a href="#" class="search-icon">🔍</a>
+  </div>
+
+  <div id="hero" class="hero">
+    <div class="hero-content" id="heroContent">
+      <h1 id="hero-title">Loading...</h1>
+      <div id="hero-meta" class="video-meta"></div>
+      <p id="hero-description">Getting something special for you...</p>
+      <button id="hero-button">▶ Watch Now</button>
+    </div>
+  </div>
+
+  <section><h2>LISA STANSFIELD</h2><div class="carousel" id="carousel1"></div></section>
+  <section><h2>THE CURE</h2><div class="carousel" id="carousel2"></div></section>
+  <section><h2>PET SHOP BOYS</h2><div class="carousel" id="carousel3"></div></section>
+  <section><h2>SIMPLY RED</h2><div class="carousel" id="carousel4"></div></section>
+
+  <script>
+    const apiKey = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
+    const playlists = [
+      { id: 'PLeCbXq4b_SthoXMbtckb4kOvZuaC0CcP8', el: 'carousel1' },
+      { id: 'PLeCbXq4b_Stj55E0R-6u1lvl4Hkg5598D', el: 'carousel2' },
+      { id: 'PLeCbXq4b_StgQ9Sxrm8djyvRFCessB4eD', el: 'carousel3' },
+      { id: 'PLeCbXq4b_Stg7tgYXG_HeLw2406QKIWht', el: 'carousel4' }
+    ];
+
+    async function loadPlaylist(playlistId, elementId) {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=15&playlistId=${playlistId}&key=${apiKey}`);
+      const data = await res.json();
+      const container = document.getElementById(elementId);
+      data.items.forEach(item => {
+        const videoId = item.snippet.resourceId.videoId;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        container.appendChild(iframe);
+      });
+    }
+
+    async function loadAllPlaylists() {
+      for (let p of playlists) {
+        await loadPlaylist(p.id, p.el);
+      }
+    }
+
+    async function loadHero() {
+      const allVideos = [];
+      for (let p of playlists) {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${p.id}&key=${apiKey}`);
+        const data = await res.json();
+        allVideos.push(...data.items);
+      }
+
+      const pick = allVideos[Math.floor(Math.random() * allVideos.length)];
+      const snippet = pick.snippet;
+      const videoId = snippet.resourceId.videoId;
+      const thumb = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+      document.getElementById('hero-title').innerText = snippet.title;
+      document.getElementById('hero-description').innerText = snippet.description.slice(0, 200);
+      document.getElementById('hero').style.backgroundImage = `url('${thumb}')`;
+
+      // Fetch actual video metadata
+      const metaRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=${apiKey}&id=${videoId}`);
+      const metaData = await metaRes.json();
+      const details = metaData.items[0].contentDetails;
+
+      const definition = details.definition === 'hd' ? 'HD' : 'SD';
+      const projection = details.projection === '360' ? ' · 360°' : '';
+      const ratio = '16:9'; // Default assumption
+
+      document.getElementById('hero-meta').innerText = `${ratio} · ${definition}${projection}`;
+
+      document.getElementById('hero-button').onclick = () => {
+        const hero = document.getElementById('hero');
+        const content = document.getElementById('heroContent');
+        content.style.display = 'none';
+        hero.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      };
+    }
+
+    loadHero();
+    loadAllPlaylists();
+  </script>
+</body>
+</html>
