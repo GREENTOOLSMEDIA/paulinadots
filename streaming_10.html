@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PaulinaDots Streaming 11</title>
+  <title>PaulinaDots Streaming 12</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +11,6 @@
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       color: white;
     }
-
     .menu-container {
       display: flex;
       justify-content: center;
@@ -25,7 +24,6 @@
       margin: 16px auto;
       width: fit-content;
     }
-
     .menu-container a {
       padding: 10px 18px;
       margin: 0 4px;
@@ -39,17 +37,42 @@
       gap: 6px;
       transition: background 0.3s;
     }
-
     .menu-container a.active {
       background: white;
       color: black;
     }
-
     .search-icon {
       font-size: 1.2em;
       cursor: pointer;
     }
-
+    .search-panel {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: #222;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      max-width: 400px;
+      z-index: 2000;
+    }
+    .search-panel input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 1rem;
+    }
+    .search-result {
+      margin-bottom: 10px;
+      padding: 6px;
+      background: #333;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .search-result:hover {
+      background: #444;
+    }
     .hero {
       position: relative;
       width: 100%;
@@ -60,253 +83,218 @@
       align-items: center;
       justify-content: flex-start;
     }
-
     .hero-content {
       background: rgba(0, 0, 0, 0.6);
       padding: 2rem;
       margin-left: 5%;
       max-width: 600px;
       border-radius: 12px;
-      z-index: 1;
-      position: relative;
     }
-
+    .hero h1 {
+      font-size: 2.8em;
+      margin: 0 0 10px;
+    }
+    .video-meta {
+      font-size: 0.95em;
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    .hero button {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 999px;
+    }
     .hero iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
-
+    section {
+      padding: 30px 40px;
+    }
+    section h2 {
+      margin-bottom: 6px;
+    }
+    .section-description {
+      font-size: 0.95em;
+      color: #ccc;
+      margin-bottom: 16px;
+      max-width: 800px;
+    }
     .carousel {
       display: flex;
       overflow-x: auto;
       gap: 10px;
       scroll-snap-type: x mandatory;
-      padding: 20px;
+      -webkit-overflow-scrolling: touch;
     }
-
     .carousel::-webkit-scrollbar {
       display: none;
     }
-
-    .carousel-item {
+    .video-card {
       flex: 0 0 auto;
       width: 320px;
       scroll-snap-align: start;
-    }
-
-    section {
-      padding: 30px 40px;
-    }
-
-    section h2 {
-      margin-bottom: 5px;
-    }
-
-    section p.section-desc {
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #aaa;
-    }
-
-    #searchPanel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      overflow-y: auto;
-    }
-
-    #searchPanel input {
-      width: 80%;
-      padding: 10px;
-      font-size: 1.1em;
-      margin-bottom: 20px;
+      background-color: #000;
       border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card iframe {
+      width: 100%;
+      height: 180px;
       border: none;
     }
-
-    .search-result {
-      width: 80%;
-      background: #222;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      display: flex;
-      gap: 10px;
-      cursor: pointer;
+    .video-info {
+      padding: 8px 10px;
+      background: #111;
     }
-
-    .search-result img {
-      width: 120px;
-      height: 68px;
-      object-fit: cover;
-      border-radius: 6px;
+    .video-info h4 {
+      margin: 0 0 4px;
+      font-size: 0.95em;
     }
-
-    .search-result div {
-      flex: 1;
-    }
-
-    .search-result h4 {
+    .video-info p {
       margin: 0;
-      font-size: 1em;
+      font-size: 0.8em;
+      color: #ccc;
     }
-
-    .search-result p {
+    .error-message {
+      color: #f66;
       font-size: 0.9em;
-      margin: 4px 0 0;
-      color: #aaa;
+      padding: 1rem;
     }
   </style>
 </head>
 <body>
   <div class="menu-container">
     <a href="#">Watch Now</a>
-    <a href="#" class="active">
-      <img src="images/PaulinaDotsWhiteLogo.svg" alt="PaulinaDots Logo" style="height: 20px;" />
-    </a>
+    <a href="#" class="active"><img src="images/PaulinaDotsWhiteLogo.svg" alt="PaulinaDots Logo" style="height: 20px;" /></a>
     <a href="gallery.html">Gallery</a>
     <a href="#">Shorts</a>
     <a href="#">Library</a>
-    <a class="search-icon" onclick="toggleSearch()">🔍</a>
+    <a href="#" class="search-icon" onclick="toggleSearch()">🔍</a>
+  </div>
+
+  <div id="searchPanel" class="search-panel" style="display:none">
+    <input type="text" placeholder="Search..." oninput="handleSearch(this.value)">
+    <div id="searchResults"></div>
   </div>
 
   <div id="hero" class="hero">
-    <div class="hero-content">
+    <div class="hero-content" id="heroContent">
       <h1 id="hero-title">Loading...</h1>
-      <p id="hero-description">Fetching something special...</p>
+      <div id="hero-meta" class="video-meta"></div>
+      <p id="hero-description">Getting something special for you...</p>
+      <button id="hero-button">▶ Watch Now</button>
     </div>
   </div>
 
   <div id="sections"></div>
 
-  <div id="searchPanel">
-    <input type="text" placeholder="Search videos..." oninput="handleSearch(this.value)" />
-    <div id="searchResults"></div>
-  </div>
-
   <script>
     const apiKey = 'AIzaSyByMsug3oecDQUYP3lMrUuZ2qxLsCtatGs';
     const playlists = [
-      {
-        id: 'PLKVS65BaeC53_qVKPSTc7ALYjg8zbrCLx',
-        title: 'CROSS MEDIA CREATOR',
-        desc: 'Videos que exploran las fronteras de medios digitales y arte generativo.'
-      },
-      {
-        id: 'PLKVS65BaeC531UT_cMwgqrZB6pEs7a-6L',
-        title: 'SUPER INFLUENCERS',
-        desc: 'Influencers ficticias, virtuales y su impacto en la cultura contemporánea.'
-      },
-      {
-        id: 'PLKVS65BaeC52rehsLqR0Z5KfB1Z--9mCV',
-        title: 'AI DOTS FESTIVAL',
-        desc: 'Un recorrido audiovisual por la estética y narrativa creada con IA.'
-      },
-      {
-        id: 'PLKVS65BaeC53W4tv9yH7-ax3b0SNMhH8m',
-        title: 'CINEMA MODE',
-        desc: 'Selección de estilo cinematográfico con foco en atmósfera visual.'
-      }
+      { id: 'PLeCbXq4b_SthoXMbtckb4kOvZuaC0CcP8' },
+      { id: 'PLeCbXq4b_Stj55E0R-6u1lvl4Hkg5598D' },
+      { id: 'PLeCbXq4b_StgQ9Sxrm8djyvRFCessB4eD' },
+      { id: 'PLeCbXq4b_Stg7tgYXG_HeLw2406QKIWht' }
     ];
 
-    let allVideos = [];
-
-    async function fetchPlaylist(playlist) {
-      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${playlist.id}&key=${apiKey}`);
-      const data = await res.json();
-      return data.items.map(item => ({
-        id: item.snippet.resourceId.videoId,
-        title: item.snippet.title,
-        description: item.snippet.description,
-        thumb: item.snippet.thumbnails.medium.url,
-        section: playlist.title
-      }));
-    }
-
-    async function init() {
-      let heroAssigned = false;
-      for (const playlist of playlists) {
-        const items = await fetchPlaylist(playlist);
-        if (!heroAssigned && items.length > 0) {
-          loadHeroVideo(items[0]);
-          heroAssigned = true;
-        }
-        allVideos.push(...items);
-        renderSection(playlist.title, playlist.desc, items);
-      }
-    }
-
-    function loadHeroVideo(video) {
-      const hero = document.getElementById('hero');
-      hero.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&controls=1" allowfullscreen></iframe>
-        <div class="hero-content">
-          <h1>${video.title}</h1>
-          <p>${video.description.slice(0, 200)}</p>
-        </div>`;
-    }
-
-    function renderSection(title, desc, videos) {
-      const container = document.getElementById('sections');
-      const section = document.createElement('section');
-      section.innerHTML = `
-        <h2>${title}</h2>
-        <p class="section-desc">${desc}</p>
-        <div class="carousel">${videos.map(v => `
-          <div class="carousel-item" onclick="loadHeroVideo(${JSON.stringify(v).replace(/"/g, '&quot;')})">
-            <iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen></iframe>
-            <p style='margin:6px 0 0;font-size:0.9em;'>${v.title}</p>
-          </div>`).join('')}</div>`;
-      container.appendChild(section);
-    }
+    let allVideoData = [];
 
     function toggleSearch() {
-      document.getElementById('searchPanel').style.display = 'flex';
+      const panel = document.getElementById('searchPanel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
     }
 
     function handleSearch(query) {
-      const results = allVideos.filter(v => {
-        const q = query.toLowerCase();
-        return v.title.toLowerCase().includes(q) ||
-               v.description.toLowerCase().includes(q);
-      });
-      renderSearchResults(results);
-    }
+      const results = document.getElementById('searchResults');
+      results.innerHTML = '';
+      const matches = allVideoData.filter(v =>
+        v.title.toLowerCase().includes(query.toLowerCase()) ||
+        v.description.toLowerCase().includes(query.toLowerCase())
+      );
 
-    function renderSearchResults(results) {
-      const container = document.getElementById('searchResults');
-      container.innerHTML = '';
-      results.forEach(v => {
+      matches.forEach(video => {
         const div = document.createElement('div');
         div.className = 'search-result';
-        div.onclick = () => {
-          loadHeroVideo(v);
-          document.getElementById('searchPanel').style.display = 'none';
-        };
-        div.innerHTML = `
-          <img src="${v.thumb}" />
-          <div>
-            <h4>${v.title}</h4>
-            <p>${v.description.slice(0, 100)}</p>
-          </div>`;
-        container.appendChild(div);
+        div.textContent = video.title;
+        div.onclick = () => playInHero(video);
+        results.appendChild(div);
       });
     }
 
-    init();
+    function playInHero(video) {
+      const hero = document.getElementById('hero');
+      const content = document.getElementById('heroContent');
+      content.style.display = 'none';
+      hero.innerHTML = `<iframe src="https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&controls=1" allowfullscreen></iframe>`;
+      document.getElementById('searchPanel').style.display = 'none';
+    }
+
+    async function loadHero() {
+      const all = await Promise.all(playlists.map(p => fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${p.id}&key=${apiKey}`).then(r => r.json())));
+      allVideoData = all.flatMap(d => d.items.map(item => ({
+        id: item.snippet.resourceId.videoId,
+        title: item.snippet.title,
+        description: item.snippet.description
+      })));
+      const pick = allVideoData[Math.floor(Math.random() * allVideoData.length)];
+
+      const metaRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=${apiKey}&id=${pick.id}`);
+      const metaData = await metaRes.json();
+      const details = metaData.items[0]?.contentDetails;
+
+      const definition = details?.definition === 'hd' ? 'HD' : 'SD';
+      const projection = details?.projection === '360' ? ' · 360°' : '';
+      const ratio = '16:9';
+
+      document.getElementById('hero-title').innerText = pick.title;
+      document.getElementById('hero-description').innerText = pick.description.slice(0, 200);
+      document.getElementById('hero-meta').innerText = `${ratio} · ${definition}${projection}`;
+      document.getElementById('hero').style.backgroundImage = `url('https://img.youtube.com/vi/${pick.id}/maxresdefault.jpg')`;
+      document.getElementById('hero-button').onclick = () => playInHero(pick);
+    }
+
+    async function loadSections() {
+      const container = document.getElementById('sections');
+
+      for (const p of playlists) {
+        const playlistRes = await fetch(`https://www.googleapis.com/youtube/v3/playlists?part=snippet&id=${p.id}&key=${apiKey}`);
+        const playlistData = await playlistRes.json();
+        const snippet = playlistData.items[0]?.snippet;
+        const title = snippet?.title || "Untitled Playlist";
+        const description = (snippet?.description || "No description available.").substring(0, 200);
+
+        const section = document.createElement('section');
+        section.innerHTML = `<h2>${title}</h2><div class="section-description">${description}</div><div class="carousel" id="carousel-${p.id}"></div>`;
+        container.appendChild(section);
+
+        const itemsRes = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${p.id}&key=${apiKey}`);
+        const itemsData = await itemsRes.json();
+        const carousel = document.getElementById(`carousel-${p.id}`);
+
+        for (const item of itemsData.items) {
+          const videoId = item.snippet.resourceId.videoId;
+          const card = document.createElement('div');
+          card.className = 'video-card';
+          card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe><div class="video-info"><h4>${item.snippet.title.substring(0,80)}</h4><p>${item.snippet.description.substring(0,160)}</p></div>`;
+          carousel.appendChild(card);
+        }
+      }
+    }
+
+    loadHero();
+    loadSections();
   </script>
 </body>
 </html>
